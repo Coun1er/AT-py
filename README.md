@@ -1,6 +1,6 @@
 # AxiomTradeAPI-py
 
-A Python wrapper for the [Axiom Trade](https://axiom.trade) API. Easily interact with Axiom Trade's trading features using Python.
+A Python wrapper for the [Axiom Trade](https://axiom.trade/@chipa) API. Easily interact with Axiom Trade's trading features using Python.
 
 ## 📌 Features
 - Access market data  
