@@ -1,3 +1,5 @@
+👉 [Join us on Discord](https://discord.gg/p7YyFqSmAz)
+
 # AxiomTradeAPI-py
 
 A Python wrapper for the [Axiom Trade](https://axiom.trade/@chipa) API. Easily interact with Axiom Trade's trading features using Python.
