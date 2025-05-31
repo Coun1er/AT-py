@@ -1,5 +1,5 @@
 👉 [Join us on Discord](https://discord.gg/p7YyFqSmAz)
-
+if you are looking to build a bot, let us build it for you! check [Our shop](https://chipa.tech/shop/)
 # AxiomTradeAPI-py
 
 A Python wrapper for the [Axiom Trade](https://axiom.trade/@chipa) API. Easily interact with Axiom Trade's trading features using Python.
