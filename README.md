@@ -8,6 +8,7 @@ A Python wrapper for the [Axiom Trade](https://axiom.trade/@chipa) API. Easily i
 - Access market data  
 - Place and manage trades  
 - Retrieve account details  
+- Comprehensive logging support
 - More features coming soon!  
 
 ## 🚀 Installation
@@ -17,11 +18,18 @@ pip install axiomtradeapi
 
 ## 🔧 Usage
 ```python
+import logging
 from axiomtradeapi import AxiomTradeClient
 
-client = AxiomTradeClient(api_key="your_api_key")
+# Initialize client with debug logging
+client = AxiomTradeClient(log_level=logging.DEBUG)
 
 # Get account balance
+balance = client.get_balance()
+print(balance)
+
+# Or use default INFO level logging
+client = AxiomTradeClient()  # Uses logging.INFO by default
 balance = client.get_balance()
 print(balance)
 ```

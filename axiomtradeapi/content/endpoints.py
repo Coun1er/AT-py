@@ -1,5 +1,3 @@
-
-
 class Endpoints:
     # Base Urls
     BASE_URL_API = "https://axiom.trade/api"
@@ -7,3 +5,4 @@ class Endpoints:
 
     # Endpoints
     ENDPOINT_GET_BALANCE = "/sol-balance"
+    ENDPOINT_GET_BATCHED_BALANCE = "/batched-sol-balance"
