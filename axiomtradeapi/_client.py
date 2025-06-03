@@ -1,12 +1,13 @@
 from axiomtradeapi.content.endpoints import Endpoints
 from axiomtradeapi.helpers.help import Helping
+from axiomtradeapi.websocket._client import AxiomTradeWebSocketClient
 import requests
 import logging
 import json
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Optional
 
 class AxiomTradeClient:
-    def __init__(self, log_level=logging.INFO) -> None:
+    def __init__(self, auth_token=None, refresh_token=None, log_level=logging.INFO) -> None:
         self.endpoints = Endpoints()
         self.base_url_api = self.endpoints.BASE_URL_API
         self.helper = Helping()
@@ -16,6 +17,11 @@ class AxiomTradeClient:
             "origin": "https://axiom.trade",
             "referer": "https://axiom.trade/discover"
         }
+        
+        if auth_token:
+            self.headers["Cookie"] = f"auth-access-token={auth_token}"
+            if refresh_token:
+                self.headers["Cookie"] += f"; auth-refresh-token={refresh_token}"
         
         # Setup logging
         self.logger = logging.getLogger("AxiomTradeAPI")
@@ -28,6 +34,13 @@ class AxiomTradeClient:
             formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
+        
+        # Initialize WebSocket client
+        self.ws = AxiomTradeWebSocketClient(
+            auth_token=auth_token,
+            refresh_token=refresh_token,
+            log_level=log_level
+        )
             
     def GetBalance(self, wallet_address: str) -> Dict[str, Union[float, int]]:
         """Get balance for a single wallet address."""
@@ -80,4 +93,8 @@ class AxiomTradeClient:
             error_msg = f"An error occurred: {err}"
             self.logger.error(error_msg)
             return {addr: None for addr in wallet_addresses}
+    
+    async def subscribe_new_tokens(self, callback):
+        """Subscribe to new token updates via WebSocket."""
+        return await self.ws.subscribe_new_tokens(callback)
 
