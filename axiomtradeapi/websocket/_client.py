@@ -4,13 +4,14 @@ import websockets
 import asyncio
 from typing import Optional, Callable, Dict, Any
 
-class AxiomTradeWebSocketClient:
-    def __init__(self, auth_token=None, refresh_token=None, log_level=logging.INFO) -> None:
+class AxiomTradeWebSocketClient:    
+    def __init__(self, auth_token=None, refresh_token=None, log_level=logging.INFO, auth_manager=None) -> None:
         self.ws_url = "wss://cluster3.axiom.trade/"
         self.ws_url_token_price = "wss://socket8.axiom.trade/"
         self.ws: Optional[websockets.WebSocketClientProtocol] = None
         self.auth_token = auth_token
         self.refresh_token = refresh_token
+        self.auth_manager = auth_manager
         
         # Setup logging
         self.logger = logging.getLogger("AxiomTradeWebSocket")
@@ -108,7 +109,7 @@ class AxiomTradeWebSocketClient:
                 
                 if "room" in data and data["room"] in self._callbacks:
                     callback = self._callbacks[data["room"]]
-                    callback(data["content"])
+                    await callback(data["content"])
                 
         except websockets.exceptions.ConnectionClosed:
             self.logger.warning("WebSocket connection closed")

@@ -324,6 +324,44 @@ class AuthManager:
             "needs_refresh": self.tokens.needs_refresh,
             "time_until_expiry": self.tokens.expires_at - time.time() if not self.tokens.is_expired else 0
         }
+    
+    def get_tokens(self) -> Optional[AuthTokens]:
+        """
+        Get current authentication tokens
+        
+        Returns:
+            AuthTokens: Current tokens if authenticated, None otherwise
+        """
+        return self.tokens
+    
+    def make_authenticated_request(self, method: str, url: str, **kwargs) -> requests.Response:
+        """
+        Make an authenticated HTTP request
+        
+        Args:
+            method: HTTP method (GET, POST, etc.)
+            url: Request URL
+            **kwargs: Additional arguments for requests
+            
+        Returns:
+            requests.Response: HTTP response
+            
+        Raises:
+            Exception: If authentication fails
+        """
+        # Ensure we have valid authentication
+        if not self.ensure_valid_authentication():
+            raise Exception("Authentication failed - unable to obtain valid tokens")
+        
+        # Get authenticated headers
+        headers = kwargs.pop('headers', {})
+        authenticated_headers = self.get_authenticated_headers(headers)
+        
+        # Make the request
+        self.logger.debug(f"Making authenticated {method} request to {url}")
+        response = requests.request(method, url, headers=authenticated_headers, **kwargs)
+        
+        return response
 
 
 # Convenience function for quick authentication

@@ -32,8 +32,7 @@ class AxiomTradeClient:
             auth_token=auth_token,
             refresh_token=refresh_token
         )
-        
-        # Setup logging
+          # Setup logging
         self.logger = logging.getLogger("AxiomTradeAPI")
         self.logger.setLevel(log_level)
         
@@ -44,7 +43,8 @@ class AxiomTradeClient:
             formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
-          # Initialize WebSocket client with tokens from auth manager
+        
+        # Initialize WebSocket client with tokens from auth manager
         tokens = self.auth_manager.get_tokens()
         self.ws = AxiomTradeWebSocketClient(
             auth_token=tokens.access_token if tokens else auth_token,
@@ -80,7 +80,7 @@ class AxiomTradeClient:
             
             self.logger.debug(f"Sending batched balance request for wallets: {wallet_addresses}")
             self.logger.debug(f"Request payload: {json.dumps(payload)}")
-              url = f"{self.base_url_api}{self.endpoints.ENDPOINT_GET_BATCHED_BALANCE}"
+            url = f"{self.base_url_api}{self.endpoints.ENDPOINT_GET_BATCHED_BALANCE}"
             self.logger.debug(f"Request URL: {url}")
             
             # Use authenticated session
