@@ -4,7 +4,7 @@
   <!-- Homepage -->
   <url>
     <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/</loc>
-    <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+    <lastmod>2025-06-04T15:49:15-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,56 +12,56 @@
   <!-- Main documentation pages -->
   <url>
     <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/installation</loc>
-    <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+    <lastmod>2025-06-04T15:49:15-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/authentication</loc>
-    <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+    <lastmod>2025-06-04T15:49:15-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/trading-bots</loc>
-    <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+    <lastmod>2025-06-04T15:49:15-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/websocket-guide</loc>
-    <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+    <lastmod>2025-06-04T15:49:15-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/balance-queries</loc>
-    <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+    <lastmod>2025-06-04T15:49:15-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/error-handling</loc>
-    <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+    <lastmod>2025-06-04T15:49:15-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/performance</loc>
-    <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+    <lastmod>2025-06-04T15:49:15-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/security</loc>
-    <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+    <lastmod>2025-06-04T15:49:15-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -72,8 +72,17 @@
   
     
     <url>
+      <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/api-reference.html</loc>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+  
+    
+    <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/authentication.html</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
@@ -82,7 +91,7 @@
     
     <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/balance-queries.html</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
@@ -91,7 +100,7 @@
     
     <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
@@ -100,7 +109,7 @@
     
     <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/installation.html</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
@@ -111,7 +120,7 @@
     
     <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/trading-bots.html</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
@@ -120,7 +129,7 @@
     
     <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/websocket-guide.html</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
@@ -129,7 +138,7 @@
     
     <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/assets/css/style.css</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
@@ -138,16 +147,7 @@
     
     <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/redirects.json</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.5</priority>
-    </url>
-    
-  
-    
-    <url>
-      <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/api-reference.html</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
@@ -156,7 +156,7 @@
     
     <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/error-handling.html</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
@@ -165,7 +165,7 @@
     
     <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/performance.html</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
@@ -174,7 +174,7 @@
     
     <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/security.html</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
@@ -183,7 +183,7 @@
     
     <url>
       <loc>http://0.0.0.0:4000/AxiomTradeAPI-py-1/feed.xml</loc>
-      <lastmod>2025-06-04T15:48:33-04:00</lastmod>
+      <lastmod>2025-06-04T15:49:15-04:00</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
     </url>
