@@ -24,11 +24,20 @@ social:
     - "https://github.com/vigowalker/AxiomTradeAPI-py-1"
 
 # GitHub Pages and Jekyll settings
+theme: null
+remote_theme: null
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
-  - jekyll-redirect-from
+
+# Exclude GitHub Pages default plugins that might interfere
+exclude_plugins:
+  - jekyll-relative-links
+  - jekyll-optional-front-matter
+  - jekyll-readme-index
+  - jekyll-default-layout
+  - jekyll-titles-from-headings
 
 # Navigation
 navigation:
