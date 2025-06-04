@@ -1,2 +1,5 @@
 websockets==10.0
 python-dotenv
+solders>=0.21.0
+requests>=2.25.1
+base58>=2.1.0
