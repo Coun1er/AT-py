@@ -4,6 +4,7 @@ title: "Building Advanced Trading Bots with AxiomTradeAPI"
 description: "Comprehensive guide to building profitable Solana trading bots using the AxiomTradeAPI Python library. Learn advanced strategies, real-time monitoring, and automated trading techniques."
 difficulty: "Advanced"
 estimated_time: "45 minutes"
+permalink: /trading-bots/
 ---
 
 # Building Advanced Trading Bots with AxiomTradeAPI

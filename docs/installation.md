@@ -4,6 +4,7 @@ title: "Installation Guide - AxiomTradeAPI Python SDK"
 description: "Complete step-by-step installation guide for AxiomTradeAPI-py, the leading Python SDK for Solana trading bot development."
 difficulty: "Beginner"
 estimated_time: "10 minutes"
+permalink: /installation/
 ---
 
 # Installation Guide - AxiomTradeAPI-py | Solana Trading Bot SDK

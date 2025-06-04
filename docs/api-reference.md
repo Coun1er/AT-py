@@ -4,6 +4,7 @@ title: "API Reference - AxiomTradeAPI Methods"
 description: "Complete API reference for all AxiomTradeAPI methods including balance queries, WebSocket connections, and trading operations."
 endpoint: "/api/v1"
 method: "Multiple"
+permalink: /api-reference/
 ---
 
 # AxiomTradeAPI Complete API Reference

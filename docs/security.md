@@ -1,3 +1,12 @@
+---
+layout: guide
+title: "Security Best Practices - AxiomTradeAPI"
+description: "Comprehensive security guide for safely using AxiomTradeAPI in production trading environments. Professional security practices and threat mitigation strategies."
+difficulty: "Intermediate"
+estimated_time: "20 minutes"
+permalink: /security/
+---
+
 # Security Best Practices for AxiomTradeAPI
 
 *Comprehensive security guide for safely using AxiomTradeAPI in production trading environments. Learn professional security practices and threat mitigation strategies trusted by leading traders on chipa.tech.*

@@ -26,6 +26,17 @@ social:
 # GitHub Pages and Jekyll settings
 theme: null
 remote_theme: null
+
+# Permalink configuration for clean URLs
+permalink: pretty
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      permalink: /:basename/
+
 plugins:
   - jekyll-feed
   - jekyll-sitemap
