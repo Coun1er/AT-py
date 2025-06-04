@@ -26,9 +26,6 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://chipadevteam.github.io/AxiomTradeAPI-py/balance-queries.html">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/AxiomTradeAPI-py/assets/images/favicon.ico">
-    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/AxiomTradeAPI-py/assets/css/custom.css">
     
@@ -37,408 +34,2424 @@
     
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "AxiomTradeAPI",
-        "description": "Complete API reference for Solana wallet balance monitoring, portfolio tracking, and batch operations using AxiomTradeAPI-py.",
-        "url": "https://chipadevteam.github.io/AxiomTradeAPI-py",
-        "author": {
-            "@type": "Organization",
-            "name": "Chipa Tech",
-            "url": "https://chipa.tech"
-        },
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "operatingSystem": "Cross-platform",
-        "programmingLanguage": "Python"
-    }
-    </script>
 </head>
 
 <body class="axiom-docs">
     <!-- Header -->
-    <header class="site-header">
+    <!-- AxiomTradeAPI Documentation Header Component -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo-section">
+        <a href="/AxiomTradeAPI-py/" class="logo-link">
+          <h1 class="site-title">
+            <i class="fas fa-robot"></i>
+            AxiomTradeAPI
+          </h1>
+        </a>
+        <p class="site-tagline">Professional Solana Trading Bot Library</p>
+      </div>
+      
+      <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="/AxiomTradeAPI-py/" class="nav-link ">Home</a></li>
+          <li><a href="/AxiomTradeAPI-py/installation" class="nav-link ">Quick Start</a></li>
+          <li><a href="/AxiomTradeAPI-py/trading-bots" class="nav-link ">Trading Bots</a></li>
+          <li><a href="/AxiomTradeAPI-py/websocket-guide" class="nav-link ">WebSocket</a></li>
+          <li><a href="/AxiomTradeAPI-py/api-reference" class="nav-link ">API</a></li>
+          <li>
+            <a href="https://chipa.tech" class="nav-link external" target="_blank" rel="noopener">
+              chipa.tech <i class="fas fa-external-link-alt"></i>
+            </a>
+          </li>
+        </ul>
+        
+        <!-- Mobile menu toggle -->
+        <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </nav>
+      
+      <!-- Search toggle -->
+      <button class="search-toggle" onclick="toggleSearch()" aria-label="Open search">
+        <i class="fas fa-search"></i>
+      </button>
+      
+      <!-- Theme toggle -->
+      <button class="theme-toggle-header" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+    
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobile-menu">
+      <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
+        <a href="/AxiomTradeAPI-py/" class="mobile-nav-link">Home</a>
+        <a href="/AxiomTradeAPI-py/installation" class="mobile-nav-link">Quick Start</a>
+        <a href="/AxiomTradeAPI-py/trading-bots" class="mobile-nav-link">Trading Bots</a>
+        <a href="/AxiomTradeAPI-py/websocket-guide" class="mobile-nav-link">WebSocket</a>
+        <a href="/AxiomTradeAPI-py/api-reference" class="mobile-nav-link">API Reference</a>
+        <a href="https://chipa.tech" class="mobile-nav-link external" target="_blank">chipa.tech</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="search-overlay">
+  <div class="search-container">
+    <div class="search-header">
+      <h3>Search Documentation</h3>
+      <button class="search-close" onclick="toggleSearch()" aria-label="Close search">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <input type="text" class="search-input" id="global-search" placeholder="Search for guides, API methods, examples...">
+    <div class="search-results" id="global-search-results"></div>
+    <div class="search-shortcuts">
+      <div class="shortcut-section">
+        <h4>Quick Links</h4>
+        <a href="/AxiomTradeAPI-py/installation" class="search-shortcut">
+          <i class="fas fa-download"></i>
+          Installation
+        </a>
+        <a href="/AxiomTradeAPI-py/trading-bots" class="search-shortcut">
+          <i class="fas fa-robot"></i>
+          Trading Bots
+        </a>
+        <a href="/AxiomTradeAPI-py/websocket-guide" class="search-shortcut">
+          <i class="fas fa-stream"></i>
+          WebSocket
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Header styles */
+.site-header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.site-title {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.site-tagline {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-fast);
+  padding: 0.5rem 0;
+  position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-color);
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-color);
+}
+
+.nav-link.external {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.search-toggle,
+.theme-toggle-header {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+}
+
+.search-toggle:hover,
+.theme-toggle-header:hover {
+  background: var(--bg-secondary);
+  color: var(--primary-color);
+}
+
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  gap: 3px;
+}
+
+.hamburger-line {
+  width: 20px;
+  height: 2px;
+  background: var(--text-primary);
+  transition: var(--transition-fast);
+}
+
+.mobile-menu {
+  display: none;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-light);
+  padding: 1rem 0;
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mobile-nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+}
+
+.mobile-nav-link:hover {
+  background: var(--bg-primary);
+  color: var(--primary-color);
+}
+
+/* Search overlay styles */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: none;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.search-overlay.active {
+  display: flex;
+  opacity: 1;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 5vh;
+}
+
+.search-container {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+}
+
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-header h3 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.search-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+}
+
+.search-close:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.search-shortcuts {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.shortcut-section h4 {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.search-shortcut {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+  margin-bottom: 0.5rem;
+}
+
+.search-shortcut:hover {
+  background: var(--bg-secondary);
+  color: var(--primary-color);
+}
+
+.search-shortcut i {
+  color: var(--primary-color);
+  width: 16px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .main-nav .nav-list {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .mobile-menu.active {
+    display: block;
+  }
+  
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+  
+  .header-content {
+    flex-wrap: wrap;
+  }
+  
+  .search-container {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}
+</style>
+
+<script>
+function toggleSearch() {
+  const overlay = document.getElementById('search-overlay');
+  const searchInput = document.getElementById('global-search');
+  
+  if (overlay.classList.contains('active')) {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  } else {
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => searchInput.focus(), 100);
+  }
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  // Update theme toggle icons
+  const headerToggle = document.querySelector('.theme-toggle-header i');
+  const footerToggle = document.querySelector('.theme-toggle i');
+  
+  const newIcon = newTheme === 'dark' ? 'fa-sun' : 'fa-moon';
+  
+  if (headerToggle) headerToggle.className = `fas ${newIcon}`;
+  if (footerToggle) footerToggle.className = `fas ${newIcon}`;
+}
+
+// Close search with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const overlay = document.getElementById('search-overlay');
+    if (overlay.classList.contains('active')) {
+      toggleSearch();
+    }
+  }
+});
+
+// Close search when clicking outside
+document.getElementById('search-overlay').addEventListener('click', function(e) {
+  if (e.target === this) {
+    toggleSearch();
+  }
+});
+</script>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
         <div class="container">
-            <div class="header-content">
-                <div class="logo-section">
-                    <h1 class="site-title">
-                        <i class="fas fa-robot"></i>
-                        AxiomTradeAPI
-                    </h1>
-                    <p class="site-tagline">Professional Solana Trading Bot Library</p>
-                </div>
-                
-                <nav class="main-nav">
-                    <a href="/AxiomTradeAPI-py/" class="nav-link active">Home</a>
-                    <a href="/AxiomTradeAPI-py/installation" class="nav-link">Quick Start</a>
-                    <a href="/AxiomTradeAPI-py/trading-bots" class="nav-link">Trading Bots</a>
-                    <a href="/AxiomTradeAPI-py/websocket-guide" class="nav-link">WebSocket</a>
-                    <a href="https://chipa.tech" class="nav-link external" target="_blank">
-                        chipa.tech <i class="fas fa-external-link-alt"></i>
-                    </a>
-                </nav>
+            <div class="page-wrapper">
+  <!-- Breadcrumb Navigation -->
+  <nav class="breadcrumb-nav">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/AxiomTradeAPI-py/">Home</a></li>
+        
+        <li class="active">Balance Queries API - AxiomTradeAPI</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="page-content">
+    <div class="container">
+      <div class="content-grid">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <div class="sidebar-content">
+            <div class="sidebar-section">
+              <h3>Getting Started</h3>
+              <ul class="sidebar-nav">
+                <li><a href="/AxiomTradeAPI-py/installation">Installation</a></li>
+                <li><a href="/AxiomTradeAPI-py/authentication">Authentication</a></li>
+                <li><a href="/AxiomTradeAPI-py/quickstart">Quick Start</a></li>
+              </ul>
             </div>
-        </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        Build <span class="gradient-text">Profitable</span> Solana Trading Bots
-                    </h1>
-                    <p class="hero-description">
-                        The most comprehensive Python library for Solana trading automation. 
-                        Real-time WebSocket data, advanced portfolio management, and proven strategies 
-                        used by successful traders on <a href="https://chipa.tech" class="chipa-link">chipa.tech</a>.
-                    </p>
-                    
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <div class="stat-number">99.9%</div>
-                            <div class="stat-label">Uptime</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">&lt;50ms</div>
-                            <div class="stat-label">Latency</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">24/7</div>
-                            <div class="stat-label">Support</div>
-                        </div>
-                    </div>
-                    
-                    <div class="hero-actions">
-                        <a href="/AxiomTradeAPI-py/installation" class="btn btn-primary">
-                            <i class="fas fa-rocket"></i>
-                            Get Started Free
-                        </a>
-                        <a href="https://chipa.tech/product/create-your-bot" class="btn btn-secondary" target="_blank">
-                            <i class="fas fa-cogs"></i>
-                            Custom Bot Development
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="hero-code">
-                    <div class="code-window">
-                        <div class="code-header">
-                            <div class="code-buttons">
-                                <span class="code-button red"></span>
-                                <span class="code-button yellow"></span>
-                                <span class="code-button green"></span>
-                            </div>
-                            <div class="code-title">trading_bot.py</div>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-python"># Install with pip
-pip install axiomtradeapi
-
-# Import the library
-from axiomtradeapi import AxiomTradeClient
-
-# Initialize client
-client = AxiomTradeClient(auth_token="your_token")
-
-# Get real-time balance
-balance = await client.GetBalance("wallet_address")
-print(f"Balance: {balance['sol']} SOL")
-
-# Subscribe to new token launches
-async def handle_new_tokens(tokens):
-    for token in tokens:
-        print(f"🚀 New token: {token['tokenName']}")
-        # Your trading logic here
-
-await client.subscribe_new_tokens(handle_new_tokens)</code></pre>
-                        </div>
-                    </div>
-                </div>
+            <div class="sidebar-section">
+              <h3>Core Features</h3>
+              <ul class="sidebar-nav">
+                <li><a href="/AxiomTradeAPI-py/balance-queries">Balance Queries</a></li>
+                <li><a href="/AxiomTradeAPI-py/websocket-guide">WebSocket Streaming</a></li>
+                <li><a href="/AxiomTradeAPI-py/error-handling">Error Handling</a></li>
+              </ul>
             </div>
-        </div>
-    </section>
 
-    <!-- Features Section -->
-    <section class="features-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Why Choose AxiomTradeAPI?</h2>
-                <p class="section-description">
-                    Built by traders, for traders. Used by the most successful Solana trading community on 
-                    <a href="https://chipa.tech" class="chipa-link">chipa.tech</a>.
-                </p>
+            <div class="sidebar-section">
+              <h3>Advanced Trading</h3>
+              <ul class="sidebar-nav">
+                <li><a href="/AxiomTradeAPI-py/trading-bots">Trading Bots</a></li>
+                <li><a href="/AxiomTradeAPI-py/market-making">Market Making</a></li>
+                <li><a href="/AxiomTradeAPI-py/risk-management">Risk Management</a></li>
+              </ul>
             </div>
+
+            <div class="sidebar-section">
+              <h3>Resources</h3>
+              <ul class="sidebar-nav">
+                <li><a href="/AxiomTradeAPI-py/api-reference">API Reference</a></li>
+                <li><a href="/AxiomTradeAPI-py/examples">Examples</a></li>
+                <li><a href="https://chipa.tech" target="_blank">chipa.tech Services</a></li>
+              </ul>
+            </div>
+
+            <!-- Promotional Section -->
+            <div class="sidebar-promo">
+              <div class="promo-card">
+                <h4>Need Custom Development?</h4>
+                <p>Get professional trading bot development services from the chipa.tech team.</p>
+                <a href="https://chipa.tech/product/create-your-bot" class="btn btn-primary btn-sm" target="_blank">
+                  Get Started
+                </a>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Article Content -->
+        <article class="main-content">
+          <header class="article-header">
+            <h1 class="article-title">Balance Queries API - AxiomTradeAPI</h1>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 class="feature-title">Ultra-Low Latency</h3>
-                    <p class="feature-description">
-                        Direct connection to Solana validators with &lt;50ms response times. 
-                        Perfect for high-frequency trading and arbitrage opportunities.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-stream"></i>
-                    </div>
-                    <h3 class="feature-title">Real-time WebSocket Data</h3>
-                    <p class="feature-description">
-                        Subscribe to new token launches, price updates, and market events 
-                        in real-time. Never miss a trading opportunity again.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="feature-title">Enterprise Security</h3>
-                    <p class="feature-description">
-                        Bank-grade security with encrypted API calls, secure authentication, 
-                        and comprehensive error handling for production trading.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3 class="feature-title">Advanced Portfolio Management</h3>
-                    <p class="feature-description">
-                        Track multiple wallets, monitor P&L in real-time, and implement 
-                        sophisticated risk management strategies.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3 class="feature-title">Developer-Friendly</h3>
-                    <p class="feature-description">
-                        Clean Python API, comprehensive documentation, and extensive 
-                        examples to get you trading in minutes, not hours.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="feature-title">Community Support</h3>
-                    <p class="feature-description">
-                        Join the <a href="https://chipa.tech" class="chipa-link">chipa.tech community</a> 
-                        of successful traders sharing strategies and insights.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trading Strategies Section -->
-    <section class="strategies-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Proven Trading Strategies</h2>
-                <p class="section-description">
-                    Implement battle-tested strategies used by profitable traders on 
-                    <a href="https://chipa.tech" class="chipa-link">chipa.tech</a>.
-                </p>
-            </div>
+            <p class="article-description">Complete API reference for Solana wallet balance monitoring, portfolio tracking, and batch operations using AxiomTradeAPI-py.</p>
             
-            <div class="strategies-grid">
-                <div class="strategy-card">
-                    <div class="strategy-header">
-                        <h3 class="strategy-title">
-                            <i class="fas fa-crosshairs"></i>
-                            Token Sniping
-                        </h3>
-                        <span class="strategy-difficulty">Advanced</span>
-                    </div>
-                    <p class="strategy-description">
-                        Identify and purchase newly launched tokens before they gain widespread attention. 
-                        High-speed execution with millisecond precision.
-                    </p>
-                    <div class="strategy-features">
-                        <span class="strategy-feature">Smart contract analysis</span>
-                        <span class="strategy-feature">Liquidity verification</span>
-                        <span class="strategy-feature">Risk scoring</span>
-                    </div>
-                    <a href="/AxiomTradeAPI-py/trading-bots#token-sniping" class="strategy-link">
-                        Learn More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-                
-                <div class="strategy-card">
-                    <div class="strategy-header">
-                        <h3 class="strategy-title">
-                            <i class="fas fa-balance-scale"></i>
-                            Market Making
-                        </h3>
-                        <span class="strategy-difficulty">Intermediate</span>
-                    </div>
-                    <p class="strategy-description">
-                        Provide liquidity to markets by placing buy and sell orders around current prices. 
-                        Earn consistent profits from bid-ask spreads.
-                    </p>
-                    <div class="strategy-features">
-                        <span class="strategy-feature">Dynamic spread adjustment</span>
-                        <span class="strategy-feature">Inventory management</span>
-                        <span class="strategy-feature">Multi-pair support</span>
-                    </div>
-                    <a href="/AxiomTradeAPI-py/trading-bots#market-making" class="strategy-link">
-                        Learn More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-                
-                <div class="strategy-card">
-                    <div class="strategy-header">
-                        <h3 class="strategy-title">
-                            <i class="fas fa-exchange-alt"></i>
-                            Arbitrage
-                        </h3>
-                        <span class="strategy-difficulty">Expert</span>
-                    </div>
-                    <p class="strategy-description">
-                        Exploit price differences across DEXs for risk-free profits. 
-                        Automated detection and execution of arbitrage opportunities.
-                    </p>
-                    <div class="strategy-features">
-                        <span class="strategy-feature">Cross-DEX monitoring</span>
-                        <span class="strategy-feature">Gas optimization</span>
-                        <span class="strategy-feature">MEV protection</span>
-                    </div>
-                    <a href="/AxiomTradeAPI-py/trading-bots#arbitrage" class="strategy-link">
-                        Learn More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+            
+            
+          </header>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2 class="cta-title">Ready to Start Trading?</h2>
-                <p class="cta-description">
-                    Join thousands of successful traders using AxiomTradeAPI. 
-                    Get started in minutes with our comprehensive documentation and examples.
-                </p>
+          <div class="article-content">
+            <div class="api-documentation">
+  <!-- API Method Header -->
+  <div class="api-header">
+    <div class="method-badge get">GET</div>
+    <h1 class="api-title">Balance Queries API - AxiomTradeAPI</h1>
+    <div class="api-endpoint">
+      <code>/api/balance</code>
+    </div>
+    
+    <p class="api-description">Complete API reference for Solana wallet balance monitoring, portfolio tracking, and batch operations using AxiomTradeAPI-py.</p>
+    
+  </div>
+
+  <!-- Quick Reference -->
+  
+
+  <!-- Parameters Section -->
+  
+
+  <!-- Response Section -->
+  
+
+  <!-- Error Codes Section -->
+  
+
+  <!-- Code Examples Section -->
+  
+
+  <!-- Related Endpoints -->
+  
+
+  <!-- Content from Markdown -->
+  <div class="api-content">
+    <h1 id="balance-queries-guide---axiomtradeapi-py--solana-wallet-monitoring-sdk">Balance Queries Guide - AxiomTradeAPI-py | Solana Wallet Monitoring SDK</h1>
+
+<h2 id="complete-guide-to-solana-wallet-balance-monitoring-and-batch-operations">Complete Guide to Solana Wallet Balance Monitoring and Batch Operations</h2>
+
+<p>Master wallet balance queries with <strong>AxiomTradeAPI-py</strong>, the leading Python SDK for Solana balance monitoring, portfolio tracking, and automated trading bot development. This comprehensive guide covers everything from basic single wallet queries to advanced batch operations for high-frequency trading systems.</p>
+
+<h2 id="-quick-start-basic-balance-queries">🚀 Quick Start: Basic Balance Queries</h2>
+
+<h3 id="single-wallet-balance-query">Single Wallet Balance Query</h3>
+
+<p>Monitor any Solana wallet address in real-time:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="kn">from</span> <span class="nn">axiomtradeapi</span> <span class="kn">import</span> <span class="n">AxiomTradeClient</span>
+
+<span class="c1"># Initialize the client
+</span><span class="n">client</span> <span class="o">=</span> <span class="n">AxiomTradeClient</span><span class="p">()</span>
+
+<span class="c1"># Query any Solana wallet balance
+</span><span class="n">wallet_address</span> <span class="o">=</span> <span class="s">"BJBgjyDZx5FSsyJf6bFKVXuJV7DZY9PCSMSi5d9tcEVh"</span>
+<span class="n">balance</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">GetBalance</span><span class="p">(</span><span class="n">wallet_address</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"💰 Wallet Balance:"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"   SOL: </span><span class="si">{</span><span class="n">balance</span><span class="p">[</span><span class="s">'sol'</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"   Lamports: </span><span class="si">{</span><span class="n">balance</span><span class="p">[</span><span class="s">'lamports'</span><span class="p">]</span><span class="si">:</span><span class="p">,</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"   Slot: </span><span class="si">{</span><span class="n">balance</span><span class="p">[</span><span class="s">'slot'</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>Output:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>💰 Wallet Balance:
+   SOL: 1.234567890
+   Lamports: 1,234,567,890
+   Slot: 344031778
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="-high-performance-batch-operations">⚡ High-Performance Batch Operations</h2>
+
+<h3 id="monitor-multiple-wallets-simultaneously">Monitor Multiple Wallets Simultaneously</h3>
+
+<p>Perfect for portfolio tracking and trading bot automation:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+</pre></td><td class="rouge-code"><pre><span class="kn">from</span> <span class="nn">axiomtradeapi</span> <span class="kn">import</span> <span class="n">AxiomTradeClient</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="c1"># Initialize client for high-performance operations
+</span><span class="n">client</span> <span class="o">=</span> <span class="n">AxiomTradeClient</span><span class="p">()</span>
+
+<span class="c1"># Monitor multiple wallets in a single API call
+</span><span class="n">wallet_addresses</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">"BJBgjyDZx5FSsyJf6bFKVXuJV7DZY9PCSMSi5d9tcEVh"</span><span class="p">,</span>
+    <span class="s">"Cpxu7gFhu3fDX1eG5ZVyiFoPmgxpLWiu5LhByNenVbPb"</span><span class="p">,</span>
+    <span class="s">"DsHk4F6QNTK6RdTmaDSKeFzGXMnQ9QxKTkDkG8XF8F4F"</span><span class="p">,</span>
+    <span class="s">"8YLKwP3nQtVsF7X9mR2wCvBqA3n4H5kJ9L6mN1oP2qR3"</span>
+<span class="p">]</span>
+
+<span class="c1"># Batch query - up to 1000 wallets per request
+</span><span class="n">balances</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">GetBatchedBalance</span><span class="p">(</span><span class="n">wallet_addresses</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"📊 Portfolio Summary:"</span><span class="p">)</span>
+<span class="n">total_sol</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">address</span><span class="p">,</span> <span class="n">balance_data</span> <span class="ow">in</span> <span class="n">balances</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">balance_data</span><span class="p">:</span>
+        <span class="n">sol_amount</span> <span class="o">=</span> <span class="n">balance_data</span><span class="p">[</span><span class="s">'sol'</span><span class="p">]</span>
+        <span class="n">total_sol</span> <span class="o">+=</span> <span class="n">sol_amount</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"   </span><span class="si">{</span><span class="n">address</span><span class="p">[</span><span class="si">:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s">...</span><span class="si">{</span><span class="n">address</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="si">:</span><span class="p">]</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">sol_amount</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"   </span><span class="si">{</span><span class="n">address</span><span class="p">[</span><span class="si">:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s">...</span><span class="si">{</span><span class="n">address</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="si">:</span><span class="p">]</span><span class="si">}</span><span class="s">: ❌ Error"</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="se">\n</span><span class="s">💎 Total Portfolio Value: </span><span class="si">{</span><span class="n">total_sol</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="-advanced-use-cases">🏆 Advanced Use Cases</h2>
+
+<h3 id="1-portfolio-performance-tracker">1. Portfolio Performance Tracker</h3>
+
+<p>Build a comprehensive portfolio monitoring system:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">axiomtradeapi</span> <span class="kn">import</span> <span class="n">AxiomTradeClient</span>
+
+<span class="k">class</span> <span class="nc">SolanaPortfolioTracker</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wallets_file</span><span class="o">=</span><span class="s">"portfolio_wallets.json"</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">AxiomTradeClient</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">wallets_file</span> <span class="o">=</span> <span class="n">wallets_file</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">portfolio_history</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># Load wallet addresses from file
+</span>        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">wallets_file</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">wallet_addresses</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Creating new portfolio file: </span><span class="si">{</span><span class="n">wallets_file</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">wallet_addresses</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">save_wallets</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">add_wallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""Add wallet to portfolio tracking"""</span>
+        <span class="n">wallet_info</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">"address"</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
+            <span class="s">"name"</span><span class="p">:</span> <span class="n">name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s">"Wallet </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">wallet_addresses</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s">"</span><span class="p">,</span>
+            <span class="s">"added_date"</span><span class="p">:</span> <span class="n">datetime</span><span class="p">.</span><span class="n">now</span><span class="p">().</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="p">}</span>
+        
+        <span class="bp">self</span><span class="p">.</span><span class="n">wallet_addresses</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">wallet_info</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">save_wallets</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"✅ Added wallet: </span><span class="si">{</span><span class="n">wallet_info</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">save_wallets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Save wallet list to file"""</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">wallets_file</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">wallet_addresses</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">get_portfolio_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Get current portfolio balances"""</span>
+        <span class="n">addresses</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="p">[</span><span class="s">'address'</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">wallet_addresses</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">addresses</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="s">"No wallets in portfolio"</span><span class="p">}</span>
+        
+        <span class="n">balances</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">GetBatchedBalance</span><span class="p">(</span><span class="n">addresses</span><span class="p">)</span>
+        
+        <span class="n">snapshot</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">"timestamp"</span><span class="p">:</span> <span class="n">datetime</span><span class="p">.</span><span class="n">now</span><span class="p">().</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s">"wallets"</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s">"total_sol"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s">"total_usd"</span><span class="p">:</span> <span class="mi">0</span>  <span class="c1"># Add price conversion later
+</span>        <span class="p">}</span>
+        
+        <span class="k">for</span> <span class="n">wallet_info</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">wallet_addresses</span><span class="p">:</span>
+            <span class="n">address</span> <span class="o">=</span> <span class="n">wallet_info</span><span class="p">[</span><span class="s">'address'</span><span class="p">]</span>
+            <span class="n">balance_data</span> <span class="o">=</span> <span class="n">balances</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">balance_data</span><span class="p">:</span>
+                <span class="n">sol_amount</span> <span class="o">=</span> <span class="n">balance_data</span><span class="p">[</span><span class="s">'sol'</span><span class="p">]</span>
+                <span class="n">snapshot</span><span class="p">[</span><span class="s">'wallets'</span><span class="p">][</span><span class="n">address</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s">"name"</span><span class="p">:</span> <span class="n">wallet_info</span><span class="p">[</span><span class="s">'name'</span><span class="p">],</span>
+                    <span class="s">"sol"</span><span class="p">:</span> <span class="n">sol_amount</span><span class="p">,</span>
+                    <span class="s">"lamports"</span><span class="p">:</span> <span class="n">balance_data</span><span class="p">[</span><span class="s">'lamports'</span><span class="p">],</span>
+                    <span class="s">"slot"</span><span class="p">:</span> <span class="n">balance_data</span><span class="p">[</span><span class="s">'slot'</span><span class="p">]</span>
+                <span class="p">}</span>
+                <span class="n">snapshot</span><span class="p">[</span><span class="s">'total_sol'</span><span class="p">]</span> <span class="o">+=</span> <span class="n">sol_amount</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">snapshot</span><span class="p">[</span><span class="s">'wallets'</span><span class="p">][</span><span class="n">address</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s">"name"</span><span class="p">:</span> <span class="n">wallet_info</span><span class="p">[</span><span class="s">'name'</span><span class="p">],</span>
+                    <span class="s">"error"</span><span class="p">:</span> <span class="s">"Failed to fetch balance"</span>
+                <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">snapshot</span>
+    
+    <span class="k">def</span> <span class="nf">track_performance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration_minutes</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
+        <span class="s">"""Track portfolio performance over time"""</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"📈 Starting portfolio tracking for </span><span class="si">{</span><span class="n">duration_minutes</span><span class="si">}</span><span class="s"> minutes..."</span><span class="p">)</span>
+        
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="n">duration_minutes</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+        
+        <span class="k">while</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">end_time</span><span class="p">:</span>
+            <span class="n">snapshot</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">get_portfolio_snapshot</span><span class="p">()</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">portfolio_history</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">snapshot</span><span class="p">)</span>
+            
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"📊 </span><span class="si">{</span><span class="n">snapshot</span><span class="p">[</span><span class="s">'timestamp'</span><span class="p">]</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">snapshot</span><span class="p">[</span><span class="s">'total_sol'</span><span class="p">]</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL total"</span><span class="p">)</span>
+            
+            <span class="c1"># Wait 1 minute between snapshots
+</span>            <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="p">.</span><span class="n">analyze_performance</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">analyze_performance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Analyze portfolio performance"""</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">portfolio_history</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"❌ Need at least 2 data points for analysis"</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="n">start_balance</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">portfolio_history</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">'total_sol'</span><span class="p">]</span>
+        <span class="n">end_balance</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">portfolio_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s">'total_sol'</span><span class="p">]</span>
+        <span class="n">change</span> <span class="o">=</span> <span class="n">end_balance</span> <span class="o">-</span> <span class="n">start_balance</span>
+        <span class="n">change_percent</span> <span class="o">=</span> <span class="p">(</span><span class="n">change</span> <span class="o">/</span> <span class="n">start_balance</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">start_balance</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="se">\n</span><span class="s">📈 Portfolio Performance Analysis:"</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"   Starting Balance: </span><span class="si">{</span><span class="n">start_balance</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL"</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"   Ending Balance: </span><span class="si">{</span><span class="n">end_balance</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL"</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"   Change: </span><span class="si">{</span><span class="n">change</span><span class="si">:</span><span class="o">+</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL (</span><span class="si">{</span><span class="n">change_percent</span><span class="si">:</span><span class="o">+</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s">%)"</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">change</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"   📈 Portfolio increased! 🎉"</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">change</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"   📉 Portfolio decreased 😔"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"   ➡️ Portfolio unchanged"</span><span class="p">)</span>
+
+<span class="c1"># Usage example
+</span><span class="n">tracker</span> <span class="o">=</span> <span class="n">SolanaPortfolioTracker</span><span class="p">()</span>
+
+<span class="c1"># Add wallets to track
+</span><span class="n">tracker</span><span class="p">.</span><span class="n">add_wallet</span><span class="p">(</span><span class="s">"BJBgjyDZx5FSsyJf6bFKVXuJV7DZY9PCSMSi5d9tcEVh"</span><span class="p">,</span> <span class="s">"Main Wallet"</span><span class="p">)</span>
+<span class="n">tracker</span><span class="p">.</span><span class="n">add_wallet</span><span class="p">(</span><span class="s">"Cpxu7gFhu3fDX1eG5ZVyiFoPmgxpLWiu5LhByNenVbPb"</span><span class="p">,</span> <span class="s">"Trading Wallet"</span><span class="p">)</span>
+
+<span class="c1"># Get current snapshot
+</span><span class="n">snapshot</span> <span class="o">=</span> <span class="n">tracker</span><span class="p">.</span><span class="n">get_portfolio_snapshot</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">snapshot</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># Track performance for 1 hour
+# tracker.track_performance(60)
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="2-automated-balance-alerts">2. Automated Balance Alerts</h3>
+
+<p>Set up intelligent balance monitoring with alerts:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">smtplib</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">from</span> <span class="nn">email.mime.text</span> <span class="kn">import</span> <span class="n">MimeText</span>
+<span class="kn">from</span> <span class="nn">axiomtradeapi</span> <span class="kn">import</span> <span class="n">AxiomTradeClient</span>
+
+<span class="k">class</span> <span class="nc">BalanceAlertSystem</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email_config</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">AxiomTradeClient</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">email_config</span> <span class="o">=</span> <span class="n">email_config</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">alert_rules</span> <span class="o">=</span> <span class="p">{}</span>
+        
+    <span class="k">def</span> <span class="nf">add_alert_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">,</span> <span class="n">rule_type</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""
+        Add balance alert rule
+        
+        rule_type: 'above', 'below', 'change_percent'
+        threshold: SOL amount or percentage
+        """</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">alert_rules</span><span class="p">[</span><span class="n">wallet_address</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">"name"</span><span class="p">:</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">wallet_address</span><span class="p">[:</span><span class="mi">8</span><span class="p">],</span>
+            <span class="s">"rule_type"</span><span class="p">:</span> <span class="n">rule_type</span><span class="p">,</span>
+            <span class="s">"threshold"</span><span class="p">:</span> <span class="n">threshold</span><span class="p">,</span>
+            <span class="s">"last_balance"</span><span class="p">:</span> <span class="bp">None</span>
+        <span class="p">}</span>
+        
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"✅ Added alert rule: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s"> - </span><span class="si">{</span><span class="n">rule_type</span><span class="si">}</span><span class="s"> </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">check_alerts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Check all alert rules and trigger notifications"""</span>
+        <span class="n">addresses</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">alert_rules</span><span class="p">.</span><span class="n">keys</span><span class="p">())</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">addresses</span><span class="p">:</span>
+            <span class="k">return</span>
+        
+        <span class="n">balances</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">GetBatchedBalance</span><span class="p">(</span><span class="n">addresses</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">address</span><span class="p">,</span> <span class="n">balance_data</span> <span class="ow">in</span> <span class="n">balances</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">balance_data</span><span class="p">:</span>
+                <span class="k">continue</span>
                 
-                <div class="cta-actions">
-                    <a href="/AxiomTradeAPI-py/installation" class="btn btn-primary">
-                        <i class="fas fa-download"></i>
-                        Install AxiomTradeAPI
-                    </a>
-                    <a href="https://chipa.tech/product/create-your-bot" class="btn btn-outline" target="_blank">
-                        <i class="fas fa-handshake"></i>
-                        Custom Bot Development
-                    </a>
-                </div>
+            <span class="n">rule</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">alert_rules</span><span class="p">[</span><span class="n">address</span><span class="p">]</span>
+            <span class="n">current_balance</span> <span class="o">=</span> <span class="n">balance_data</span><span class="p">[</span><span class="s">'sol'</span><span class="p">]</span>
+            
+            <span class="n">alert_triggered</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">alert_message</span> <span class="o">=</span> <span class="s">""</span>
+            
+            <span class="k">if</span> <span class="n">rule</span><span class="p">[</span><span class="s">'rule_type'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'above'</span> <span class="ow">and</span> <span class="n">current_balance</span> <span class="o">&gt;</span> <span class="n">rule</span><span class="p">[</span><span class="s">'threshold'</span><span class="p">]:</span>
+                <span class="n">alert_triggered</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">alert_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Balance above </span><span class="si">{</span><span class="n">rule</span><span class="p">[</span><span class="s">'threshold'</span><span class="p">]</span><span class="si">}</span><span class="s"> SOL: </span><span class="si">{</span><span class="n">current_balance</span><span class="si">}</span><span class="s">"</span>
                 
-                <div class="cta-links">
-                    <a href="https://chipa.tech" class="cta-link" target="_blank">
-                        <i class="fas fa-globe"></i>
-                        Visit chipa.tech
-                    </a>
-                    <a href="https://chipa.tech/shop" class="cta-link" target="_blank">
-                        <i class="fas fa-shopping-cart"></i>
-                        Browse Our Shop
-                    </a>
-                    <a href="https://discord.gg/p7YyFqSmAz" class="cta-link" target="_blank">
-                        <i class="fab fa-discord"></i>
-                        Join Discord
-                    </a>
-                </div>
+            <span class="k">elif</span> <span class="n">rule</span><span class="p">[</span><span class="s">'rule_type'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'below'</span> <span class="ow">and</span> <span class="n">current_balance</span> <span class="o">&lt;</span> <span class="n">rule</span><span class="p">[</span><span class="s">'threshold'</span><span class="p">]:</span>
+                <span class="n">alert_triggered</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">alert_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Balance below </span><span class="si">{</span><span class="n">rule</span><span class="p">[</span><span class="s">'threshold'</span><span class="p">]</span><span class="si">}</span><span class="s"> SOL: </span><span class="si">{</span><span class="n">current_balance</span><span class="si">}</span><span class="s">"</span>
+                
+            <span class="k">elif</span> <span class="n">rule</span><span class="p">[</span><span class="s">'rule_type'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'change_percent'</span> <span class="ow">and</span> <span class="n">rule</span><span class="p">[</span><span class="s">'last_balance'</span><span class="p">]:</span>
+                <span class="n">change_percent</span> <span class="o">=</span> <span class="p">((</span><span class="n">current_balance</span> <span class="o">-</span> <span class="n">rule</span><span class="p">[</span><span class="s">'last_balance'</span><span class="p">])</span> <span class="o">/</span> <span class="n">rule</span><span class="p">[</span><span class="s">'last_balance'</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">change_percent</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">rule</span><span class="p">[</span><span class="s">'threshold'</span><span class="p">]:</span>
+                    <span class="n">alert_triggered</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="n">alert_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Balance changed by </span><span class="si">{</span><span class="n">change_percent</span><span class="si">:</span><span class="o">+</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s">%: </span><span class="si">{</span><span class="n">current_balance</span><span class="si">}</span><span class="s"> SOL"</span>
+            
+            <span class="k">if</span> <span class="n">alert_triggered</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">send_alert</span><span class="p">(</span><span class="n">rule</span><span class="p">[</span><span class="s">'name'</span><span class="p">],</span> <span class="n">alert_message</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+            
+            <span class="c1"># Update last balance
+</span>            <span class="n">rule</span><span class="p">[</span><span class="s">'last_balance'</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_balance</span>
+    
+    <span class="k">def</span> <span class="nf">send_alert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wallet_name</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+        <span class="s">"""Send alert notification"""</span>
+        <span class="n">alert_text</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"🚨 WALLET ALERT: </span><span class="si">{</span><span class="n">wallet_name</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="se">\n</span><span class="s">Address: </span><span class="si">{</span><span class="n">address</span><span class="si">}</span><span class="s">"</span>
+        
+        <span class="k">print</span><span class="p">(</span><span class="n">alert_text</span><span class="p">)</span>
+        
+        <span class="c1"># Send email if configured
+</span>        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">email_config</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">send_email_alert</span><span class="p">(</span><span class="n">wallet_name</span><span class="p">,</span> <span class="n">alert_text</span><span class="p">)</span>
+        
+        <span class="c1"># Add Discord/Telegram/Slack notifications here
+</span>    
+    <span class="k">def</span> <span class="nf">send_email_alert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="s">"""Send email alert"""</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">MimeText</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="n">msg</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Solana Balance Alert: </span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s">"</span>
+            <span class="n">msg</span><span class="p">[</span><span class="s">'From'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">email_config</span><span class="p">[</span><span class="s">'from'</span><span class="p">]</span>
+            <span class="n">msg</span><span class="p">[</span><span class="s">'To'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">email_config</span><span class="p">[</span><span class="s">'to'</span><span class="p">]</span>
+            
+            <span class="n">server</span> <span class="o">=</span> <span class="n">smtplib</span><span class="p">.</span><span class="n">SMTP</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">email_config</span><span class="p">[</span><span class="s">'smtp_server'</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">email_config</span><span class="p">[</span><span class="s">'port'</span><span class="p">])</span>
+            <span class="n">server</span><span class="p">.</span><span class="n">starttls</span><span class="p">()</span>
+            <span class="n">server</span><span class="p">.</span><span class="n">login</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">email_config</span><span class="p">[</span><span class="s">'username'</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">email_config</span><span class="p">[</span><span class="s">'password'</span><span class="p">])</span>
+            <span class="n">server</span><span class="p">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="n">server</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
+            
+            <span class="k">print</span><span class="p">(</span><span class="s">"📧 Email alert sent successfully"</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"❌ Failed to send email: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">monitor_continuously</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check_interval</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+        <span class="s">"""Continuously monitor wallets for alerts"""</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"🔍 Starting continuous monitoring (checking every </span><span class="si">{</span><span class="n">check_interval</span><span class="si">}</span><span class="s"> seconds)"</span><span class="p">)</span>
+        
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">check_alerts</span><span class="p">()</span>
+                <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">check_interval</span><span class="p">)</span>
+            <span class="k">except</span> <span class="nb">KeyboardInterrupt</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">👋 Monitoring stopped by user"</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"❌ Error during monitoring: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+                <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>  <span class="c1"># Wait 1 minute before retrying
+</span>
+<span class="c1"># Usage example
+</span><span class="n">email_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'smtp_server'</span><span class="p">:</span> <span class="s">'smtp.gmail.com'</span><span class="p">,</span>
+    <span class="s">'port'</span><span class="p">:</span> <span class="mi">587</span><span class="p">,</span>
+    <span class="s">'username'</span><span class="p">:</span> <span class="s">'your-email@gmail.com'</span><span class="p">,</span>
+    <span class="s">'password'</span><span class="p">:</span> <span class="s">'your-app-password'</span><span class="p">,</span>
+    <span class="s">'from'</span><span class="p">:</span> <span class="s">'your-email@gmail.com'</span><span class="p">,</span>
+    <span class="s">'to'</span><span class="p">:</span> <span class="s">'alerts@your-domain.com'</span>
+<span class="p">}</span>
+
+<span class="n">alert_system</span> <span class="o">=</span> <span class="n">BalanceAlertSystem</span><span class="p">(</span><span class="n">email_config</span><span class="p">)</span>
+
+<span class="c1"># Add alert rules
+</span><span class="n">alert_system</span><span class="p">.</span><span class="n">add_alert_rule</span><span class="p">(</span>
+    <span class="s">"BJBgjyDZx5FSsyJf6bFKVXuJV7DZY9PCSMSi5d9tcEVh"</span><span class="p">,</span>
+    <span class="s">"below"</span><span class="p">,</span>
+    <span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># Alert if balance goes below 1 SOL
+</span>    <span class="s">"Main Wallet"</span>
+<span class="p">)</span>
+
+<span class="n">alert_system</span><span class="p">.</span><span class="n">add_alert_rule</span><span class="p">(</span>
+    <span class="s">"Cpxu7gFhu3fDX1eG5ZVyiFoPmgxpLWiu5LhByNenVbPb"</span><span class="p">,</span>
+    <span class="s">"change_percent"</span><span class="p">,</span>
+    <span class="mf">10.0</span><span class="p">,</span>  <span class="c1"># Alert if balance changes by more than 10%
+</span>    <span class="s">"Trading Wallet"</span>
+<span class="p">)</span>
+
+<span class="c1"># Start monitoring
+# asyncio.run(alert_system.monitor_continuously(300))  # Check every 5 minutes
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="3-defi-yield-farming-monitor">3. DeFi Yield Farming Monitor</h3>
+
+<p>Track DeFi positions and yields across multiple protocols:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+</pre></td><td class="rouge-code"><pre><span class="kn">from</span> <span class="nn">axiomtradeapi</span> <span class="kn">import</span> <span class="n">AxiomTradeClient</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="k">class</span> <span class="nc">DeFiYieldTracker</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">AxiomTradeClient</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">defi_positions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">yield_history</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">def</span> <span class="nf">add_defi_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">position_type</span><span class="p">,</span> <span class="n">initial_amount</span><span class="p">):</span>
+        <span class="s">"""Add DeFi position for tracking"""</span>
+        <span class="n">position_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">protocol</span><span class="si">}</span><span class="s">_</span><span class="si">{</span><span class="n">wallet_address</span><span class="p">[</span><span class="si">:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s">"</span>
+        
+        <span class="bp">self</span><span class="p">.</span><span class="n">defi_positions</span><span class="p">[</span><span class="n">position_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">"wallet_address"</span><span class="p">:</span> <span class="n">wallet_address</span><span class="p">,</span>
+            <span class="s">"protocol"</span><span class="p">:</span> <span class="n">protocol</span><span class="p">,</span>
+            <span class="s">"position_type"</span><span class="p">:</span> <span class="n">position_type</span><span class="p">,</span>
+            <span class="s">"initial_amount"</span><span class="p">:</span> <span class="n">initial_amount</span><span class="p">,</span>
+            <span class="s">"start_date"</span><span class="p">:</span> <span class="n">datetime</span><span class="p">.</span><span class="n">now</span><span class="p">().</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s">"history"</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+        
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"✅ Added DeFi position: </span><span class="si">{</span><span class="n">protocol</span><span class="si">}</span><span class="s"> - </span><span class="si">{</span><span class="n">position_type</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">calculate_yields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Calculate current yields for all positions"""</span>
+        <span class="n">addresses</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos</span><span class="p">[</span><span class="s">'wallet_address'</span><span class="p">]</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">defi_positions</span><span class="p">.</span><span class="n">values</span><span class="p">()]</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">addresses</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        
+        <span class="n">balances</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">GetBatchedBalance</span><span class="p">(</span><span class="n">addresses</span><span class="p">)</span>
+        <span class="n">yields</span> <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="k">for</span> <span class="n">position_id</span><span class="p">,</span> <span class="n">position</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">defi_positions</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">address</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="s">'wallet_address'</span><span class="p">]</span>
+            <span class="n">balance_data</span> <span class="o">=</span> <span class="n">balances</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">balance_data</span><span class="p">:</span>
+                <span class="k">continue</span>
+            
+            <span class="n">current_amount</span> <span class="o">=</span> <span class="n">balance_data</span><span class="p">[</span><span class="s">'sol'</span><span class="p">]</span>
+            <span class="n">initial_amount</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="s">'initial_amount'</span><span class="p">]</span>
+            
+            <span class="c1"># Calculate yield
+</span>            <span class="n">absolute_yield</span> <span class="o">=</span> <span class="n">current_amount</span> <span class="o">-</span> <span class="n">initial_amount</span>
+            <span class="n">yield_percent</span> <span class="o">=</span> <span class="p">(</span><span class="n">absolute_yield</span> <span class="o">/</span> <span class="n">initial_amount</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">initial_amount</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+            
+            <span class="c1"># Calculate APY (annualized)
+</span>            <span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="s">'start_date'</span><span class="p">])</span>
+            <span class="n">days_elapsed</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="p">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_date</span><span class="p">).</span><span class="n">days</span>
+            
+            <span class="k">if</span> <span class="n">days_elapsed</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">daily_yield</span> <span class="o">=</span> <span class="n">yield_percent</span> <span class="o">/</span> <span class="n">days_elapsed</span>
+                <span class="n">apy</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">daily_yield</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span> <span class="o">**</span> <span class="mi">365</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">apy</span> <span class="o">=</span> <span class="mi">0</span>
+            
+            <span class="n">yields</span><span class="p">[</span><span class="n">position_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">"protocol"</span><span class="p">:</span> <span class="n">position</span><span class="p">[</span><span class="s">'protocol'</span><span class="p">],</span>
+                <span class="s">"position_type"</span><span class="p">:</span> <span class="n">position</span><span class="p">[</span><span class="s">'position_type'</span><span class="p">],</span>
+                <span class="s">"initial_amount"</span><span class="p">:</span> <span class="n">initial_amount</span><span class="p">,</span>
+                <span class="s">"current_amount"</span><span class="p">:</span> <span class="n">current_amount</span><span class="p">,</span>
+                <span class="s">"absolute_yield"</span><span class="p">:</span> <span class="n">absolute_yield</span><span class="p">,</span>
+                <span class="s">"yield_percent"</span><span class="p">:</span> <span class="n">yield_percent</span><span class="p">,</span>
+                <span class="s">"apy"</span><span class="p">:</span> <span class="n">apy</span><span class="p">,</span>
+                <span class="s">"days_elapsed"</span><span class="p">:</span> <span class="n">days_elapsed</span>
+            <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">yields</span>
+    
+    <span class="k">def</span> <span class="nf">generate_yield_report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Generate comprehensive yield farming report"""</span>
+        <span class="n">yields</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">calculate_yields</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">yields</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">"No DeFi positions to report"</span>
+        
+        <span class="n">report</span> <span class="o">=</span> <span class="s">"</span><span class="se">\n</span><span class="s">🌾 DeFi Yield Farming Report</span><span class="se">\n</span><span class="s">"</span>
+        <span class="n">report</span> <span class="o">+=</span> <span class="s">"="</span> <span class="o">*</span> <span class="mi">50</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span>
+        
+        <span class="n">total_initial</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">total_current</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">for</span> <span class="n">position_id</span><span class="p">,</span> <span class="n">yield_data</span> <span class="ow">in</span> <span class="n">yields</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">total_initial</span> <span class="o">+=</span> <span class="n">yield_data</span><span class="p">[</span><span class="s">'initial_amount'</span><span class="p">]</span>
+            <span class="n">total_current</span> <span class="o">+=</span> <span class="n">yield_data</span><span class="p">[</span><span class="s">'current_amount'</span><span class="p">]</span>
+            
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"</span><span class="se">\n</span><span class="s">📊 </span><span class="si">{</span><span class="n">yield_data</span><span class="p">[</span><span class="s">'protocol'</span><span class="p">]</span><span class="si">}</span><span class="s"> - </span><span class="si">{</span><span class="n">yield_data</span><span class="p">[</span><span class="s">'position_type'</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s">"</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"   Initial: </span><span class="si">{</span><span class="n">yield_data</span><span class="p">[</span><span class="s">'initial_amount'</span><span class="p">]</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL</span><span class="se">\n</span><span class="s">"</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"   Current: </span><span class="si">{</span><span class="n">yield_data</span><span class="p">[</span><span class="s">'current_amount'</span><span class="p">]</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL</span><span class="se">\n</span><span class="s">"</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"   Yield: </span><span class="si">{</span><span class="n">yield_data</span><span class="p">[</span><span class="s">'absolute_yield'</span><span class="p">]</span><span class="si">:</span><span class="o">+</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL (</span><span class="si">{</span><span class="n">yield_data</span><span class="p">[</span><span class="s">'yield_percent'</span><span class="p">]</span><span class="si">:</span><span class="o">+</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s">%)</span><span class="se">\n</span><span class="s">"</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"   APY: </span><span class="si">{</span><span class="n">yield_data</span><span class="p">[</span><span class="s">'apy'</span><span class="p">]</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s">%</span><span class="se">\n</span><span class="s">"</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"   Duration: </span><span class="si">{</span><span class="n">yield_data</span><span class="p">[</span><span class="s">'days_elapsed'</span><span class="p">]</span><span class="si">}</span><span class="s"> days</span><span class="se">\n</span><span class="s">"</span>
+        
+        <span class="c1"># Portfolio summary
+</span>        <span class="n">total_yield</span> <span class="o">=</span> <span class="n">total_current</span> <span class="o">-</span> <span class="n">total_initial</span>
+        <span class="n">total_yield_percent</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_yield</span> <span class="o">/</span> <span class="n">total_initial</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">total_initial</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        
+        <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"</span><span class="se">\n</span><span class="s">💎 Portfolio Summary:</span><span class="se">\n</span><span class="s">"</span>
+        <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"   Total Initial: </span><span class="si">{</span><span class="n">total_initial</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL</span><span class="se">\n</span><span class="s">"</span>
+        <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"   Total Current: </span><span class="si">{</span><span class="n">total_current</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL</span><span class="se">\n</span><span class="s">"</span>
+        <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"   Total Yield: </span><span class="si">{</span><span class="n">total_yield</span><span class="si">:</span><span class="o">+</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> SOL (</span><span class="si">{</span><span class="n">total_yield_percent</span><span class="si">:</span><span class="o">+</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s">%)</span><span class="se">\n</span><span class="s">"</span>
+        
+        <span class="k">return</span> <span class="n">report</span>
+
+<span class="c1"># Usage example
+</span><span class="n">yield_tracker</span> <span class="o">=</span> <span class="n">DeFiYieldTracker</span><span class="p">()</span>
+
+<span class="c1"># Add DeFi positions
+</span><span class="n">yield_tracker</span><span class="p">.</span><span class="n">add_defi_position</span><span class="p">(</span>
+    <span class="s">"BJBgjyDZx5FSsyJf6bFKVXuJV7DZY9PCSMSi5d9tcEVh"</span><span class="p">,</span>
+    <span class="s">"Raydium"</span><span class="p">,</span>
+    <span class="s">"SOL-USDC LP"</span><span class="p">,</span>
+    <span class="mf">10.0</span>
+<span class="p">)</span>
+
+<span class="n">yield_tracker</span><span class="p">.</span><span class="n">add_defi_position</span><span class="p">(</span>
+    <span class="s">"Cpxu7gFhu3fDX1eG5ZVyiFoPmgxpLWiu5LhByNenVbPb"</span><span class="p">,</span>
+    <span class="s">"Orca"</span><span class="p">,</span>
+    <span class="s">"SOL-mSOL LP"</span><span class="p">,</span>
+    <span class="mf">5.0</span>
+<span class="p">)</span>
+
+<span class="c1"># Generate yield report
+</span><span class="n">report</span> <span class="o">=</span> <span class="n">yield_tracker</span><span class="p">.</span><span class="n">generate_yield_report</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="-performance-optimization-tips">🚀 Performance Optimization Tips</h2>
+
+<h3 id="1-efficient-batch-processing">1. Efficient Batch Processing</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+</pre></td><td class="rouge-code"><pre><span class="kn">from</span> <span class="nn">axiomtradeapi</span> <span class="kn">import</span> <span class="n">AxiomTradeClient</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+
+<span class="k">class</span> <span class="nc">OptimizedBalanceChecker</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">AxiomTradeClient</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">max_workers</span> <span class="o">=</span> <span class="n">max_workers</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">process_large_wallet_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wallet_addresses</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+        <span class="s">"""Process thousands of wallets efficiently"""</span>
+        
+        <span class="c1"># Split into batches
+</span>        <span class="n">batches</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">wallet_addresses</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">wallet_addresses</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">)</span>
+        <span class="p">]</span>
+        
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"📊 Processing </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">wallet_addresses</span><span class="p">)</span><span class="si">}</span><span class="s"> wallets in </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span><span class="si">}</span><span class="s"> batches"</span><span class="p">)</span>
+        
+        <span class="n">all_balances</span> <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">batches</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"⏳ Processing batch </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            
+            <span class="n">batch_balances</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">GetBatchedBalance</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+            <span class="n">all_balances</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">batch_balances</span><span class="p">)</span>
+            
+            <span class="c1"># Small delay to respect rate limits
+</span>            <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">all_balances</span>
+
+<span class="c1"># Process 1000+ wallets efficiently
+</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">OptimizedBalanceChecker</span><span class="p">()</span>
+<span class="n">large_wallet_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">"wallet1..."</span><span class="p">,</span> <span class="s">"wallet2..."</span><span class="p">,</span> <span class="p">...]</span>  <span class="c1"># Your wallet list
+</span><span class="n">balances</span> <span class="o">=</span> <span class="n">optimizer</span><span class="p">.</span><span class="n">process_large_wallet_list</span><span class="p">(</span><span class="n">large_wallet_list</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="2-caching-for-repeated-queries">2. Caching for Repeated Queries</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span> <span class="nn">axiomtradeapi</span> <span class="kn">import</span> <span class="n">AxiomTradeClient</span>
+
+<span class="k">class</span> <span class="nc">CachedBalanceClient</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_duration</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">AxiomTradeClient</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cache_duration</span> <span class="o">=</span> <span class="n">cache_duration</span>
+    
+    <span class="k">def</span> <span class="nf">get_balance_cached</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">):</span>
+        <span class="s">"""Get balance with caching to reduce API calls"""</span>
+        
+        <span class="n">current_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">cache_key</span> <span class="o">=</span> <span class="n">wallet_address</span>
+        
+        <span class="c1"># Check cache
+</span>        <span class="k">if</span> <span class="n">cache_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">cache</span><span class="p">:</span>
+            <span class="n">cached_data</span><span class="p">,</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span>
+            
+            <span class="k">if</span> <span class="n">current_time</span> <span class="o">-</span> <span class="n">timestamp</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="p">.</span><span class="n">cache_duration</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"📋 Using cached data for </span><span class="si">{</span><span class="n">wallet_address</span><span class="p">[</span><span class="si">:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s">..."</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">cached_data</span>
+        
+        <span class="c1"># Fetch fresh data
+</span>        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"🔄 Fetching fresh data for </span><span class="si">{</span><span class="n">wallet_address</span><span class="p">[</span><span class="si">:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s">..."</span><span class="p">)</span>
+        <span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">GetBalance</span><span class="p">(</span><span class="n">wallet_address</span><span class="p">)</span>
+        
+        <span class="c1"># Cache the result
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">balance</span><span class="p">,</span> <span class="n">current_time</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">balance</span>
+    
+    <span class="k">def</span> <span class="nf">clear_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Clear the balance cache"""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cache</span><span class="p">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"🗑️ Cache cleared"</span><span class="p">)</span>
+
+<span class="c1"># Usage
+</span><span class="n">cached_client</span> <span class="o">=</span> <span class="n">CachedBalanceClient</span><span class="p">(</span><span class="n">cache_duration</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>  <span class="c1"># 2-minute cache
+</span>
+<span class="c1"># First call fetches from API
+</span><span class="n">balance1</span> <span class="o">=</span> <span class="n">cached_client</span><span class="p">.</span><span class="n">get_balance_cached</span><span class="p">(</span><span class="s">"BJBgjyDZx5FSsyJf6bFKVXuJV7DZY9PCSMSi5d9tcEVh"</span><span class="p">)</span>
+
+<span class="c1"># Second call uses cache
+</span><span class="n">balance2</span> <span class="o">=</span> <span class="n">cached_client</span><span class="p">.</span><span class="n">get_balance_cached</span><span class="p">(</span><span class="s">"BJBgjyDZx5FSsyJf6bFKVXuJV7DZY9PCSMSi5d9tcEVh"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="-response-data-structure">📊 Response Data Structure</h2>
+
+<p>Understanding the complete response format:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="rouge-code"><pre><span class="c1"># Single balance response
+</span><span class="p">{</span>
+    <span class="s">"sol"</span><span class="p">:</span> <span class="mf">1.234567890</span><span class="p">,</span>        <span class="c1"># Balance in SOL (float)
+</span>    <span class="s">"lamports"</span><span class="p">:</span> <span class="mi">1234567890</span><span class="p">,</span>    <span class="c1"># Balance in lamports (int)
+</span>    <span class="s">"slot"</span><span class="p">:</span> <span class="mi">344031778</span>          <span class="c1"># Blockchain slot number (int)
+</span><span class="p">}</span>
+
+<span class="c1"># Batch balance response
+</span><span class="p">{</span>
+    <span class="s">"BJBgjyDZx5FSsyJf6bFKVXuJV7DZY9PCSMSi5d9tcEVh"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">"sol"</span><span class="p">:</span> <span class="mf">1.234567890</span><span class="p">,</span>
+        <span class="s">"lamports"</span><span class="p">:</span> <span class="mi">1234567890</span><span class="p">,</span>
+        <span class="s">"slot"</span><span class="p">:</span> <span class="mi">344031778</span>
+    <span class="p">},</span>
+    <span class="s">"Cpxu7gFhu3fDX1eG5ZVyiFoPmgxpLWiu5LhByNenVbPb"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">"sol"</span><span class="p">:</span> <span class="mf">0.567890123</span><span class="p">,</span>
+        <span class="s">"lamports"</span><span class="p">:</span> <span class="mi">567890123</span><span class="p">,</span>
+        <span class="s">"slot"</span><span class="p">:</span> <span class="mi">344031778</span>
+    <span class="p">},</span>
+    <span class="s">"InvalidWalletAddress..."</span><span class="p">:</span> <span class="bp">None</span>  <span class="c1"># Failed queries return None
+</span><span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="-error-handling-best-practices">🚨 Error Handling Best Practices</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+</pre></td><td class="rouge-code"><pre><span class="kn">from</span> <span class="nn">axiomtradeapi</span> <span class="kn">import</span> <span class="n">AxiomTradeClient</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="c1"># Setup logging
+</span><span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="p">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">robust_balance_query</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="s">"""Robust balance query with retry logic"""</span>
+    
+    <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_retries</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">balance</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">GetBalance</span><span class="p">(</span><span class="n">wallet_address</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">balance</span> <span class="ow">and</span> <span class="s">'sol'</span> <span class="ow">in</span> <span class="n">balance</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">balance</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="p">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s">"Invalid balance data for </span><span class="si">{</span><span class="n">wallet_address</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+                
+        <span class="k">except</span> <span class="n">requests</span><span class="p">.</span><span class="n">exceptions</span><span class="p">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Network error (attempt </span><span class="si">{</span><span class="n">attempt</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s">): </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Unexpected error (attempt </span><span class="si">{</span><span class="n">attempt</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s">): </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">attempt</span> <span class="o">&lt;</span> <span class="n">max_retries</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">attempt</span><span class="p">)</span>  <span class="c1"># Exponential backoff
+</span>    
+    <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Failed to get balance after </span><span class="si">{</span><span class="n">max_retries</span><span class="si">}</span><span class="s"> attempts"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c1"># Usage
+</span><span class="n">client</span> <span class="o">=</span> <span class="n">AxiomTradeClient</span><span class="p">()</span>
+<span class="n">balance</span> <span class="o">=</span> <span class="n">robust_balance_query</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="s">"BJBgjyDZx5FSsyJf6bFKVXuJV7DZY9PCSMSi5d9tcEVh"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">balance</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"✅ Balance: </span><span class="si">{</span><span class="n">balance</span><span class="p">[</span><span class="s">'sol'</span><span class="p">]</span><span class="si">}</span><span class="s"> SOL"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"❌ Failed to retrieve balance"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="-next-steps">🎯 Next Steps</h2>
+
+<p>Master balance queries and ready for more advanced features?</p>
+
+<ol>
+  <li><strong><a href="/AxiomTradeAPI-py/websocket-guide.html">WebSocket Integration</a></strong> - Real-time balance monitoring</li>
+  <li><strong><a href="/AxiomTradeAPI-py/trading-bots.html">Trading Bot Development</a></strong> - Automated trading strategies</li>
+  <li><strong><a href="/AxiomTradeAPI-py/performance.html">Performance Optimization</a></strong> - Scale your monitoring system</li>
+</ol>
+
+<h2 id="-professional-portfolio-services">💼 Professional Portfolio Services</h2>
+
+<p>Need a custom portfolio monitoring solution or advanced trading system?</p>
+
+<p><a href="https://chipa.tech/product/create-your-bot/"><strong>Chipa.tech offers professional development services</strong></a>:</p>
+<ul>
+  <li>Custom portfolio trackers</li>
+  <li>Advanced analytics dashboards</li>
+  <li>Multi-exchange integration</li>
+  <li>Real-time alerting systems</li>
+</ul>
+
+<p><a href="https://chipa.tech/product/create-your-bot/"><strong>Get Your Custom Solution →</strong></a></p>
+
+<h2 id="-explore-our-tools">🛒 Explore Our Tools</h2>
+
+<p>Visit <a href="https://chipa.tech/shop/"><strong>Chipa.tech Shop</strong></a> for:</p>
+<ul>
+  <li>Pre-built portfolio trackers</li>
+  <li>Advanced monitoring tools</li>
+  <li>Trading bot templates</li>
+  <li>Professional support packages</li>
+</ul>
+
+<hr />
+
+<p><em>Balance queries guide by <a href="https://chipa.tech">Chipa.tech</a> - Your trusted partner for Solana wallet monitoring and trading automation</em></p>
+
+  </div>
+
+  <!-- Community Section -->
+  <section class="community-section">
+    <div class="community-card">
+      <h3>Need Help?</h3>
+      <p>Join the chipa.tech community for support and to share your trading strategies.</p>
+      <div class="community-links">
+        <a href="https://discord.gg/p7YyFqSmAz" class="btn btn-secondary" target="_blank">
+          <i class="fab fa-discord"></i>
+          Join Discord
+        </a>
+        <a href="https://chipa.tech" class="btn btn-outline" target="_blank">
+          <i class="fas fa-globe"></i>
+          Visit chipa.tech
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+          </div>
+
+          <!-- Article Footer -->
+          <footer class="article-footer">
+            <div class="footer-actions">
+              <a href="https://github.com/vigowalker/AxiomTradeAPI-py-1/edit/main/docs/balance-queries.md" class="edit-link" target="_blank">
+                <i class="fas fa-edit"></i>
+                Edit this page
+              </a>
+              
+              <div class="share-buttons">
+                <span class="share-label">Share:</span>
+                <a href="https://twitter.com/intent/tweet?text=Balance+Queries+API+-+AxiomTradeAPI&url=https://chipadevteam.github.io/AxiomTradeAPI-py/balance-queries.html" class="share-btn twitter" target="_blank">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://chipadevteam.github.io/AxiomTradeAPI-py/balance-queries.html" class="share-btn linkedin" target="_blank">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+              </div>
             </div>
+
+            <!-- Next/Previous Navigation -->
+            
+          </footer>
+        </article>
+      </div>
+    </div>
+  </main>
+</div>
+
         </div>
-    </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4 class="footer-title">AxiomTradeAPI</h4>
-                    <p class="footer-description">
-                        The most comprehensive Python library for Solana trading automation.
-                    </p>
-                    <div class="footer-social">
-                        <a href="https://github.com/vigowalker/AxiomTradeAPI-py-1" class="social-link" target="_blank">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://discord.gg/p7YyFqSmAz" class="social-link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h4 class="footer-title">Documentation</h4>
-                    <ul class="footer-links">
-                        <li><a href="/AxiomTradeAPI-py/installation">Installation</a></li>
-                        <li><a href="/AxiomTradeAPI-py/authentication">Authentication</a></li>
-                        <li><a href="/AxiomTradeAPI-py/trading-bots">Trading Bots</a></li>
-                        <li><a href="/AxiomTradeAPI-py/websocket-guide">WebSocket Guide</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4 class="footer-title">chipa.tech Services</h4>
-                    <ul class="footer-links">
-                        <li><a href="https://chipa.tech" target="_blank">Main Website</a></li>
-                        <li><a href="https://chipa.tech/shop" target="_blank">Trading Tools Shop</a></li>
-                        <li><a href="https://chipa.tech/product/create-your-bot" target="_blank">Custom Bot Development</a></li>
-                        <li><a href="https://chipa.tech/consulting" target="_blank">Trading Consulting</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4 class="footer-title">Support</h4>
-                    <ul class="footer-links">
-                        <li><a href="/AxiomTradeAPI-py/troubleshooting">Troubleshooting</a></li>
-                        <li><a href="mailto:support@chipa.tech">Email Support</a></li>
-                        <li><a href="https://discord.gg/p7YyFqSmAz" target="_blank">Discord Community</a></li>
-                    </ul>
-                </div>
+    <!-- AxiomTradeAPI Documentation Footer Component -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <!-- Main footer sections -->
+      <div class="footer-sections">
+        <div class="footer-section">
+          <h3 class="footer-title">AxiomTradeAPI</h3>
+          <p class="footer-description">
+            The most comprehensive Python library for building profitable Solana trading bots. 
+            Used by successful traders on <a href="https://chipa.tech" class="chipa-link">chipa.tech</a>.
+          </p>
+          <div class="footer-stats">
+            <div class="stat-item">
+              <span class="stat-number">99.9%</span>
+              <span class="stat-label">Uptime</span>
             </div>
-            
-            <div class="footer-bottom">
-                <div class="footer-copyright">
-                    <p>&copy; 2025 <a href="https://chipa.tech" target="_blank">Chipa Tech</a>. All rights reserved.</p>
-                </div>
-                <div class="footer-legal">
-                    <a href="/AxiomTradeAPI-py/privacy">Privacy Policy</a>
-                    <a href="/AxiomTradeAPI-py/terms">Terms of Service</a>
-                </div>
+            <div class="stat-item">
+              <span class="stat-number">&lt;50ms</span>
+              <span class="stat-label">Latency</span>
             </div>
+            <div class="stat-item">
+              <span class="stat-number">24/7</span>
+              <span class="stat-label">Support</span>
+            </div>
+          </div>
         </div>
-    </footer>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">Getting Started</h4>
+          <ul class="footer-links">
+            <li><a href="/AxiomTradeAPI-py/installation">Installation</a></li>
+            <li><a href="/AxiomTradeAPI-py/authentication">Authentication</a></li>
+            <li><a href="/AxiomTradeAPI-py/trading-bots">First Trading Bot</a></li>
+            <li><a href="/AxiomTradeAPI-py/websocket-guide">WebSocket Setup</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">Features</h4>
+          <ul class="footer-links">
+            <li><a href="/AxiomTradeAPI-py/balance-queries">Balance Queries</a></li>
+            <li><a href="/AxiomTradeAPI-py/performance">Performance</a></li>
+            <li><a href="/AxiomTradeAPI-py/security">Security</a></li>
+            <li><a href="/AxiomTradeAPI-py/error-handling">Error Handling</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="/AxiomTradeAPI-py/api-reference">API Reference</a></li>
+            <li><a href="/AxiomTradeAPI-py/examples">Code Examples</a></li>
+            <li><a href="https://github.com/vigowalker/AxiomTradeAPI-py-1" target="_blank">GitHub Repository</a></li>
+            <li><a href="https://chipa.tech" target="_blank">chipa.tech Platform</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">Community</h4>
+          <ul class="footer-links">
+            <li><a href="https://discord.gg/p7YyFqSmAz" target="_blank">Discord Community</a></li>
+            <li><a href="https://chipa.tech/shop" target="_blank">chipa.tech Shop</a></li>
+            <li><a href="https://chipa.tech/product/create-your-bot" target="_blank">Custom Bot Development</a></li>
+            <li><a href="mailto:support@chipa.tech">Support Email</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Newsletter signup -->
+      <div class="footer-newsletter">
+        <div class="newsletter-content">
+          <h3>Stay Updated</h3>
+          <p>Get the latest trading strategies and API updates from the chipa.tech community.</p>
+          <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+            <input type="email" placeholder="Enter your email" class="newsletter-input" required>
+            <button type="submit" class="newsletter-btn">
+              <i class="fas fa-paper-plane"></i>
+              Subscribe
+            </button>
+          </form>
+          <p class="newsletter-disclaimer">
+            We respect your privacy. Unsubscribe at any time. 
+            <a href="https://chipa.tech/privacy" target="_blank">Privacy Policy</a>
+          </p>
+        </div>
+      </div>
+      
+      <!-- Social links -->
+      <div class="footer-social">
+        <h4>Connect with chipa.tech</h4>
+        <div class="social-links">
+          <a href="https://discord.gg/p7YyFqSmAz" target="_blank" aria-label="Join Discord">
+            <i class="fab fa-discord"></i>
+          </a>
+          <a href="https://twitter.com/chipatech" target="_blank" aria-label="Follow on Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://github.com/vigowalker" target="_blank" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://chipa.tech" target="_blank" aria-label="Visit chipa.tech">
+            <i class="fas fa-globe"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bottom footer -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <div class="footer-left">
+          <p>&copy; 2025 <a href="https://chipa.tech" class="chipa-link">chipa.tech</a>. All rights reserved.</p>
+          <p class="footer-note">
+            Built with ❤️ for the Solana trading community. 
+            Powered by <a href="https://pages.github.com" target="_blank">GitHub Pages</a>.
+          </p>
+        </div>
+        
+        <div class="footer-right">
+          <div class="footer-links-inline">
+            <a href="https://chipa.tech/privacy" target="_blank">Privacy Policy</a>
+            <a href="https://chipa.tech/terms" target="_blank">Terms of Service</a>
+            <a href="/AxiomTradeAPI-py/sitemap.xml" target="_blank">Sitemap</a>
+          </div>
+          
+          <!-- Performance indicator -->
+          <div class="performance-indicator" id="performance-indicator">
+            <span class="performance-label">Load time:</span>
+            <span class="performance-value" id="load-time">--ms</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Back to top button -->
+  <button class="back-to-top" id="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+</footer>
+
+<style>
+/* Footer styles */
+.site-footer {
+  background: var(--dark-bg-secondary);
+  color: var(--dark-text-secondary);
+  margin-top: 4rem;
+}
+
+.footer-content {
+  padding: 3rem 0;
+}
+
+.footer-sections {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.footer-section {
+  /* Individual section styles */
+}
+
+.footer-title {
+  color: var(--dark-text-primary);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-title::before {
+  content: '🤖';
+  font-size: 1.25rem;
+}
+
+.footer-description {
+  color: var(--dark-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.footer-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--chipa-primary);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
+}
+
+.footer-section-title {
+  color: var(--dark-text-primary);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  color: var(--dark-text-secondary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+  font-size: 0.875rem;
+}
+
+.footer-links a:hover {
+  color: var(--chipa-primary);
+}
+
+/* Newsletter section */
+.footer-newsletter {
+  background: linear-gradient(135deg, var(--chipa-primary), var(--chipa-secondary));
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.newsletter-content h3 {
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.newsletter-content p {
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 400px;
+  margin: 0 auto 1rem;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.newsletter-input:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.newsletter-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.newsletter-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.newsletter-disclaimer {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.newsletter-disclaimer a {
+  color: white;
+  text-decoration: underline;
+}
+
+/* Social links */
+.footer-social {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.footer-social h4 {
+  color: var(--dark-text-primary);
+  margin-bottom: 1rem;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--chipa-primary);
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.social-links a:hover {
+  background: var(--chipa-secondary);
+  transform: translateY(-2px);
+}
+
+/* Bottom footer */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 0;
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-left p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--dark-text-secondary);
+}
+
+.footer-note {
+  opacity: 0.7;
+  font-size: 0.75rem !important;
+  margin-top: 0.25rem !important;
+}
+
+.footer-links-inline {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-links-inline a {
+  color: var(--dark-text-secondary);
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: var(--transition-fast);
+}
+
+.footer-links-inline a:hover {
+  color: var(--chipa-primary);
+}
+
+.performance-indicator {
+  font-size: 0.75rem;
+  color: var(--dark-text-secondary);
+  opacity: 0.7;
+}
+
+.performance-value {
+  font-family: var(--font-family-mono);
+  color: var(--chipa-primary);
+}
+
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  width: 50px;
+  height: 50px;
+  background: var(--chipa-primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-lg);
+  z-index: 999;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background: var(--chipa-secondary);
+  transform: translateY(-2px);
+}
+
+/* Chipa link styling */
+.chipa-link {
+  color: var(--chipa-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.chipa-link:hover {
+  color: var(--chipa-secondary);
+  text-decoration: underline;
+}
+
+/* Mobile responsive */
+@media (max-width: 968px) {
+  .footer-sections {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  
+  .footer-section:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-sections {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-stats {
+    justify-content: center;
+  }
+  
+  .newsletter-form {
+    flex-direction: column;
+  }
+  
+  .social-links {
+    flex-wrap: wrap;
+  }
+  
+  .footer-bottom-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .footer-links-inline {
+    justify-content: center;
+  }
+  
+  .back-to-top {
+    bottom: 1rem;
+    left: 1rem;
+    width: 44px;
+    height: 44px;
+  }
+}
+</style>
+
+<script>
+// Newsletter subscription
+function subscribeNewsletter(event) {
+  event.preventDefault();
+  const email = event.target.querySelector('input[type="email"]').value;
+  
+  // In a real implementation, this would send to your backend
+  console.log('Newsletter subscription:', email);
+  
+  // Send to analytics
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'newsletter_signup', {
+      'email': email
+    });
+  }
+  
+  // Show success message
+  const form = event.target;
+  const originalHTML = form.innerHTML;
+  
+  form.innerHTML = `
+    <div class="newsletter-success">
+      <i class="fas fa-check-circle"></i>
+      <span>Thank you for subscribing!</span>
+    </div>
+  `;
+  
+  // Reset form after 3 seconds
+  setTimeout(() => {
+    form.innerHTML = originalHTML;
+  }, 3000);
+}
+
+// Back to top functionality
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+// Show/hide back to top button
+window.addEventListener('scroll', function() {
+  const backToTop = document.getElementById('back-to-top');
+  if (window.pageYOffset > 300) {
+    backToTop.classList.add('visible');
+  } else {
+    backToTop.classList.remove('visible');
+  }
+});
+
+// Performance monitoring
+window.addEventListener('load', function() {
+  setTimeout(() => {
+    if ('performance' in window) {
+      const perfData = performance.getEntriesByType('navigation')[0];
+      const loadTime = Math.round(perfData.loadEventEnd - perfData.fetchStart);
+      
+      const loadTimeElement = document.getElementById('load-time');
+      if (loadTimeElement) {
+        loadTimeElement.textContent = loadTime + 'ms';
+        
+        // Color code based on performance
+        if (loadTime < 1000) {
+          loadTimeElement.style.color = 'var(--success-color)';
+        } else if (loadTime < 3000) {
+          loadTimeElement.style.color = 'var(--accent-color)';
+        } else {
+          loadTimeElement.style.color = 'var(--danger-color)';
+        }
+      }
+    }
+  }, 1000);
+});
+</script>
+
 
     <!-- JavaScript -->
     <script src="/AxiomTradeAPI-py/assets/js/main.js"></script>
-    
-    <!-- Google Analytics (replace with your tracking ID) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'GA_TRACKING_ID');
-    </script>
 </body>
 </html>

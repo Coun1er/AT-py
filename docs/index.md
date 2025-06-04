@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: home
 title: "AxiomTradeAPI - Python SDK for Solana Trading Bots"
 description: "Complete Python SDK for building professional Solana trading bots. Real-time WebSocket data, portfolio management, and automated trading strategies."
 keywords: "solana trading bot, python sdk, axiom trade, cryptocurrency automation, trading api"

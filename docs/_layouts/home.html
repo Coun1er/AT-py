@@ -1,0 +1,302 @@
+---
+layout: default
+---
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Build <span class="gradient-text">Profitable</span> Solana Trading Bots
+                </h1>
+                <p class="hero-description">
+                    The most comprehensive Python library for Solana trading automation. 
+                    Real-time WebSocket data, advanced portfolio management, and proven strategies 
+                    used by successful traders on <a href="https://chipa.tech" class="chipa-link">chipa.tech</a>.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">&lt;50ms</div>
+                        <div class="stat-label">Latency</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Support</div>
+                    </div>
+                </div>
+                
+                <div class="hero-actions">
+                    <a href="{{ site.baseurl }}/installation" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Get Started Free
+                    </a>
+                    <a href="https://chipa.tech/product/create-your-bot" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-cogs"></i>
+                        Custom Bot Development
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-code">
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-buttons">
+                            <span class="code-button red"></span>
+                            <span class="code-button yellow"></span>
+                            <span class="code-button green"></span>
+                        </div>
+                        <div class="code-title">trading_bot.py</div>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-python"># Install with pip
+pip install axiomtradeapi
+
+# Import the library
+from axiomtradeapi import AxiomTradeClient
+
+# Initialize client
+client = AxiomTradeClient(auth_token="your_token")
+
+# Get wallet balance
+balance = client.GetBalance("wallet_address")
+print(f"SOL: {balance['sol']}")
+
+# Subscribe to new tokens
+async def new_token_alert(token):
+    print(f"🚀 New token: {token['name']}")
+    
+client.subscribe_new_tokens(new_token_alert)
+client.start()</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Why Professional Traders Choose AxiomTradeAPI</h2>
+            <p class="section-subtitle">
+                Built for production trading environments with enterprise-grade reliability and performance
+            </p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">Lightning Fast WebSocket</h3>
+                <p class="feature-description">
+                    Real-time market data with &lt;50ms latency. Get instant notifications for new token pairs, 
+                    price movements, and trading opportunities before your competition.
+                </p>
+                <div class="feature-tech">
+                    <span class="tech-tag">WebSocket</span>
+                    <span class="tech-tag">Real-time</span>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Enterprise Security</h3>
+                <p class="feature-description">
+                    Bank-grade encryption, secure API key management, and comprehensive audit logs. 
+                    Your trading strategies and funds stay protected at all times.
+                </p>
+                <div class="feature-tech">
+                    <span class="tech-tag">AES-256</span>
+                    <span class="tech-tag">OAuth 2.0</span>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="feature-title">Smart Portfolio Management</h3>
+                <p class="feature-description">
+                    Advanced portfolio tracking, risk management tools, and automated rebalancing. 
+                    Optimize your positions across multiple tokens and strategies.
+                </p>
+                <div class="feature-tech">
+                    <span class="tech-tag">Auto-Balance</span>
+                    <span class="tech-tag">Risk Analysis</span>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="feature-title">Developer-First API</h3>
+                <p class="feature-description">
+                    Pythonic interface, comprehensive documentation, and extensive examples. 
+                    Get your trading bot from idea to production in minutes, not hours.
+                </p>
+                <div class="feature-tech">
+                    <span class="tech-tag">Python 3.8+</span>
+                    <span class="tech-tag">Async/Await</span>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="feature-title">Advanced Analytics</h3>
+                <p class="feature-description">
+                    Built-in performance metrics, profit/loss tracking, and detailed trading analytics. 
+                    Make data-driven decisions to improve your strategies.
+                </p>
+                <div class="feature-tech">
+                    <span class="tech-tag">Metrics</span>
+                    <span class="tech-tag">Analytics</span>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="feature-title">Expert Support</h3>
+                <p class="feature-description">
+                    24/7 technical support from the chipa.tech team. Get help with implementation, 
+                    optimization, and scaling your trading operations.
+                </p>
+                <div class="feature-tech">
+                    <span class="tech-tag">24/7 Support</span>
+                    <span class="tech-tag">Expert Team</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Social Proof Section -->
+<section class="social-proof-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Trusted by Trading Professionals</h2>
+            <p class="section-subtitle">
+                Join thousands of successful traders using AxiomTradeAPI for automated Solana trading
+            </p>
+        </div>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "AxiomTradeAPI transformed our trading operation. The WebSocket feeds are incredibly fast, 
+                        and the Python interface is intuitive. We've seen a 300% increase in profitable trades."
+                    </p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-info">
+                        <div class="author-name">Sarah Chen</div>
+                        <div class="author-title">Quantitative Trader, DeFi Capital</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "The documentation is excellent and the support team is amazing. We went from concept 
+                        to production trading bot in just 2 days. ROI was immediate."
+                    </p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-info">
+                        <div class="author-name">Michael Rodriguez</div>
+                        <div class="author-title">Senior Developer, Crypto Automation LLC</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "Finally, a Solana trading API that actually works as advertised. The reliability 
+                        is unmatched, and the performance metrics help us optimize our strategies."
+                    </p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-info">
+                        <div class="author-name">Alex Thompson</div>
+                        <div class="author-title">Founder, Thompson Trading Systems</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-banner">
+            <div class="stat-item">
+                <div class="stat-value">$50M+</div>
+                <div class="stat-label">Volume Traded Daily</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">10,000+</div>
+                <div class="stat-label">Active Developers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">99.99%</div>
+                <div class="stat-label">API Uptime</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">150+</div>
+                <div class="stat-label">Trading Firms</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="cta-title">Start Building Your Trading Empire Today</h2>
+            <p class="cta-description">
+                Join the most advanced Solana trading community. Get access to institutional-grade tools, 
+                expert support, and proven strategies that generate consistent profits.
+            </p>
+            
+            <div class="cta-actions">
+                <a href="{{ site.baseurl }}/installation" class="btn btn-primary btn-large">
+                    <i class="fas fa-rocket"></i>
+                    Start Free Trial
+                </a>
+                <a href="https://chipa.tech/product/create-your-bot" class="btn btn-outline btn-large" target="_blank">
+                    <i class="fas fa-calendar"></i>
+                    Schedule Demo
+                </a>
+            </div>
+            
+            <div class="cta-note">
+                <i class="fas fa-shield-alt"></i>
+                No credit card required • 30-day money-back guarantee • Cancel anytime
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Page Content -->
+<main class="main-content">
+    <div class="container">
+        {{ content }}
+    </div>
+</main>

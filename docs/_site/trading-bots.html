@@ -26,9 +26,6 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://chipadevteam.github.io/AxiomTradeAPI-py/trading-bots.html">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/AxiomTradeAPI-py/assets/images/favicon.ico">
-    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/AxiomTradeAPI-py/assets/css/custom.css">
     
@@ -37,408 +34,2863 @@
     
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "AxiomTradeAPI",
-        "description": "Comprehensive guide to building profitable Solana trading bots using the AxiomTradeAPI Python library. Learn advanced strategies, real-time monitoring, and automated trading techniques.",
-        "url": "https://chipadevteam.github.io/AxiomTradeAPI-py",
-        "author": {
-            "@type": "Organization",
-            "name": "Chipa Tech",
-            "url": "https://chipa.tech"
-        },
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "operatingSystem": "Cross-platform",
-        "programmingLanguage": "Python"
-    }
-    </script>
 </head>
 
 <body class="axiom-docs">
     <!-- Header -->
-    <header class="site-header">
+    <!-- AxiomTradeAPI Documentation Header Component -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo-section">
+        <a href="/AxiomTradeAPI-py/" class="logo-link">
+          <h1 class="site-title">
+            <i class="fas fa-robot"></i>
+            AxiomTradeAPI
+          </h1>
+        </a>
+        <p class="site-tagline">Professional Solana Trading Bot Library</p>
+      </div>
+      
+      <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="/AxiomTradeAPI-py/" class="nav-link ">Home</a></li>
+          <li><a href="/AxiomTradeAPI-py/installation" class="nav-link ">Quick Start</a></li>
+          <li><a href="/AxiomTradeAPI-py/trading-bots" class="nav-link active">Trading Bots</a></li>
+          <li><a href="/AxiomTradeAPI-py/websocket-guide" class="nav-link ">WebSocket</a></li>
+          <li><a href="/AxiomTradeAPI-py/api-reference" class="nav-link ">API</a></li>
+          <li>
+            <a href="https://chipa.tech" class="nav-link external" target="_blank" rel="noopener">
+              chipa.tech <i class="fas fa-external-link-alt"></i>
+            </a>
+          </li>
+        </ul>
+        
+        <!-- Mobile menu toggle -->
+        <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </nav>
+      
+      <!-- Search toggle -->
+      <button class="search-toggle" onclick="toggleSearch()" aria-label="Open search">
+        <i class="fas fa-search"></i>
+      </button>
+      
+      <!-- Theme toggle -->
+      <button class="theme-toggle-header" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+    
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobile-menu">
+      <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
+        <a href="/AxiomTradeAPI-py/" class="mobile-nav-link">Home</a>
+        <a href="/AxiomTradeAPI-py/installation" class="mobile-nav-link">Quick Start</a>
+        <a href="/AxiomTradeAPI-py/trading-bots" class="mobile-nav-link">Trading Bots</a>
+        <a href="/AxiomTradeAPI-py/websocket-guide" class="mobile-nav-link">WebSocket</a>
+        <a href="/AxiomTradeAPI-py/api-reference" class="mobile-nav-link">API Reference</a>
+        <a href="https://chipa.tech" class="mobile-nav-link external" target="_blank">chipa.tech</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="search-overlay">
+  <div class="search-container">
+    <div class="search-header">
+      <h3>Search Documentation</h3>
+      <button class="search-close" onclick="toggleSearch()" aria-label="Close search">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <input type="text" class="search-input" id="global-search" placeholder="Search for guides, API methods, examples...">
+    <div class="search-results" id="global-search-results"></div>
+    <div class="search-shortcuts">
+      <div class="shortcut-section">
+        <h4>Quick Links</h4>
+        <a href="/AxiomTradeAPI-py/installation" class="search-shortcut">
+          <i class="fas fa-download"></i>
+          Installation
+        </a>
+        <a href="/AxiomTradeAPI-py/trading-bots" class="search-shortcut">
+          <i class="fas fa-robot"></i>
+          Trading Bots
+        </a>
+        <a href="/AxiomTradeAPI-py/websocket-guide" class="search-shortcut">
+          <i class="fas fa-stream"></i>
+          WebSocket
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Header styles */
+.site-header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.site-title {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.site-tagline {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-fast);
+  padding: 0.5rem 0;
+  position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-color);
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-color);
+}
+
+.nav-link.external {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.search-toggle,
+.theme-toggle-header {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+}
+
+.search-toggle:hover,
+.theme-toggle-header:hover {
+  background: var(--bg-secondary);
+  color: var(--primary-color);
+}
+
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  gap: 3px;
+}
+
+.hamburger-line {
+  width: 20px;
+  height: 2px;
+  background: var(--text-primary);
+  transition: var(--transition-fast);
+}
+
+.mobile-menu {
+  display: none;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-light);
+  padding: 1rem 0;
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mobile-nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+}
+
+.mobile-nav-link:hover {
+  background: var(--bg-primary);
+  color: var(--primary-color);
+}
+
+/* Search overlay styles */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: none;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.search-overlay.active {
+  display: flex;
+  opacity: 1;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 5vh;
+}
+
+.search-container {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+}
+
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-header h3 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.search-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+}
+
+.search-close:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.search-shortcuts {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.shortcut-section h4 {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.search-shortcut {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+  margin-bottom: 0.5rem;
+}
+
+.search-shortcut:hover {
+  background: var(--bg-secondary);
+  color: var(--primary-color);
+}
+
+.search-shortcut i {
+  color: var(--primary-color);
+  width: 16px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .main-nav .nav-list {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .mobile-menu.active {
+    display: block;
+  }
+  
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+  
+  .header-content {
+    flex-wrap: wrap;
+  }
+  
+  .search-container {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}
+</style>
+
+<script>
+function toggleSearch() {
+  const overlay = document.getElementById('search-overlay');
+  const searchInput = document.getElementById('global-search');
+  
+  if (overlay.classList.contains('active')) {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  } else {
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => searchInput.focus(), 100);
+  }
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  // Update theme toggle icons
+  const headerToggle = document.querySelector('.theme-toggle-header i');
+  const footerToggle = document.querySelector('.theme-toggle i');
+  
+  const newIcon = newTheme === 'dark' ? 'fa-sun' : 'fa-moon';
+  
+  if (headerToggle) headerToggle.className = `fas ${newIcon}`;
+  if (footerToggle) footerToggle.className = `fas ${newIcon}`;
+}
+
+// Close search with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const overlay = document.getElementById('search-overlay');
+    if (overlay.classList.contains('active')) {
+      toggleSearch();
+    }
+  }
+});
+
+// Close search when clicking outside
+document.getElementById('search-overlay').addEventListener('click', function(e) {
+  if (e.target === this) {
+    toggleSearch();
+  }
+});
+</script>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
         <div class="container">
-            <div class="header-content">
-                <div class="logo-section">
-                    <h1 class="site-title">
-                        <i class="fas fa-robot"></i>
-                        AxiomTradeAPI
-                    </h1>
-                    <p class="site-tagline">Professional Solana Trading Bot Library</p>
-                </div>
-                
-                <nav class="main-nav">
-                    <a href="/AxiomTradeAPI-py/" class="nav-link active">Home</a>
-                    <a href="/AxiomTradeAPI-py/installation" class="nav-link">Quick Start</a>
-                    <a href="/AxiomTradeAPI-py/trading-bots" class="nav-link">Trading Bots</a>
-                    <a href="/AxiomTradeAPI-py/websocket-guide" class="nav-link">WebSocket</a>
-                    <a href="https://chipa.tech" class="nav-link external" target="_blank">
-                        chipa.tech <i class="fas fa-external-link-alt"></i>
-                    </a>
-                </nav>
+            <div class="page-wrapper">
+  <!-- Breadcrumb Navigation -->
+  <nav class="breadcrumb-nav">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/AxiomTradeAPI-py/">Home</a></li>
+        
+        <li class="active">Building Advanced Trading Bots with AxiomTradeAPI</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="page-content">
+    <div class="container">
+      <div class="content-grid">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <div class="sidebar-content">
+            <div class="sidebar-section">
+              <h3>Getting Started</h3>
+              <ul class="sidebar-nav">
+                <li><a href="/AxiomTradeAPI-py/installation">Installation</a></li>
+                <li><a href="/AxiomTradeAPI-py/authentication">Authentication</a></li>
+                <li><a href="/AxiomTradeAPI-py/quickstart">Quick Start</a></li>
+              </ul>
             </div>
-        </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        Build <span class="gradient-text">Profitable</span> Solana Trading Bots
-                    </h1>
-                    <p class="hero-description">
-                        The most comprehensive Python library for Solana trading automation. 
-                        Real-time WebSocket data, advanced portfolio management, and proven strategies 
-                        used by successful traders on <a href="https://chipa.tech" class="chipa-link">chipa.tech</a>.
-                    </p>
-                    
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <div class="stat-number">99.9%</div>
-                            <div class="stat-label">Uptime</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">&lt;50ms</div>
-                            <div class="stat-label">Latency</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">24/7</div>
-                            <div class="stat-label">Support</div>
-                        </div>
-                    </div>
-                    
-                    <div class="hero-actions">
-                        <a href="/AxiomTradeAPI-py/installation" class="btn btn-primary">
-                            <i class="fas fa-rocket"></i>
-                            Get Started Free
-                        </a>
-                        <a href="https://chipa.tech/product/create-your-bot" class="btn btn-secondary" target="_blank">
-                            <i class="fas fa-cogs"></i>
-                            Custom Bot Development
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="hero-code">
-                    <div class="code-window">
-                        <div class="code-header">
-                            <div class="code-buttons">
-                                <span class="code-button red"></span>
-                                <span class="code-button yellow"></span>
-                                <span class="code-button green"></span>
-                            </div>
-                            <div class="code-title">trading_bot.py</div>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-python"># Install with pip
-pip install axiomtradeapi
-
-# Import the library
-from axiomtradeapi import AxiomTradeClient
-
-# Initialize client
-client = AxiomTradeClient(auth_token="your_token")
-
-# Get real-time balance
-balance = await client.GetBalance("wallet_address")
-print(f"Balance: {balance['sol']} SOL")
-
-# Subscribe to new token launches
-async def handle_new_tokens(tokens):
-    for token in tokens:
-        print(f"🚀 New token: {token['tokenName']}")
-        # Your trading logic here
-
-await client.subscribe_new_tokens(handle_new_tokens)</code></pre>
-                        </div>
-                    </div>
-                </div>
+            <div class="sidebar-section">
+              <h3>Core Features</h3>
+              <ul class="sidebar-nav">
+                <li><a href="/AxiomTradeAPI-py/balance-queries">Balance Queries</a></li>
+                <li><a href="/AxiomTradeAPI-py/websocket-guide">WebSocket Streaming</a></li>
+                <li><a href="/AxiomTradeAPI-py/error-handling">Error Handling</a></li>
+              </ul>
             </div>
-        </div>
-    </section>
 
-    <!-- Features Section -->
-    <section class="features-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Why Choose AxiomTradeAPI?</h2>
-                <p class="section-description">
-                    Built by traders, for traders. Used by the most successful Solana trading community on 
-                    <a href="https://chipa.tech" class="chipa-link">chipa.tech</a>.
-                </p>
+            <div class="sidebar-section">
+              <h3>Advanced Trading</h3>
+              <ul class="sidebar-nav">
+                <li><a href="/AxiomTradeAPI-py/trading-bots">Trading Bots</a></li>
+                <li><a href="/AxiomTradeAPI-py/market-making">Market Making</a></li>
+                <li><a href="/AxiomTradeAPI-py/risk-management">Risk Management</a></li>
+              </ul>
             </div>
+
+            <div class="sidebar-section">
+              <h3>Resources</h3>
+              <ul class="sidebar-nav">
+                <li><a href="/AxiomTradeAPI-py/api-reference">API Reference</a></li>
+                <li><a href="/AxiomTradeAPI-py/examples">Examples</a></li>
+                <li><a href="https://chipa.tech" target="_blank">chipa.tech Services</a></li>
+              </ul>
+            </div>
+
+            <!-- Promotional Section -->
+            <div class="sidebar-promo">
+              <div class="promo-card">
+                <h4>Need Custom Development?</h4>
+                <p>Get professional trading bot development services from the chipa.tech team.</p>
+                <a href="https://chipa.tech/product/create-your-bot" class="btn btn-primary btn-sm" target="_blank">
+                  Get Started
+                </a>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Article Content -->
+        <article class="main-content">
+          <header class="article-header">
+            <h1 class="article-title">Building Advanced Trading Bots with AxiomTradeAPI</h1>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 class="feature-title">Ultra-Low Latency</h3>
-                    <p class="feature-description">
-                        Direct connection to Solana validators with &lt;50ms response times. 
-                        Perfect for high-frequency trading and arbitrage opportunities.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-stream"></i>
-                    </div>
-                    <h3 class="feature-title">Real-time WebSocket Data</h3>
-                    <p class="feature-description">
-                        Subscribe to new token launches, price updates, and market events 
-                        in real-time. Never miss a trading opportunity again.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="feature-title">Enterprise Security</h3>
-                    <p class="feature-description">
-                        Bank-grade security with encrypted API calls, secure authentication, 
-                        and comprehensive error handling for production trading.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3 class="feature-title">Advanced Portfolio Management</h3>
-                    <p class="feature-description">
-                        Track multiple wallets, monitor P&L in real-time, and implement 
-                        sophisticated risk management strategies.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3 class="feature-title">Developer-Friendly</h3>
-                    <p class="feature-description">
-                        Clean Python API, comprehensive documentation, and extensive 
-                        examples to get you trading in minutes, not hours.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="feature-title">Community Support</h3>
-                    <p class="feature-description">
-                        Join the <a href="https://chipa.tech" class="chipa-link">chipa.tech community</a> 
-                        of successful traders sharing strategies and insights.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trading Strategies Section -->
-    <section class="strategies-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Proven Trading Strategies</h2>
-                <p class="section-description">
-                    Implement battle-tested strategies used by profitable traders on 
-                    <a href="https://chipa.tech" class="chipa-link">chipa.tech</a>.
-                </p>
-            </div>
+            <p class="article-description">Comprehensive guide to building profitable Solana trading bots using the AxiomTradeAPI Python library. Learn advanced strategies, real-time monitoring, and automated trading techniques.</p>
             
-            <div class="strategies-grid">
-                <div class="strategy-card">
-                    <div class="strategy-header">
-                        <h3 class="strategy-title">
-                            <i class="fas fa-crosshairs"></i>
-                            Token Sniping
-                        </h3>
-                        <span class="strategy-difficulty">Advanced</span>
-                    </div>
-                    <p class="strategy-description">
-                        Identify and purchase newly launched tokens before they gain widespread attention. 
-                        High-speed execution with millisecond precision.
-                    </p>
-                    <div class="strategy-features">
-                        <span class="strategy-feature">Smart contract analysis</span>
-                        <span class="strategy-feature">Liquidity verification</span>
-                        <span class="strategy-feature">Risk scoring</span>
-                    </div>
-                    <a href="/AxiomTradeAPI-py/trading-bots#token-sniping" class="strategy-link">
-                        Learn More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-                
-                <div class="strategy-card">
-                    <div class="strategy-header">
-                        <h3 class="strategy-title">
-                            <i class="fas fa-balance-scale"></i>
-                            Market Making
-                        </h3>
-                        <span class="strategy-difficulty">Intermediate</span>
-                    </div>
-                    <p class="strategy-description">
-                        Provide liquidity to markets by placing buy and sell orders around current prices. 
-                        Earn consistent profits from bid-ask spreads.
-                    </p>
-                    <div class="strategy-features">
-                        <span class="strategy-feature">Dynamic spread adjustment</span>
-                        <span class="strategy-feature">Inventory management</span>
-                        <span class="strategy-feature">Multi-pair support</span>
-                    </div>
-                    <a href="/AxiomTradeAPI-py/trading-bots#market-making" class="strategy-link">
-                        Learn More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-                
-                <div class="strategy-card">
-                    <div class="strategy-header">
-                        <h3 class="strategy-title">
-                            <i class="fas fa-exchange-alt"></i>
-                            Arbitrage
-                        </h3>
-                        <span class="strategy-difficulty">Expert</span>
-                    </div>
-                    <p class="strategy-description">
-                        Exploit price differences across DEXs for risk-free profits. 
-                        Automated detection and execution of arbitrage opportunities.
-                    </p>
-                    <div class="strategy-features">
-                        <span class="strategy-feature">Cross-DEX monitoring</span>
-                        <span class="strategy-feature">Gas optimization</span>
-                        <span class="strategy-feature">MEV protection</span>
-                    </div>
-                    <a href="/AxiomTradeAPI-py/trading-bots#arbitrage" class="strategy-link">
-                        Learn More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+            
+            
+          </header>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2 class="cta-title">Ready to Start Trading?</h2>
-                <p class="cta-description">
-                    Join thousands of successful traders using AxiomTradeAPI. 
-                    Get started in minutes with our comprehensive documentation and examples.
-                </p>
+          <div class="article-content">
+            <div class="guide-wrapper">
+  <!-- Guide Header -->
+  <div class="guide-header">
+    
+    <div class="difficulty-badge advanced">
+      
+    </div>
+    
+    
+    <h1 class="guide-title">Building Advanced Trading Bots with AxiomTradeAPI</h1>
+    
+    
+    <p class="guide-description">Comprehensive guide to building profitable Solana trading bots using the AxiomTradeAPI Python library. Learn advanced strategies, real-time monitoring, and automated trading techniques.</p>
+    
+    
+    
+  </div>
+
+  <!-- Prerequisites -->
+  
+
+  <!-- Table of Contents -->
+  
+  <div class="table-of-contents">
+    <h3>Table of Contents</h3>
+    <div id="toc-content">
+      <!-- Will be populated by JavaScript -->
+    </div>
+  </div>
+  
+
+  <!-- Guide Content -->
+  <div class="guide-content">
+    <h1 id="building-advanced-trading-bots-with-axiomtradeapi">Building Advanced Trading Bots with AxiomTradeAPI</h1>
+
+<p><em>Comprehensive guide to building profitable Solana trading bots using the AxiomTradeAPI Python library. Learn advanced strategies, real-time monitoring, and automated trading techniques trusted by professional traders on chipa.tech.</em></p>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#introduction">Introduction to Automated Trading</a></li>
+  <li><a href="#architecture">Bot Architecture and Design Patterns</a></li>
+  <li><a href="#token-sniping">Token Sniping Bots</a></li>
+  <li><a href="#market-making">Market Making Strategies</a></li>
+  <li><a href="#arbitrage">Arbitrage Detection</a></li>
+  <li><a href="#risk-management">Risk Management</a></li>
+  <li><a href="#performance">Performance Optimization</a></li>
+  <li><a href="#deployment">Production Deployment</a></li>
+</ul>
+
+<h2 id="introduction">Introduction to Automated Trading</h2>
+
+<p>Building successful trading bots on Solana requires understanding market dynamics, technical analysis, and efficient API integration. The AxiomTradeAPI provides the foundation for creating sophisticated automated trading systems used by top traders featured on <a href="https://chipa.tech">chipa.tech</a>.</p>
+
+<h3 id="why-choose-axiomtradeapi-for-bot-development">Why Choose AxiomTradeAPI for Bot Development?</h3>
+
+<ul>
+  <li><strong>Ultra-Low Latency</strong>: Direct connection to Solana validators</li>
+  <li><strong>Real-time WebSocket Data</strong>: Instant price updates and token launches</li>
+  <li><strong>Advanced Portfolio Management</strong>: Comprehensive balance tracking across wallets</li>
+  <li><strong>Professional Grade Logging</strong>: Debug and monitor bot performance</li>
+  <li><strong>Proven Track Record</strong>: Trusted by successful traders on <a href="https://chipa.tech/trading">chipa.tech trading community</a></li>
+</ul>
+
+<h2 id="architecture">Bot Architecture and Design Patterns</h2>
+
+<h3 id="modular-bot-framework">Modular Bot Framework</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">axiomtradeapi</span> <span class="kn">import</span> <span class="n">AxiomTradeClient</span><span class="p">,</span> <span class="n">AxiomTradeWebSocketClient</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="o">@</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">TradingSignal</span><span class="p">:</span>
+    <span class="s">"""Trading signal with confidence score and metadata"""</span>
+    <span class="n">token_address</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">action</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># 'buy', 'sell', 'hold'
+</span>    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">price_target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">stop_loss</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">reasoning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">""</span>
+
+<span class="k">class</span> <span class="nc">BaseTradingBot</span><span class="p">:</span>
+    <span class="s">"""Base class for all trading bots with common functionality"""</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">AxiomTradeClient</span><span class="p">(</span><span class="n">auth_token</span><span class="o">=</span><span class="n">auth_token</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">ws_client</span> <span class="o">=</span> <span class="n">AxiomTradeWebSocketClient</span><span class="p">(</span><span class="n">auth_token</span><span class="o">=</span><span class="n">auth_token</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">wallet_address</span> <span class="o">=</span> <span class="n">wallet_address</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">is_running</span> <span class="o">=</span> <span class="bp">False</span>
+        
+        <span class="c1"># Configure advanced logging for production monitoring
+</span>        <span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span>
+            <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s">'%(asctime)s - %(name)s - %(levelname)s - %(message)s'</span><span class="p">,</span>
+            <span class="n">handlers</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">logging</span><span class="p">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="sa">f</span><span class="s">'bot_</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s">.log'</span><span class="p">),</span>
+                <span class="n">logging</span><span class="p">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="p">.</span><span class="n">getLogger</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">)</span>
+        
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Start the trading bot with WebSocket connections"""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">is_running</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"🚀 Starting trading bot - chipa.tech strategy"</span><span class="p">)</span>
+        
+        <span class="c1"># Connect to WebSocket for real-time data
+</span>        <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">ws_client</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+        
+        <span class="c1"># Start main trading loop
+</span>        <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">market_data_processor</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">trading_logic_loop</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">portfolio_monitor</span><span class="p">()</span>
+        <span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">market_data_processor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Process incoming market data and generate signals"""</span>
+        <span class="k">async</span> <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">ws_client</span><span class="p">.</span><span class="n">listen</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">process_market_data</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Error processing market data: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">process_market_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="s">"""Override in child classes for specific strategies"""</span>
+        <span class="k">raise</span> <span class="nb">NotImplementedError</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">trading_logic_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Main trading logic executed periodically"""</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="p">.</span><span class="n">is_running</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">signals</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">generate_signals</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">signal</span> <span class="ow">in</span> <span class="n">signals</span><span class="p">:</span>
+                    <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">execute_signal</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+                <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Adjust based on strategy
+</span>            <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Trading logic error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">generate_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">TradingSignal</span><span class="p">]:</span>
+        <span class="s">"""Generate trading signals - override in child classes"""</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">execute_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">:</span> <span class="n">TradingSignal</span><span class="p">):</span>
+        <span class="s">"""Execute trading signal with risk management"""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"Executing signal: </span><span class="si">{</span><span class="n">signal</span><span class="p">.</span><span class="n">action</span><span class="si">}</span><span class="s"> </span><span class="si">{</span><span class="n">signal</span><span class="p">.</span><span class="n">token_address</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="c1"># Implement execution logic with proper risk checks
+</span>    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">portfolio_monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Monitor portfolio performance and risk metrics"""</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="p">.</span><span class="n">is_running</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">balance</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">get_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">wallet_address</span><span class="p">)</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"Portfolio value: </span><span class="si">{</span><span class="n">balance</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'solBalance'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s"> SOL"</span><span class="p">)</span>
+                <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>  <span class="c1"># Update every 30 seconds
+</span>            <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Portfolio monitoring error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="token-sniping">Token Sniping Bots</h2>
+
+<p>Token sniping bots identify and purchase newly launched tokens before they gain widespread attention. This strategy requires ultra-fast execution and careful risk management.</p>
+
+<h3 id="advanced-token-sniping-implementation">Advanced Token Sniping Implementation</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">TokenSnipingBot</span><span class="p">(</span><span class="n">BaseTradingBot</span><span class="p">):</span>
+    <span class="s">"""
+    Advanced token sniping bot using AxiomTradeAPI
+    Strategies used by successful traders on chipa.tech
+    """</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="p">{</span>
+            <span class="s">'max_buy_amount'</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># SOL
+</span>            <span class="s">'min_liquidity'</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>   <span class="c1"># SOL
+</span>            <span class="s">'max_slippage'</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>   <span class="c1"># 5%
+</span>            <span class="s">'blacklisted_tokens'</span><span class="p">:</span> <span class="nb">set</span><span class="p">(),</span>
+            <span class="s">'target_profit'</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span>  <span class="c1"># 20%
+</span>            <span class="s">'stop_loss'</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.10</span><span class="p">,</span>     <span class="c1"># -10%
+</span>        <span class="p">}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">monitored_tokens</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">active_positions</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">process_market_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="s">"""Process new token launches and price updates"""</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'type'</span><span class="p">)</span> <span class="o">==</span> <span class="s">'new_token'</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">analyze_new_token</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'type'</span><span class="p">)</span> <span class="o">==</span> <span class="s">'price_update'</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">check_exit_conditions</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">analyze_new_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="s">"""Analyze newly launched token for sniping opportunity"""</span>
+        <span class="n">token_address</span> <span class="o">=</span> <span class="n">token_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'token_address'</span><span class="p">)</span>
+        
+        <span class="c1"># Skip blacklisted tokens
+</span>        <span class="k">if</span> <span class="n">token_address</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'blacklisted_tokens'</span><span class="p">]:</span>
+            <span class="k">return</span>
+        
+        <span class="c1"># Perform rapid analysis
+</span>        <span class="n">analysis</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">rapid_token_analysis</span><span class="p">(</span><span class="n">token_data</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">analysis</span><span class="p">[</span><span class="s">'snipe_score'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">:</span>  <span class="c1"># High confidence threshold
+</span>            <span class="n">signal</span> <span class="o">=</span> <span class="n">TradingSignal</span><span class="p">(</span>
+                <span class="n">token_address</span><span class="o">=</span><span class="n">token_address</span><span class="p">,</span>
+                <span class="n">action</span><span class="o">=</span><span class="s">'buy'</span><span class="p">,</span>
+                <span class="n">confidence</span><span class="o">=</span><span class="n">analysis</span><span class="p">[</span><span class="s">'snipe_score'</span><span class="p">],</span>
+                <span class="n">reasoning</span><span class="o">=</span><span class="sa">f</span><span class="s">"New token launch - Score: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s">'snipe_score'</span><span class="p">]</span><span class="si">}</span><span class="s">"</span>
+            <span class="p">)</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">execute_snipe_order</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">token_data</span><span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">rapid_token_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="s">"""Perform rapid analysis of new token (&lt; 1 second)"""</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">factors</span> <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="c1"># Liquidity check
+</span>        <span class="n">liquidity</span> <span class="o">=</span> <span class="n">token_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'liquidity'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">liquidity</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'min_liquidity'</span><span class="p">]:</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="mf">0.3</span>
+            <span class="n">factors</span><span class="p">[</span><span class="s">'liquidity'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'PASS'</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">factors</span><span class="p">[</span><span class="s">'liquidity'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'FAIL'</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">'snipe_score'</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s">'factors'</span><span class="p">:</span> <span class="n">factors</span><span class="p">}</span>
+        
+        <span class="c1"># Contract verification (if available)
+</span>        <span class="k">if</span> <span class="n">token_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'verified_contract'</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="mf">0.2</span>
+            <span class="n">factors</span><span class="p">[</span><span class="s">'contract'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'VERIFIED'</span>
+        
+        <span class="c1"># Creator reputation (if available)
+</span>        <span class="n">creator_score</span> <span class="o">=</span> <span class="n">token_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'creator_reputation'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">creator_score</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="mf">0.2</span>
+            <span class="n">factors</span><span class="p">[</span><span class="s">'creator'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'TRUSTED'</span>
+        
+        <span class="c1"># Social signals
+</span>        <span class="n">social_activity</span> <span class="o">=</span> <span class="n">token_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'social_activity'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">social_activity</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="mf">0.15</span>
+            <span class="n">factors</span><span class="p">[</span><span class="s">'social'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'ACTIVE'</span>
+        
+        <span class="c1"># Technical indicators
+</span>        <span class="k">if</span> <span class="n">token_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'initial_supply_locked'</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="mf">0.15</span>
+            <span class="n">factors</span><span class="p">[</span><span class="s">'supply_lock'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'LOCKED'</span>
+        
+        <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"Token analysis complete - Score: </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s"> - </span><span class="si">{</span><span class="n">factors</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">'snipe_score'</span><span class="p">:</span> <span class="n">score</span><span class="p">,</span> <span class="s">'factors'</span><span class="p">:</span> <span class="n">factors</span><span class="p">}</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">execute_snipe_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">:</span> <span class="n">TradingSignal</span><span class="p">,</span> <span class="n">token_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="s">"""Execute high-speed snipe order"""</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Calculate position size based on confidence
+</span>            <span class="n">position_size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'max_buy_amount'</span><span class="p">]</span> <span class="o">*</span> <span class="n">signal</span><span class="p">.</span><span class="n">confidence</span><span class="p">,</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'max_buy_amount'</span><span class="p">]</span>
+            <span class="p">)</span>
+            
+            <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"🎯 SNIPING: </span><span class="si">{</span><span class="n">signal</span><span class="p">.</span><span class="n">token_address</span><span class="si">}</span><span class="s"> - Size: </span><span class="si">{</span><span class="n">position_size</span><span class="si">}</span><span class="s"> SOL"</span><span class="p">)</span>
+            
+            <span class="c1"># Execute buy order (implement actual trading logic here)
+</span>            <span class="c1"># This would connect to your trading execution system
+</span>            
+            <span class="c1"># Track the position
+</span>            <span class="bp">self</span><span class="p">.</span><span class="n">active_positions</span><span class="p">[</span><span class="n">signal</span><span class="p">.</span><span class="n">token_address</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">'entry_price'</span><span class="p">:</span> <span class="n">token_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'price'</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="s">'size'</span><span class="p">:</span> <span class="n">position_size</span><span class="p">,</span>
+                <span class="s">'entry_time'</span><span class="p">:</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">time</span><span class="p">(),</span>
+                <span class="s">'target_profit'</span><span class="p">:</span> <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'target_profit'</span><span class="p">],</span>
+                <span class="s">'stop_loss'</span><span class="p">:</span> <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'stop_loss'</span><span class="p">]</span>
+            <span class="p">}</span>
+            
+            <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"✅ Snipe executed successfully - </span><span class="si">{</span><span class="n">signal</span><span class="p">.</span><span class="n">token_address</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"❌ Snipe execution failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">check_exit_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">price_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="s">"""Check if we should exit any active positions"""</span>
+        <span class="n">token_address</span> <span class="o">=</span> <span class="n">price_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'token_address'</span><span class="p">)</span>
+        <span class="n">current_price</span> <span class="o">=</span> <span class="n">price_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'price'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">token_address</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">active_positions</span><span class="p">:</span>
+            <span class="k">return</span>
+        
+        <span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">active_positions</span><span class="p">[</span><span class="n">token_address</span><span class="p">]</span>
+        <span class="n">entry_price</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="s">'entry_price'</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">entry_price</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        
+        <span class="c1"># Calculate P&amp;L
+</span>        <span class="n">pnl_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_price</span> <span class="o">-</span> <span class="n">entry_price</span><span class="p">)</span> <span class="o">/</span> <span class="n">entry_price</span>
+        
+        <span class="c1"># Check exit conditions
+</span>        <span class="n">should_exit</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">exit_reason</span> <span class="o">=</span> <span class="s">""</span>
+        
+        <span class="k">if</span> <span class="n">pnl_ratio</span> <span class="o">&gt;=</span> <span class="n">position</span><span class="p">[</span><span class="s">'target_profit'</span><span class="p">]:</span>
+            <span class="n">should_exit</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">exit_reason</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Target profit reached: </span><span class="si">{</span><span class="n">pnl_ratio</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="o">%</span><span class="si">}</span><span class="s">"</span>
+        <span class="k">elif</span> <span class="n">pnl_ratio</span> <span class="o">&lt;=</span> <span class="n">position</span><span class="p">[</span><span class="s">'stop_loss'</span><span class="p">]:</span>
+            <span class="n">should_exit</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">exit_reason</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Stop loss triggered: </span><span class="si">{</span><span class="n">pnl_ratio</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="o">%</span><span class="si">}</span><span class="s">"</span>
+        <span class="k">elif</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">get_event_loop</span><span class="p">().</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">position</span><span class="p">[</span><span class="s">'entry_time'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">3600</span><span class="p">:</span>  <span class="c1"># 1 hour max hold
+</span>            <span class="n">should_exit</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">exit_reason</span> <span class="o">=</span> <span class="s">"Maximum hold time reached"</span>
+        
+        <span class="k">if</span> <span class="n">should_exit</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">execute_exit_order</span><span class="p">(</span><span class="n">token_address</span><span class="p">,</span> <span class="n">exit_reason</span><span class="p">,</span> <span class="n">pnl_ratio</span><span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">execute_exit_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pnl_ratio</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="s">"""Execute exit order for position"""</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"🚪 EXITING: </span><span class="si">{</span><span class="n">token_address</span><span class="si">}</span><span class="s"> - Reason: </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s"> - P&amp;L: </span><span class="si">{</span><span class="n">pnl_ratio</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="o">%</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            
+            <span class="c1"># Execute sell order (implement actual trading logic here)
+</span>            
+            <span class="c1"># Remove from active positions
+</span>            <span class="k">del</span> <span class="bp">self</span><span class="p">.</span><span class="n">active_positions</span><span class="p">[</span><span class="n">token_address</span><span class="p">]</span>
+            
+            <span class="c1"># Log performance for chipa.tech analytics
+</span>            <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"✅ Exit completed - P&amp;L: </span><span class="si">{</span><span class="n">pnl_ratio</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="o">%</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"❌ Exit execution failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="market-making">Market Making Strategies</h2>
+
+<p>Market making bots provide liquidity to markets by continuously placing buy and sell orders around the current market price.</p>
+
+<h3 id="automated-market-making-bot">Automated Market Making Bot</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">MarketMakingBot</span><span class="p">(</span><span class="n">BaseTradingBot</span><span class="p">):</span>
+    <span class="s">"""
+    Professional market making bot for Solana tokens
+    Advanced strategies from chipa.tech trading experts
+    """</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_tokens</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">target_tokens</span> <span class="o">=</span> <span class="n">target_tokens</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">active_orders</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">spread_config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">'bid_spread'</span><span class="p">:</span> <span class="mf">0.002</span><span class="p">,</span>  <span class="c1"># 0.2%
+</span>            <span class="s">'ask_spread'</span><span class="p">:</span> <span class="mf">0.002</span><span class="p">,</span>  <span class="c1"># 0.2%
+</span>            <span class="s">'order_size'</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>    <span class="c1"># SOL per order
+</span>            <span class="s">'max_position'</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>  <span class="c1"># SOL max position per token
+</span>            <span class="s">'rebalance_threshold'</span><span class="p">:</span> <span class="mf">0.01</span>  <span class="c1"># 1%
+</span>        <span class="p">}</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">generate_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">TradingSignal</span><span class="p">]:</span>
+        <span class="s">"""Generate market making signals for all target tokens"""</span>
+        <span class="n">signals</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">token_address</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">target_tokens</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Get current market data
+</span>                <span class="n">market_data</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">get_market_data</span><span class="p">(</span><span class="n">token_address</span><span class="p">)</span>
+                <span class="n">current_price</span> <span class="o">=</span> <span class="n">market_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'price'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
                 
-                <div class="cta-actions">
-                    <a href="/AxiomTradeAPI-py/installation" class="btn btn-primary">
-                        <i class="fas fa-download"></i>
-                        Install AxiomTradeAPI
-                    </a>
-                    <a href="https://chipa.tech/product/create-your-bot" class="btn btn-outline" target="_blank">
-                        <i class="fas fa-handshake"></i>
-                        Custom Bot Development
-                    </a>
-                </div>
+                <span class="k">if</span> <span class="n">current_price</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
                 
-                <div class="cta-links">
-                    <a href="https://chipa.tech" class="cta-link" target="_blank">
-                        <i class="fas fa-globe"></i>
-                        Visit chipa.tech
-                    </a>
-                    <a href="https://chipa.tech/shop" class="cta-link" target="_blank">
-                        <i class="fas fa-shopping-cart"></i>
-                        Browse Our Shop
-                    </a>
-                    <a href="https://discord.gg/p7YyFqSmAz" class="cta-link" target="_blank">
-                        <i class="fab fa-discord"></i>
-                        Join Discord
-                    </a>
-                </div>
+                <span class="c1"># Calculate bid/ask prices
+</span>                <span class="n">bid_price</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="p">.</span><span class="n">spread_config</span><span class="p">[</span><span class="s">'bid_spread'</span><span class="p">])</span>
+                <span class="n">ask_price</span> <span class="o">=</span> <span class="n">current_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">spread_config</span><span class="p">[</span><span class="s">'ask_spread'</span><span class="p">])</span>
+                
+                <span class="c1"># Generate signals for both sides
+</span>                <span class="n">signals</span><span class="p">.</span><span class="n">extend</span><span class="p">([</span>
+                    <span class="n">TradingSignal</span><span class="p">(</span>
+                        <span class="n">token_address</span><span class="o">=</span><span class="n">token_address</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s">'buy'</span><span class="p">,</span>
+                        <span class="n">confidence</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+                        <span class="n">price_target</span><span class="o">=</span><span class="n">bid_price</span><span class="p">,</span>
+                        <span class="n">reasoning</span><span class="o">=</span><span class="s">"Market making bid"</span>
+                    <span class="p">),</span>
+                    <span class="n">TradingSignal</span><span class="p">(</span>
+                        <span class="n">token_address</span><span class="o">=</span><span class="n">token_address</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s">'sell'</span><span class="p">,</span>
+                        <span class="n">confidence</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+                        <span class="n">price_target</span><span class="o">=</span><span class="n">ask_price</span><span class="p">,</span>
+                        <span class="n">reasoning</span><span class="o">=</span><span class="s">"Market making ask"</span>
+                    <span class="p">)</span>
+                <span class="p">])</span>
+                
+            <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Error generating MM signals for </span><span class="si">{</span><span class="n">token_address</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">signals</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_market_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="s">"""Get current market data for token"""</span>
+        <span class="c1"># Implement market data fetching
+</span>        <span class="c1"># This would use your market data source
+</span>        <span class="k">return</span> <span class="p">{</span><span class="s">'price'</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s">'volume'</span><span class="p">:</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="s">'liquidity'</span><span class="p">:</span> <span class="mf">5000.0</span><span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="arbitrage">Arbitrage Detection</h2>
+
+<p>Arbitrage bots identify price differences across different exchanges or liquidity pools and profit from these inefficiencies.</p>
+
+<h3 id="cross-dex-arbitrage-bot">Cross-DEX Arbitrage Bot</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">ArbitrageBot</span><span class="p">(</span><span class="n">BaseTradingBot</span><span class="p">):</span>
+    <span class="s">"""
+    Cross-DEX arbitrage bot for Solana ecosystem
+    Proven strategies from chipa.tech arbitrage experts
+    """</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dex_connections</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">min_profit_threshold</span> <span class="o">=</span> <span class="mf">0.005</span>  <span class="c1"># 0.5% minimum profit
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">max_position_size</span> <span class="o">=</span> <span class="mf">5.0</span>  <span class="c1"># SOL
+</span>    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">scan_arbitrage_opportunities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Continuously scan for arbitrage opportunities"""</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="p">.</span><span class="n">is_running</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">opportunities</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">find_arbitrage_opportunities</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">opportunity</span> <span class="ow">in</span> <span class="n">opportunities</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">opportunity</span><span class="p">[</span><span class="s">'profit_ratio'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="p">.</span><span class="n">min_profit_threshold</span><span class="p">:</span>
+                        <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">execute_arbitrage</span><span class="p">(</span><span class="n">opportunity</span><span class="p">)</span>
+                <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># High frequency scanning
+</span>            <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Arbitrage scanning error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">find_arbitrage_opportunities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="s">"""Find profitable arbitrage opportunities"""</span>
+        <span class="n">opportunities</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># Get prices from multiple DEXs
+</span>        <span class="n">tokens_to_check</span> <span class="o">=</span> <span class="p">[</span><span class="s">'SOL/USDC'</span><span class="p">,</span> <span class="s">'RAY/SOL'</span><span class="p">,</span> <span class="s">'SRM/SOL'</span><span class="p">]</span>  <span class="c1"># Example pairs
+</span>        
+        <span class="k">for</span> <span class="n">token_pair</span> <span class="ow">in</span> <span class="n">tokens_to_check</span><span class="p">:</span>
+            <span class="n">prices</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">get_multi_dex_prices</span><span class="p">(</span><span class="n">token_pair</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">max_price_dex</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s">'price'</span><span class="p">])</span>
+                <span class="n">min_price_dex</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s">'price'</span><span class="p">])</span>
+                
+                <span class="n">profit_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_price_dex</span><span class="p">[</span><span class="s">'price'</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_price_dex</span><span class="p">[</span><span class="s">'price'</span><span class="p">])</span> <span class="o">/</span> <span class="n">min_price_dex</span><span class="p">[</span><span class="s">'price'</span><span class="p">]</span>
+                
+                <span class="k">if</span> <span class="n">profit_ratio</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="p">.</span><span class="n">min_profit_threshold</span><span class="p">:</span>
+                    <span class="n">opportunities</span><span class="p">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s">'token_pair'</span><span class="p">:</span> <span class="n">token_pair</span><span class="p">,</span>
+                        <span class="s">'buy_dex'</span><span class="p">:</span> <span class="n">min_price_dex</span><span class="p">[</span><span class="s">'dex'</span><span class="p">],</span>
+                        <span class="s">'sell_dex'</span><span class="p">:</span> <span class="n">max_price_dex</span><span class="p">[</span><span class="s">'dex'</span><span class="p">],</span>
+                        <span class="s">'buy_price'</span><span class="p">:</span> <span class="n">min_price_dex</span><span class="p">[</span><span class="s">'price'</span><span class="p">],</span>
+                        <span class="s">'sell_price'</span><span class="p">:</span> <span class="n">max_price_dex</span><span class="p">[</span><span class="s">'price'</span><span class="p">],</span>
+                        <span class="s">'profit_ratio'</span><span class="p">:</span> <span class="n">profit_ratio</span><span class="p">,</span>
+                        <span class="s">'estimated_gas'</span><span class="p">:</span> <span class="mf">0.001</span>  <span class="c1"># SOL
+</span>                    <span class="p">})</span>
+        
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">opportunities</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s">'profit_ratio'</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_multi_dex_prices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_pair</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="s">"""Get prices from multiple DEXs"""</span>
+        <span class="c1"># Implement multi-DEX price fetching
+</span>        <span class="c1"># This would connect to various Solana DEXs
+</span>        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s">'dex'</span><span class="p">:</span> <span class="s">'Raydium'</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">1.001</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">'dex'</span><span class="p">:</span> <span class="s">'Orca'</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">1.006</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">'dex'</span><span class="p">:</span> <span class="s">'Serum'</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">0.998</span><span class="p">}</span>
+        <span class="p">]</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">execute_arbitrage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opportunity</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="s">"""Execute arbitrage trade"""</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"💰 ARBITRAGE: </span><span class="si">{</span><span class="n">opportunity</span><span class="p">[</span><span class="s">'token_pair'</span><span class="p">]</span><span class="si">}</span><span class="s"> - "</span>
+                           <span class="sa">f</span><span class="s">"Profit: </span><span class="si">{</span><span class="n">opportunity</span><span class="p">[</span><span class="s">'profit_ratio'</span><span class="p">]</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="o">%</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            
+            <span class="c1"># Calculate optimal position size
+</span>            <span class="n">position_size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">max_position_size</span><span class="p">,</span>
+                <span class="c1"># Add more sophisticated position sizing logic
+</span>            <span class="p">)</span>
+            
+            <span class="c1"># Execute simultaneous buy/sell orders
+</span>            <span class="c1"># Implementation would depend on your trading infrastructure
+</span>            
+            <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"✅ Arbitrage executed - Estimated profit: </span><span class="si">{</span><span class="n">opportunity</span><span class="p">[</span><span class="s">'profit_ratio'</span><span class="p">]</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="o">%</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"❌ Arbitrage execution failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="risk-management">Risk Management</h2>
+
+<p>Comprehensive risk management is crucial for long-term profitability. The AxiomTradeAPI provides tools for portfolio monitoring and risk assessment.</p>
+
+<h3 id="advanced-risk-management-system">Advanced Risk Management System</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">RiskManager</span><span class="p">:</span>
+    <span class="s">"""
+    Advanced risk management system for trading bots
+    Professional risk controls used by chipa.tech traders
+    """</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">daily_loss_limit</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'daily_loss_limit'</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>  <span class="c1"># 5%
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">max_position_size</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'max_position_size'</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">)</span>  <span class="c1"># 10% of portfolio
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">max_correlation</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'max_correlation'</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">daily_pnl</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">positions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">start_of_day_balance</span> <span class="o">=</span> <span class="mf">0.0</span>
+        
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">check_risk_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proposed_trade</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="s">"""Check if proposed trade passes all risk limits"""</span>
+        <span class="n">checks</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">'daily_loss_limit'</span><span class="p">:</span> <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">check_daily_loss_limit</span><span class="p">(),</span>
+            <span class="s">'position_size_limit'</span><span class="p">:</span> <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">check_position_size_limit</span><span class="p">(</span><span class="n">proposed_trade</span><span class="p">),</span>
+            <span class="s">'correlation_limit'</span><span class="p">:</span> <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">check_correlation_limit</span><span class="p">(</span><span class="n">proposed_trade</span><span class="p">),</span>
+            <span class="s">'concentration_risk'</span><span class="p">:</span> <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">check_concentration_risk</span><span class="p">(</span><span class="n">proposed_trade</span><span class="p">)</span>
+        <span class="p">}</span>
+        
+        <span class="n">passed</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">checks</span><span class="p">.</span><span class="n">values</span><span class="p">())</span>
+        
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">'approved'</span><span class="p">:</span> <span class="n">passed</span><span class="p">,</span>
+            <span class="s">'checks'</span><span class="p">:</span> <span class="n">checks</span><span class="p">,</span>
+            <span class="s">'risk_score'</span><span class="p">:</span> <span class="bp">self</span><span class="p">.</span><span class="n">calculate_risk_score</span><span class="p">(</span><span class="n">checks</span><span class="p">)</span>
+        <span class="p">}</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">check_daily_loss_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="s">"""Check if daily loss limit has been exceeded"""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">start_of_day_balance</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        
+        <span class="n">loss_ratio</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">daily_pnl</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="p">.</span><span class="n">start_of_day_balance</span>
+        <span class="k">return</span> <span class="n">loss_ratio</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="p">.</span><span class="n">daily_loss_limit</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">check_position_size_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trade</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="s">"""Check if position size is within limits"""</span>
+        <span class="n">position_value</span> <span class="o">=</span> <span class="n">trade</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'size'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">trade</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'price'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">portfolio_value</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">get_portfolio_value</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">portfolio_value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        
+        <span class="n">position_ratio</span> <span class="o">=</span> <span class="n">position_value</span> <span class="o">/</span> <span class="n">portfolio_value</span>
+        <span class="k">return</span> <span class="n">position_ratio</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="p">.</span><span class="n">max_position_size</span>
+    
+    <span class="k">def</span> <span class="nf">calculate_risk_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">checks</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="s">"""Calculate overall risk score (0-1, lower is better)"""</span>
+        <span class="n">failed_checks</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">passed</span> <span class="ow">in</span> <span class="n">checks</span><span class="p">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">passed</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">failed_checks</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">checks</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="performance">Performance Optimization</h2>
+
+<p>Optimizing bot performance is crucial for competitive trading. Here are advanced techniques used by successful traders on <a href="https://chipa.tech">chipa.tech</a>.</p>
+
+<h3 id="high-performance-bot-framework">High-Performance Bot Framework</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">aiohttp</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<span class="kn">import</span> <span class="nn">cProfile</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">class</span> <span class="nc">HighPerformanceBot</span><span class="p">(</span><span class="n">BaseTradingBot</span><span class="p">):</span>
+    <span class="s">"""
+    High-performance trading bot optimized for speed
+    Techniques from top chipa.tech performance optimization guide
+    """</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="n">wallet_address</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">session</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">thread_pool</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">performance_metrics</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">'api_call_times'</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s">'signal_generation_times'</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s">'execution_times'</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">initialize_performance_optimizations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Initialize performance optimizations"""</span>
+        <span class="c1"># Use persistent HTTP connections
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">aiohttp</span><span class="p">.</span><span class="n">ClientSession</span><span class="p">(</span>
+            <span class="n">connector</span><span class="o">=</span><span class="n">aiohttp</span><span class="p">.</span><span class="n">TCPConnector</span><span class="p">(</span>
+                <span class="n">limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                <span class="n">limit_per_host</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+                <span class="n">keepalive_timeout</span><span class="o">=</span><span class="mi">30</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># Pre-warm connection pools
+</span>        <span class="k">await</span> <span class="bp">self</span><span class="p">.</span><span class="n">warmup_connections</span><span class="p">()</span>
+        
+        <span class="c1"># Start performance monitoring
+</span>        <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">performance_monitor</span><span class="p">())</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">warmup_connections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Pre-warm HTTP connections to reduce latency"""</span>
+        <span class="n">warmup_tasks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+            <span class="n">warmup_tasks</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">get_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">wallet_address</span><span class="p">))</span>
+        
+        <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">warmup_tasks</span><span class="p">,</span> <span class="n">return_exceptions</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"🔥 Connection pool warmed up"</span><span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">performance_monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Monitor and log performance metrics"""</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="p">.</span><span class="n">is_running</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Calculate average response times
+</span>                <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s">'api_call_times'</span><span class="p">]:</span>
+                    <span class="n">avg_api_time</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s">'api_call_times'</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s">'api_call_times'</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s">"📊 Avg API response time: </span><span class="si">{</span><span class="n">avg_api_time</span><span class="si">:</span><span class="p">.</span><span class="mi">3</span><span class="n">f</span><span class="si">}</span><span class="s">s"</span><span class="p">)</span>
+                
+                <span class="c1"># Reset metrics every minute
+</span>                <span class="bp">self</span><span class="p">.</span><span class="n">performance_metrics</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">performance_metrics</span><span class="p">}</span>
+                
+                <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+            <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Performance monitoring error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">optimized_api_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="s">"""Wrapper for API calls with performance tracking"""</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">call_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">performance_metrics</span><span class="p">[</span><span class="s">'api_call_times'</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">call_time</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">profile_performance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="s">"""Decorator for profiling function performance"""</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">profiler</span> <span class="o">=</span> <span class="n">cProfile</span><span class="p">.</span><span class="n">Profile</span><span class="p">()</span>
+            <span class="n">profiler</span><span class="p">.</span><span class="n">enable</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">result</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">profiler</span><span class="p">.</span><span class="n">disable</span><span class="p">()</span>
+                <span class="c1"># Save profile results for analysis
+</span>                <span class="n">profiler</span><span class="p">.</span><span class="n">dump_stats</span><span class="p">(</span><span class="sa">f</span><span class="s">'profile_</span><span class="si">{</span><span class="n">func</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s">_</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">())</span><span class="si">}</span><span class="s">.prof'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrapper</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="deployment">Production Deployment</h2>
+
+<p>Deploying trading bots to production requires careful consideration of reliability, monitoring, and security.</p>
+
+<h3 id="production-ready-bot-deployment">Production-Ready Bot Deployment</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">docker</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="k">class</span> <span class="nc">ProductionBotManager</span><span class="p">:</span>
+    <span class="s">"""
+    Production deployment manager for trading bots
+    Enterprise-grade deployment strategies from chipa.tech infrastructure team
+    """</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="p">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="p">.</span><span class="n">docker_client</span> <span class="o">=</span> <span class="n">docker</span><span class="p">.</span><span class="n">from_env</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">running_bots</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">def</span> <span class="nf">create_bot_dockerfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot_class</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="s">"""Generate Dockerfile for bot deployment"""</span>
+        <span class="n">dockerfile_content</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"""
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update &amp;&amp; apt-get install -y </span><span class="se">\\</span><span class="s">
+    gcc </span><span class="se">\\</span><span class="s">
+    g++ </span><span class="se">\\</span><span class="s">
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy bot code
+COPY . .
+
+# Create non-root user for security
+RUN useradd -m botuser &amp;&amp; chown -R botuser:botuser /app
+USER botuser
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 </span><span class="se">\\</span><span class="s">
+    CMD python -c "import requests; requests.get('http://localhost:8080/health')"
+
+# Run the bot
+CMD ["python", "-m", "bots.</span><span class="si">{</span><span class="n">bot_class</span><span class="si">}</span><span class="s">"]
+        """</span>
+        <span class="k">return</span> <span class="n">dockerfile_content</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">create_docker_compose</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="s">"""Generate docker-compose.yml for multi-bot deployment"""</span>
+        <span class="n">compose_content</span> <span class="o">=</span> <span class="s">"""
+version: '3.8'
+
+services:
+  token-sniping-bot:
+    build: .
+    environment:
+      - BOT_TYPE=TokenSnipingBot
+      - AUTH_TOKEN=${AUTH_TOKEN}
+      - WALLET_ADDRESS=${WALLET_ADDRESS}
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./config:/app/config
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8080/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+  market-making-bot:
+    build: .
+    environment:
+      - BOT_TYPE=MarketMakingBot
+      - AUTH_TOKEN=${AUTH_TOKEN}
+      - WALLET_ADDRESS=${WALLET_ADDRESS}
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./config:/app/config
+    restart: unless-stopped
+    
+  arbitrage-bot:
+    build: .
+    environment:
+      - BOT_TYPE=ArbitrageBot
+      - AUTH_TOKEN=${AUTH_TOKEN}
+      - WALLET_ADDRESS=${WALLET_ADDRESS}
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./config:/app/config
+    restart: unless-stopped
+  
+  monitoring:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  grafana-storage:
+        """</span>
+        <span class="k">return</span> <span class="n">compose_content</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">deploy_bot_fleet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Deploy complete bot fleet with monitoring"""</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Create necessary directories
+</span>            <span class="n">os</span><span class="p">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s">'logs'</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">os</span><span class="p">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s">'config'</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">os</span><span class="p">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s">'monitoring'</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            
+            <span class="c1"># Generate deployment files
+</span>            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'Dockerfile'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">create_bot_dockerfile</span><span class="p">(</span><span class="s">'BaseTradingBot'</span><span class="p">))</span>
+            
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'docker-compose.yml'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">create_docker_compose</span><span class="p">())</span>
+            
+            <span class="c1"># Create monitoring configuration
+</span>            <span class="bp">self</span><span class="p">.</span><span class="n">create_monitoring_config</span><span class="p">()</span>
+            
+            <span class="c1"># Build and deploy
+</span>            <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="s">'docker-compose up -d --build'</span><span class="p">)</span>
+            
+            <span class="k">print</span><span class="p">(</span><span class="s">"🚀 Bot fleet deployed successfully!"</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"📊 Monitoring available at http://localhost:3000 (Grafana)"</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"📈 Metrics available at http://localhost:9090 (Prometheus)"</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"📝 Check logs with: docker-compose logs -f"</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"❌ Deployment failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">create_monitoring_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Create Prometheus monitoring configuration"""</span>
+        <span class="n">prometheus_config</span> <span class="o">=</span> <span class="s">"""
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'trading-bots'
+    static_configs:
+      - targets: ['token-sniping-bot:8080', 'market-making-bot:8080', 'arbitrage-bot:8080']
+    scrape_interval: 5s
+    metrics_path: /metrics
+        """</span>
+        
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'monitoring/prometheus.yml'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">prometheus_config</span><span class="p">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Example usage and main execution
+</span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="c1"># Configuration for production deployment
+</span>    <span class="n">production_config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'bots'</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s">'type'</span><span class="p">:</span> <span class="s">'TokenSnipingBot'</span><span class="p">,</span>
+                <span class="s">'instances'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s">'resources'</span><span class="p">:</span> <span class="p">{</span><span class="s">'cpu'</span><span class="p">:</span> <span class="s">'1'</span><span class="p">,</span> <span class="s">'memory'</span><span class="p">:</span> <span class="s">'512Mi'</span><span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s">'type'</span><span class="p">:</span> <span class="s">'MarketMakingBot'</span><span class="p">,</span> 
+                <span class="s">'instances'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s">'resources'</span><span class="p">:</span> <span class="p">{</span><span class="s">'cpu'</span><span class="p">:</span> <span class="s">'0.5'</span><span class="p">,</span> <span class="s">'memory'</span><span class="p">:</span> <span class="s">'256Mi'</span><span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s">'monitoring'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">'enabled'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="s">'metrics_port'</span><span class="p">:</span> <span class="mi">8080</span><span class="p">,</span>
+            <span class="s">'health_check_interval'</span><span class="p">:</span> <span class="mi">30</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">print</span><span class="p">(</span><span class="s">"🤖 AxiomTradeAPI Trading Bot Framework"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Advanced trading strategies for Solana ecosystem"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Trusted by professional traders on chipa.tech"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Available Bot Types:"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"• TokenSnipingBot - High-speed new token acquisition"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"• MarketMakingBot - Automated liquidity provision"</span><span class="p">)</span>  
+    <span class="k">print</span><span class="p">(</span><span class="s">"• ArbitrageBot - Cross-DEX profit opportunities"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"• CustomBot - Implement your own strategies"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"🚀 Ready for production deployment!"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"📚 Full documentation: https://chipa.tech/axiomtradeapi-docs"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"💬 Community support: https://chipa.tech/discord"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"🎯 Trading strategies: https://chipa.tech/strategies"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="best-practices-and-tips">Best Practices and Tips</h2>
+
+<h3 id="security-considerations">Security Considerations</h3>
+
+<ol>
+  <li><strong>API Key Management</strong>: Store authentication tokens securely using environment variables</li>
+  <li><strong>Rate Limiting</strong>: Implement proper rate limiting to avoid API restrictions</li>
+  <li><strong>Error Handling</strong>: Comprehensive error handling for network issues and API errors</li>
+  <li><strong>Logging</strong>: Detailed logging for debugging and performance analysis</li>
+</ol>
+
+<h3 id="performance-tips">Performance Tips</h3>
+
+<ol>
+  <li><strong>Connection Pooling</strong>: Use persistent HTTP connections for better performance</li>
+  <li><strong>Async Operations</strong>: Leverage async/await for concurrent operations</li>
+  <li><strong>Data Caching</strong>: Cache frequently accessed data to reduce API calls</li>
+  <li><strong>Memory Management</strong>: Monitor memory usage for long-running bots</li>
+</ol>
+
+<h3 id="monitoring-and-alerts">Monitoring and Alerts</h3>
+
+<ol>
+  <li><strong>Health Checks</strong>: Implement health check endpoints for monitoring</li>
+  <li><strong>Performance Metrics</strong>: Track key performance indicators</li>
+  <li><strong>Alert Systems</strong>: Set up alerts for critical failures or performance issues</li>
+  <li><strong>Dashboard Creation</strong>: Use Grafana or similar tools for visualization</li>
+</ol>
+
+<h2 id="community-and-support">Community and Support</h2>
+
+<p>Join the <a href="https://chipa.tech/community">chipa.tech trading community</a> for:</p>
+
+<ul>
+  <li>📈 <strong>Strategy Sharing</strong>: Learn from successful traders</li>
+  <li>🛠️ <strong>Technical Support</strong>: Get help with implementation</li>
+  <li>📊 <strong>Performance Analytics</strong>: Compare your bot’s performance</li>
+  <li>🚀 <strong>Advanced Tutorials</strong>: Access premium trading content</li>
+  <li>💬 <strong>Discord Community</strong>: Real-time discussions and support</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Building successful trading bots requires combining technical expertise with sound trading principles. The AxiomTradeAPI provides the foundation, but success comes from:</p>
+
+<ol>
+  <li><strong>Robust Risk Management</strong>: Never risk more than you can afford to lose</li>
+  <li><strong>Continuous Testing</strong>: Backtest strategies thoroughly before deployment</li>
+  <li><strong>Performance Monitoring</strong>: Track and optimize bot performance</li>
+  <li><strong>Community Learning</strong>: Stay connected with other traders on <a href="https://chipa.tech">chipa.tech</a></li>
+</ol>
+
+<p>Start with simple strategies and gradually increase complexity as you gain experience. The Solana ecosystem offers tremendous opportunities for algorithmic trading, and the AxiomTradeAPI gives you the tools to capitalize on them.</p>
+
+<hr />
+
+<p><em>This guide represents advanced trading techniques used by professional traders. Always do your own research and never invest more than you can afford to lose. Visit <a href="https://chipa.tech">chipa.tech</a> for the latest trading strategies and market insights.</em></p>
+
+  </div>
+
+  <!-- What's Next Section -->
+  
+
+  <!-- Related Guides -->
+  
+
+  <!-- Community Section -->
+  <div class="community-section">
+    <div class="community-card">
+      <h3>Get Help from the Community</h3>
+      <p>
+        Join thousands of traders using AxiomTradeAPI on the 
+        <a href="https://chipa.tech" class="chipa-link">chipa.tech platform</a>. 
+        Share strategies, get help, and discover new opportunities.
+      </p>
+      <div class="community-actions">
+        <a href="https://discord.gg/p7YyFqSmAz" class="btn btn-primary" target="_blank">
+          <i class="fab fa-discord"></i>
+          Join Discord Community
+        </a>
+        <a href="https://chipa.tech/product/create-your-bot" class="btn btn-secondary" target="_blank">
+          <i class="fas fa-cogs"></i>
+          Get Custom Bot
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Section -->
+  <div class="feedback-section">
+    <div class="feedback-card">
+      <h4>Was this guide helpful?</h4>
+      <p>Help us improve our documentation by sharing your feedback.</p>
+      <div class="feedback-buttons">
+        <button class="feedback-btn positive" onclick="submitFeedback('positive')">
+          <i class="fas fa-thumbs-up"></i>
+          Yes, helpful
+        </button>
+        <button class="feedback-btn negative" onclick="submitFeedback('negative')">
+          <i class="fas fa-thumbs-down"></i>
+          Needs improvement
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Generate Table of Contents
+document.addEventListener('DOMContentLoaded', function() {
+  const tocContent = document.getElementById('toc-content');
+  if (tocContent) {
+    const headings = document.querySelectorAll('.guide-content h2, .guide-content h3');
+    if (headings.length > 0) {
+      const tocList = document.createElement('ul');
+      tocList.className = 'toc-list';
+      
+      headings.forEach((heading, index) => {
+        const id = heading.id || `heading-${index}`;
+        heading.id = id;
+        
+        const listItem = document.createElement('li');
+        listItem.className = `toc-item toc-${heading.tagName.toLowerCase()}`;
+        
+        const link = document.createElement('a');
+        link.href = `#${id}`;
+        link.textContent = heading.textContent;
+        link.className = 'toc-link';
+        
+        listItem.appendChild(link);
+        tocList.appendChild(listItem);
+      });
+      
+      tocContent.appendChild(tocList);
+    } else {
+      tocContent.parentElement.style.display = 'none';
+    }
+  }
+});
+
+// Feedback functionality
+function submitFeedback(type) {
+  // In a real implementation, this would send feedback to your analytics
+  const message = type === 'positive' ? 'Thank you for your feedback!' : 'Thank you! We\'ll work on improving this guide.';
+  
+  // Show feedback message
+  const feedbackCard = document.querySelector('.feedback-card');
+  feedbackCard.innerHTML = `
+    <div class="feedback-success">
+      <i class="fas fa-check-circle"></i>
+      <p>${message}</p>
+    </div>
+  `;
+}
+</script>
+
+          </div>
+
+          <!-- Article Footer -->
+          <footer class="article-footer">
+            <div class="footer-actions">
+              <a href="https://github.com/vigowalker/AxiomTradeAPI-py-1/edit/main/docs/trading-bots.md" class="edit-link" target="_blank">
+                <i class="fas fa-edit"></i>
+                Edit this page
+              </a>
+              
+              <div class="share-buttons">
+                <span class="share-label">Share:</span>
+                <a href="https://twitter.com/intent/tweet?text=Building+Advanced+Trading+Bots+with+AxiomTradeAPI&url=https://chipadevteam.github.io/AxiomTradeAPI-py/trading-bots.html" class="share-btn twitter" target="_blank">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://chipadevteam.github.io/AxiomTradeAPI-py/trading-bots.html" class="share-btn linkedin" target="_blank">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+              </div>
             </div>
+
+            <!-- Next/Previous Navigation -->
+            
+          </footer>
+        </article>
+      </div>
+    </div>
+  </main>
+</div>
+
         </div>
-    </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4 class="footer-title">AxiomTradeAPI</h4>
-                    <p class="footer-description">
-                        The most comprehensive Python library for Solana trading automation.
-                    </p>
-                    <div class="footer-social">
-                        <a href="https://github.com/vigowalker/AxiomTradeAPI-py-1" class="social-link" target="_blank">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://discord.gg/p7YyFqSmAz" class="social-link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h4 class="footer-title">Documentation</h4>
-                    <ul class="footer-links">
-                        <li><a href="/AxiomTradeAPI-py/installation">Installation</a></li>
-                        <li><a href="/AxiomTradeAPI-py/authentication">Authentication</a></li>
-                        <li><a href="/AxiomTradeAPI-py/trading-bots">Trading Bots</a></li>
-                        <li><a href="/AxiomTradeAPI-py/websocket-guide">WebSocket Guide</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4 class="footer-title">chipa.tech Services</h4>
-                    <ul class="footer-links">
-                        <li><a href="https://chipa.tech" target="_blank">Main Website</a></li>
-                        <li><a href="https://chipa.tech/shop" target="_blank">Trading Tools Shop</a></li>
-                        <li><a href="https://chipa.tech/product/create-your-bot" target="_blank">Custom Bot Development</a></li>
-                        <li><a href="https://chipa.tech/consulting" target="_blank">Trading Consulting</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4 class="footer-title">Support</h4>
-                    <ul class="footer-links">
-                        <li><a href="/AxiomTradeAPI-py/troubleshooting">Troubleshooting</a></li>
-                        <li><a href="mailto:support@chipa.tech">Email Support</a></li>
-                        <li><a href="https://discord.gg/p7YyFqSmAz" target="_blank">Discord Community</a></li>
-                    </ul>
-                </div>
+    <!-- AxiomTradeAPI Documentation Footer Component -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <!-- Main footer sections -->
+      <div class="footer-sections">
+        <div class="footer-section">
+          <h3 class="footer-title">AxiomTradeAPI</h3>
+          <p class="footer-description">
+            The most comprehensive Python library for building profitable Solana trading bots. 
+            Used by successful traders on <a href="https://chipa.tech" class="chipa-link">chipa.tech</a>.
+          </p>
+          <div class="footer-stats">
+            <div class="stat-item">
+              <span class="stat-number">99.9%</span>
+              <span class="stat-label">Uptime</span>
             </div>
-            
-            <div class="footer-bottom">
-                <div class="footer-copyright">
-                    <p>&copy; 2025 <a href="https://chipa.tech" target="_blank">Chipa Tech</a>. All rights reserved.</p>
-                </div>
-                <div class="footer-legal">
-                    <a href="/AxiomTradeAPI-py/privacy">Privacy Policy</a>
-                    <a href="/AxiomTradeAPI-py/terms">Terms of Service</a>
-                </div>
+            <div class="stat-item">
+              <span class="stat-number">&lt;50ms</span>
+              <span class="stat-label">Latency</span>
             </div>
+            <div class="stat-item">
+              <span class="stat-number">24/7</span>
+              <span class="stat-label">Support</span>
+            </div>
+          </div>
         </div>
-    </footer>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">Getting Started</h4>
+          <ul class="footer-links">
+            <li><a href="/AxiomTradeAPI-py/installation">Installation</a></li>
+            <li><a href="/AxiomTradeAPI-py/authentication">Authentication</a></li>
+            <li><a href="/AxiomTradeAPI-py/trading-bots">First Trading Bot</a></li>
+            <li><a href="/AxiomTradeAPI-py/websocket-guide">WebSocket Setup</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">Features</h4>
+          <ul class="footer-links">
+            <li><a href="/AxiomTradeAPI-py/balance-queries">Balance Queries</a></li>
+            <li><a href="/AxiomTradeAPI-py/performance">Performance</a></li>
+            <li><a href="/AxiomTradeAPI-py/security">Security</a></li>
+            <li><a href="/AxiomTradeAPI-py/error-handling">Error Handling</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="/AxiomTradeAPI-py/api-reference">API Reference</a></li>
+            <li><a href="/AxiomTradeAPI-py/examples">Code Examples</a></li>
+            <li><a href="https://github.com/vigowalker/AxiomTradeAPI-py-1" target="_blank">GitHub Repository</a></li>
+            <li><a href="https://chipa.tech" target="_blank">chipa.tech Platform</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">Community</h4>
+          <ul class="footer-links">
+            <li><a href="https://discord.gg/p7YyFqSmAz" target="_blank">Discord Community</a></li>
+            <li><a href="https://chipa.tech/shop" target="_blank">chipa.tech Shop</a></li>
+            <li><a href="https://chipa.tech/product/create-your-bot" target="_blank">Custom Bot Development</a></li>
+            <li><a href="mailto:support@chipa.tech">Support Email</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Newsletter signup -->
+      <div class="footer-newsletter">
+        <div class="newsletter-content">
+          <h3>Stay Updated</h3>
+          <p>Get the latest trading strategies and API updates from the chipa.tech community.</p>
+          <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+            <input type="email" placeholder="Enter your email" class="newsletter-input" required>
+            <button type="submit" class="newsletter-btn">
+              <i class="fas fa-paper-plane"></i>
+              Subscribe
+            </button>
+          </form>
+          <p class="newsletter-disclaimer">
+            We respect your privacy. Unsubscribe at any time. 
+            <a href="https://chipa.tech/privacy" target="_blank">Privacy Policy</a>
+          </p>
+        </div>
+      </div>
+      
+      <!-- Social links -->
+      <div class="footer-social">
+        <h4>Connect with chipa.tech</h4>
+        <div class="social-links">
+          <a href="https://discord.gg/p7YyFqSmAz" target="_blank" aria-label="Join Discord">
+            <i class="fab fa-discord"></i>
+          </a>
+          <a href="https://twitter.com/chipatech" target="_blank" aria-label="Follow on Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://github.com/vigowalker" target="_blank" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://chipa.tech" target="_blank" aria-label="Visit chipa.tech">
+            <i class="fas fa-globe"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bottom footer -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <div class="footer-left">
+          <p>&copy; 2025 <a href="https://chipa.tech" class="chipa-link">chipa.tech</a>. All rights reserved.</p>
+          <p class="footer-note">
+            Built with ❤️ for the Solana trading community. 
+            Powered by <a href="https://pages.github.com" target="_blank">GitHub Pages</a>.
+          </p>
+        </div>
+        
+        <div class="footer-right">
+          <div class="footer-links-inline">
+            <a href="https://chipa.tech/privacy" target="_blank">Privacy Policy</a>
+            <a href="https://chipa.tech/terms" target="_blank">Terms of Service</a>
+            <a href="/AxiomTradeAPI-py/sitemap.xml" target="_blank">Sitemap</a>
+          </div>
+          
+          <!-- Performance indicator -->
+          <div class="performance-indicator" id="performance-indicator">
+            <span class="performance-label">Load time:</span>
+            <span class="performance-value" id="load-time">--ms</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Back to top button -->
+  <button class="back-to-top" id="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+</footer>
+
+<style>
+/* Footer styles */
+.site-footer {
+  background: var(--dark-bg-secondary);
+  color: var(--dark-text-secondary);
+  margin-top: 4rem;
+}
+
+.footer-content {
+  padding: 3rem 0;
+}
+
+.footer-sections {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.footer-section {
+  /* Individual section styles */
+}
+
+.footer-title {
+  color: var(--dark-text-primary);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-title::before {
+  content: '🤖';
+  font-size: 1.25rem;
+}
+
+.footer-description {
+  color: var(--dark-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.footer-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--chipa-primary);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
+}
+
+.footer-section-title {
+  color: var(--dark-text-primary);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  color: var(--dark-text-secondary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+  font-size: 0.875rem;
+}
+
+.footer-links a:hover {
+  color: var(--chipa-primary);
+}
+
+/* Newsletter section */
+.footer-newsletter {
+  background: linear-gradient(135deg, var(--chipa-primary), var(--chipa-secondary));
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.newsletter-content h3 {
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.newsletter-content p {
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 400px;
+  margin: 0 auto 1rem;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.newsletter-input:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.newsletter-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.newsletter-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.newsletter-disclaimer {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.newsletter-disclaimer a {
+  color: white;
+  text-decoration: underline;
+}
+
+/* Social links */
+.footer-social {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.footer-social h4 {
+  color: var(--dark-text-primary);
+  margin-bottom: 1rem;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--chipa-primary);
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.social-links a:hover {
+  background: var(--chipa-secondary);
+  transform: translateY(-2px);
+}
+
+/* Bottom footer */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 0;
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-left p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--dark-text-secondary);
+}
+
+.footer-note {
+  opacity: 0.7;
+  font-size: 0.75rem !important;
+  margin-top: 0.25rem !important;
+}
+
+.footer-links-inline {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-links-inline a {
+  color: var(--dark-text-secondary);
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: var(--transition-fast);
+}
+
+.footer-links-inline a:hover {
+  color: var(--chipa-primary);
+}
+
+.performance-indicator {
+  font-size: 0.75rem;
+  color: var(--dark-text-secondary);
+  opacity: 0.7;
+}
+
+.performance-value {
+  font-family: var(--font-family-mono);
+  color: var(--chipa-primary);
+}
+
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  width: 50px;
+  height: 50px;
+  background: var(--chipa-primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-lg);
+  z-index: 999;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background: var(--chipa-secondary);
+  transform: translateY(-2px);
+}
+
+/* Chipa link styling */
+.chipa-link {
+  color: var(--chipa-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.chipa-link:hover {
+  color: var(--chipa-secondary);
+  text-decoration: underline;
+}
+
+/* Mobile responsive */
+@media (max-width: 968px) {
+  .footer-sections {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  
+  .footer-section:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-sections {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-stats {
+    justify-content: center;
+  }
+  
+  .newsletter-form {
+    flex-direction: column;
+  }
+  
+  .social-links {
+    flex-wrap: wrap;
+  }
+  
+  .footer-bottom-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .footer-links-inline {
+    justify-content: center;
+  }
+  
+  .back-to-top {
+    bottom: 1rem;
+    left: 1rem;
+    width: 44px;
+    height: 44px;
+  }
+}
+</style>
+
+<script>
+// Newsletter subscription
+function subscribeNewsletter(event) {
+  event.preventDefault();
+  const email = event.target.querySelector('input[type="email"]').value;
+  
+  // In a real implementation, this would send to your backend
+  console.log('Newsletter subscription:', email);
+  
+  // Send to analytics
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'newsletter_signup', {
+      'email': email
+    });
+  }
+  
+  // Show success message
+  const form = event.target;
+  const originalHTML = form.innerHTML;
+  
+  form.innerHTML = `
+    <div class="newsletter-success">
+      <i class="fas fa-check-circle"></i>
+      <span>Thank you for subscribing!</span>
+    </div>
+  `;
+  
+  // Reset form after 3 seconds
+  setTimeout(() => {
+    form.innerHTML = originalHTML;
+  }, 3000);
+}
+
+// Back to top functionality
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+// Show/hide back to top button
+window.addEventListener('scroll', function() {
+  const backToTop = document.getElementById('back-to-top');
+  if (window.pageYOffset > 300) {
+    backToTop.classList.add('visible');
+  } else {
+    backToTop.classList.remove('visible');
+  }
+});
+
+// Performance monitoring
+window.addEventListener('load', function() {
+  setTimeout(() => {
+    if ('performance' in window) {
+      const perfData = performance.getEntriesByType('navigation')[0];
+      const loadTime = Math.round(perfData.loadEventEnd - perfData.fetchStart);
+      
+      const loadTimeElement = document.getElementById('load-time');
+      if (loadTimeElement) {
+        loadTimeElement.textContent = loadTime + 'ms';
+        
+        // Color code based on performance
+        if (loadTime < 1000) {
+          loadTimeElement.style.color = 'var(--success-color)';
+        } else if (loadTime < 3000) {
+          loadTimeElement.style.color = 'var(--accent-color)';
+        } else {
+          loadTimeElement.style.color = 'var(--danger-color)';
+        }
+      }
+    }
+  }, 1000);
+});
+</script>
+
 
     <!-- JavaScript -->
     <script src="/AxiomTradeAPI-py/assets/js/main.js"></script>
-    
-    <!-- Google Analytics (replace with your tracking ID) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'GA_TRACKING_ID');
-    </script>
 </body>
 </html>
