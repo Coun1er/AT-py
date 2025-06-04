@@ -4,8 +4,8 @@
 # Site settings
 title: "AxiomTradeAPI - Python Library for Solana Trading Bots"
 description: "Complete Python SDK for building professional Solana trading bots. Real-time WebSocket data, portfolio management, and automated trading strategies. Trusted by chipa.tech traders."
-baseurl: "/AxiomTradeAPI-py-1"
-url: "https://vigowalker.github.io"
+baseurl: "/AxiomTradeAPI-py"
+url: "https://chipadevteam.github.io"
 
 # Author and organization
 author:
