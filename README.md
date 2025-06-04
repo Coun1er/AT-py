@@ -1,3 +1,4 @@
+[docs](https://chipadevteam.github.io/AxiomTradeAPI-py)
 👉 [Join us on Discord](https://discord.gg/p7YyFqSmAz) <br>
 if you are looking to build a bot, let us build it for you! check [Our shop](https://chipa.tech/shop/)
 # AxiomTradeAPI-py
