@@ -1,27 +1,37 @@
 from axiomtradeapi.content.endpoints import Endpoints
 from axiomtradeapi.helpers.help import Helping
 from axiomtradeapi.websocket._client import AxiomTradeWebSocketClient
+from axiomtradeapi.auth import AuthManager
 import requests
 import logging
 import json
 from typing import List, Dict, Union, Optional
 
 class AxiomTradeClient:
-    def __init__(self, auth_token=None, refresh_token=None, log_level=logging.INFO) -> None:
+    def __init__(self, username: str = None, password: str = None,
+                 auth_token: str = None, refresh_token: str = None, 
+                 log_level: int = logging.INFO) -> None:
+        """
+        Initialize Axiom Trade Client with automatic authentication
+        
+        Args:
+            username: Email for automatic login (recommended)
+            password: Password for automatic login (recommended)  
+            auth_token: Existing auth token (optional)
+            refresh_token: Existing refresh token (optional)
+            log_level: Logging level
+        """
         self.endpoints = Endpoints()
         self.base_url_api = self.endpoints.BASE_URL_API
         self.helper = Helping()
-        self.headers = {
-            "Content-Type": "application/json",
-            "accept": "application/json, text/plain, */*",
-            "origin": "https://axiom.trade",
-            "referer": "https://axiom.trade/discover"
-        }
         
-        if auth_token:
-            self.headers["Cookie"] = f"auth-access-token={auth_token}"
-            if refresh_token:
-                self.headers["Cookie"] += f"; auth-refresh-token={refresh_token}"
+        # Initialize authentication manager
+        self.auth_manager = AuthManager(
+            username=username,
+            password=password,
+            auth_token=auth_token,
+            refresh_token=refresh_token
+        )
         
         # Setup logging
         self.logger = logging.getLogger("AxiomTradeAPI")
@@ -34,14 +44,29 @@ class AxiomTradeClient:
             formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
-        
-        # Initialize WebSocket client
+          # Initialize WebSocket client with tokens from auth manager
+        tokens = self.auth_manager.get_tokens()
         self.ws = AxiomTradeWebSocketClient(
-            auth_token=auth_token,
-            refresh_token=refresh_token,
+            auth_token=tokens.access_token if tokens else auth_token,
+            refresh_token=tokens.refresh_token if tokens else refresh_token,
             log_level=log_level
         )
             
+    async def GetTokenPrice(self, token_symbol: str) -> Optional[float]:
+        """Get the current price of a token by its symbol."""
+        try:
+            await self.ws.connect(is_token_price=True)
+            token_subscribe = await self.ws.subscribe_token_price(token_symbol, lambda data: data.get("price"))
+            if not token_subscribe:
+                self.logger.error(f"Failed to subscribe to token price for {token_symbol}")
+                return None
+            self.logger.debug(f"Subscribed to token price for {token_symbol}")
+            return token_subscribe
+                
+        except requests.exceptions.RequestException as err:
+            error_msg = f"An error occurred: {err}"
+            self.logger.error(error_msg)
+            return None
     def GetBalance(self, wallet_address: str) -> Dict[str, Union[float, int]]:
         """Get balance for a single wallet address."""
         return self.GetBatchedBalance([wallet_address])[wallet_address]
@@ -55,11 +80,11 @@ class AxiomTradeClient:
             
             self.logger.debug(f"Sending batched balance request for wallets: {wallet_addresses}")
             self.logger.debug(f"Request payload: {json.dumps(payload)}")
-            
-            url = f"{self.base_url_api}{self.endpoints.ENDPOINT_GET_BATCHED_BALANCE}"
+              url = f"{self.base_url_api}{self.endpoints.ENDPOINT_GET_BATCHED_BALANCE}"
             self.logger.debug(f"Request URL: {url}")
             
-            response = requests.post(url, headers=self.headers, json=payload)
+            # Use authenticated session
+            response = self.auth_manager.make_authenticated_request('POST', url, json=payload)
             self.logger.debug(f"Response status code: {response.status_code}")
 
             if response.status_code == 200:

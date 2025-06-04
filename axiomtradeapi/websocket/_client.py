@@ -7,6 +7,7 @@ from typing import Optional, Callable, Dict, Any
 class AxiomTradeWebSocketClient:
     def __init__(self, auth_token=None, refresh_token=None, log_level=logging.INFO) -> None:
         self.ws_url = "wss://cluster3.axiom.trade/"
+        self.ws_url_token_price = "wss://socket8.axiom.trade/"
         self.ws: Optional[websockets.WebSocketClientProtocol] = None
         self.auth_token = auth_token
         self.refresh_token = refresh_token
@@ -25,7 +26,7 @@ class AxiomTradeWebSocketClient:
         
         self._callbacks: Dict[str, Callable] = {}
 
-    async def connect(self):
+    async def connect(self, is_token_price: bool = False) -> bool:
         """Connect to the WebSocket server."""
         headers = {
             'Origin': 'https://axiom.trade',
@@ -46,6 +47,8 @@ class AxiomTradeWebSocketClient:
                 headers["Cookie"] += f"; auth-refresh-token={self.refresh_token}"
         
         try:
+            if is_token_price:
+                self.ws_url = self.ws_url_token_price
             self.ws = await websockets.connect(
                 self.ws_url,
                 extra_headers=headers
@@ -75,6 +78,24 @@ class AxiomTradeWebSocketClient:
             self.logger.error(f"Failed to subscribe to new tokens: {e}")
             return False
 
+    async def subscribe_token_price(self, token: str, callback: Callable[[Dict[str, Any]], None]):
+        """Subscribe to token price updates."""
+        if not self.ws:
+            if not await self.connect(is_token_price=True):
+                return False
+
+        self._callbacks[token] = callback
+        
+        try:
+            await self.ws.send(json.dumps({
+                "action": "join",
+                "room": token
+            }))
+            self.logger.info(f"Subscribed to price updates for token: {token}")
+            return True
+        except Exception as e:
+            self.logger.error(f"Failed to subscribe to token price: {e}")
+            return False
     async def _message_handler(self):
         """Handle incoming WebSocket messages."""
         if not self.ws:

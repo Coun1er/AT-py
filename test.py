@@ -10,7 +10,7 @@ async def main():
     client = AxiomTradeClient(
         log_level=logging.DEBUG
     )
-    await client.subscribe_new_tokens(handle_tokens)
+    await client.GetTokenPrice("8ScCaba6Uix9eDh6Jv2PyNfKMWa6iMBC1weU6Zaqj3SL")
     await client.ws.start()
 
 asyncio.run(main())
