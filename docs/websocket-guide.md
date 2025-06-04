@@ -1,3 +1,11 @@
+---
+layout: guide
+title: "WebSocket Integration Guide - Real-Time Solana Data"
+description: "Complete guide to real-time Solana token monitoring and WebSocket streaming using AxiomTradeAPI-py for building advanced trading bots."
+difficulty: "Intermediate"
+estimated_time: "30 minutes"
+---
+
 # WebSocket Integration Guide - AxiomTradeAPI-py | Real-Time Solana Trading Data
 
 ## Complete Guide to Real-Time Solana Token Monitoring and WebSocket Streaming

@@ -1,3 +1,10 @@
+---
+layout: default
+title: "AxiomTradeAPI - Python SDK for Solana Trading Bots"
+description: "Complete Python SDK for building professional Solana trading bots. Real-time WebSocket data, portfolio management, and automated trading strategies."
+keywords: "solana trading bot, python sdk, axiom trade, cryptocurrency automation, trading api"
+---
+
 # AxiomTradeAPI-py: Complete Python SDK for Solana Trading Automation
 
 ## The Ultimate Python Library for Axiom Trade Integration | Built by [Chipa.tech](https://chipa.tech)

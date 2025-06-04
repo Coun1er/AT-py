@@ -1,0 +1,155 @@
+---
+layout: default
+---
+
+<div class="page-wrapper">
+  <!-- Breadcrumb Navigation -->
+  <nav class="breadcrumb-nav">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="{{ site.baseurl }}/">Home</a></li>
+        {% if page.category %}
+        <li><a href="{{ site.baseurl }}/{{ page.category }}">{{ page.category | capitalize }}</a></li>
+        {% endif %}
+        <li class="active">{{ page.title }}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="page-content">
+    <div class="container">
+      <div class="content-grid">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <div class="sidebar-content">
+            <div class="sidebar-section">
+              <h3>Getting Started</h3>
+              <ul class="sidebar-nav">
+                <li><a href="{{ site.baseurl }}/installation">Installation</a></li>
+                <li><a href="{{ site.baseurl }}/authentication">Authentication</a></li>
+                <li><a href="{{ site.baseurl }}/quickstart">Quick Start</a></li>
+              </ul>
+            </div>
+
+            <div class="sidebar-section">
+              <h3>Core Features</h3>
+              <ul class="sidebar-nav">
+                <li><a href="{{ site.baseurl }}/balance-queries">Balance Queries</a></li>
+                <li><a href="{{ site.baseurl }}/websocket-guide">WebSocket Streaming</a></li>
+                <li><a href="{{ site.baseurl }}/error-handling">Error Handling</a></li>
+              </ul>
+            </div>
+
+            <div class="sidebar-section">
+              <h3>Advanced Trading</h3>
+              <ul class="sidebar-nav">
+                <li><a href="{{ site.baseurl }}/trading-bots">Trading Bots</a></li>
+                <li><a href="{{ site.baseurl }}/market-making">Market Making</a></li>
+                <li><a href="{{ site.baseurl }}/risk-management">Risk Management</a></li>
+              </ul>
+            </div>
+
+            <div class="sidebar-section">
+              <h3>Resources</h3>
+              <ul class="sidebar-nav">
+                <li><a href="{{ site.baseurl }}/api-reference">API Reference</a></li>
+                <li><a href="{{ site.baseurl }}/examples">Examples</a></li>
+                <li><a href="https://chipa.tech" target="_blank">chipa.tech Services</a></li>
+              </ul>
+            </div>
+
+            <!-- Promotional Section -->
+            <div class="sidebar-promo">
+              <div class="promo-card">
+                <h4>Need Custom Development?</h4>
+                <p>Get professional trading bot development services from the chipa.tech team.</p>
+                <a href="https://chipa.tech/product/create-your-bot" class="btn btn-primary btn-sm" target="_blank">
+                  Get Started
+                </a>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Article Content -->
+        <article class="main-content">
+          <header class="article-header">
+            <h1 class="article-title">{{ page.title }}</h1>
+            {% if page.description %}
+            <p class="article-description">{{ page.description }}</p>
+            {% endif %}
+            
+            {% if page.last_modified_at or page.date %}
+            <div class="article-meta">
+              <span class="meta-item">
+                <i class="fas fa-calendar"></i>
+                {% if page.last_modified_at %}
+                  Last updated: {{ page.last_modified_at | date: "%B %d, %Y" }}
+                {% else %}
+                  Published: {{ page.date | date: "%B %d, %Y" }}
+                {% endif %}
+              </span>
+              {% if page.reading_time %}
+              <span class="meta-item">
+                <i class="fas fa-clock"></i>
+                {{ page.reading_time }} min read
+              </span>
+              {% endif %}
+            </div>
+            {% endif %}
+          </header>
+
+          <div class="article-content">
+            {{ content }}
+          </div>
+
+          <!-- Article Footer -->
+          <footer class="article-footer">
+            <div class="footer-actions">
+              <a href="{{ site.custom.github_repo }}/edit/main/docs/{{ page.path }}" class="edit-link" target="_blank">
+                <i class="fas fa-edit"></i>
+                Edit this page
+              </a>
+              
+              <div class="share-buttons">
+                <span class="share-label">Share:</span>
+                <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url }}{{ site.baseurl }}{{ page.url }}" class="share-btn twitter" target="_blank">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url }}{{ site.baseurl }}{{ page.url }}" class="share-btn linkedin" target="_blank">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Next/Previous Navigation -->
+            {% if page.next or page.previous %}
+            <nav class="page-nav">
+              {% if page.previous %}
+              <a href="{{ page.previous.url }}" class="nav-btn nav-prev">
+                <i class="fas fa-arrow-left"></i>
+                <div class="nav-text">
+                  <span class="nav-label">Previous</span>
+                  <span class="nav-title">{{ page.previous.title }}</span>
+                </div>
+              </a>
+              {% endif %}
+              
+              {% if page.next %}
+              <a href="{{ page.next.url }}" class="nav-btn nav-next">
+                <div class="nav-text">
+                  <span class="nav-label">Next</span>
+                  <span class="nav-title">{{ page.next.title }}</span>
+                </div>
+                <i class="fas fa-arrow-right"></i>
+              </a>
+              {% endif %}
+            </nav>
+            {% endif %}
+          </footer>
+        </article>
+      </div>
+    </div>
+  </main>
+</div>

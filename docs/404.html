@@ -1,0 +1,300 @@
+---
+layout: page
+title: "Page Not Found - AxiomTradeAPI Documentation"
+description: "The page you're looking for doesn't exist. Explore our comprehensive Solana trading bot documentation."
+permalink: /404.html
+sitemap:
+  exclude: 'yes'
+---
+
+<div class="error-page">
+  <div class="error-content">
+    <div class="error-illustration">
+      <i class="fas fa-robot" style="font-size: 4rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+      <h1 class="error-title">404 - Page Not Found</h1>
+      <p class="error-description">
+        Oops! The trading bot couldn't find the page you're looking for. 
+        But don't worry, we have plenty of other resources to help you build amazing Solana trading bots.
+      </p>
+    </div>
+    
+    <div class="error-actions">
+      <a href="{{ site.baseurl }}/" class="btn btn-primary">
+        <i class="fas fa-home"></i>
+        Go Home
+      </a>
+      <a href="{{ site.baseurl }}/installation" class="btn btn-secondary">
+        <i class="fas fa-rocket"></i>
+        Get Started
+      </a>
+    </div>
+    
+    <div class="error-search">
+      <h3>Search Our Documentation</h3>
+      <div class="search-box">
+        <input type="text" id="error-search" placeholder="Search for trading bot guides, API reference..." class="search-input">
+        <button type="button" onclick="performErrorSearch()" class="search-btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <div id="error-search-results" class="search-results"></div>
+    </div>
+    
+    <div class="popular-pages">
+      <h3>Popular Pages</h3>
+      <div class="popular-grid">
+        <a href="{{ site.baseurl }}/installation" class="popular-item">
+          <i class="fas fa-download"></i>
+          <span>Installation Guide</span>
+        </a>
+        <a href="{{ site.baseurl }}/trading-bots" class="popular-item">
+          <i class="fas fa-robot"></i>
+          <span>Trading Bot Development</span>
+        </a>
+        <a href="{{ site.baseurl }}/websocket-guide" class="popular-item">
+          <i class="fas fa-stream"></i>
+          <span>WebSocket Guide</span>
+        </a>
+        <a href="{{ site.baseurl }}/api-reference" class="popular-item">
+          <i class="fas fa-code"></i>
+          <span>API Reference</span>
+        </a>
+        <a href="{{ site.baseurl }}/security" class="popular-item">
+          <i class="fas fa-shield-alt"></i>
+          <span>Security Best Practices</span>
+        </a>
+        <a href="{{ site.baseurl }}/performance" class="popular-item">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Performance Optimization</span>
+        </a>
+      </div>
+    </div>
+    
+    <div class="help-section">
+      <div class="help-card">
+        <h3>Still Need Help?</h3>
+        <p>
+          Join the <a href="https://chipa.tech" class="chipa-link">chipa.tech community</a> 
+          for support from experienced Solana traders and developers.
+        </p>
+        <div class="help-actions">
+          <a href="{{ site.custom.discord_invite }}" class="btn btn-outline" target="_blank">
+            <i class="fab fa-discord"></i>
+            Join Discord
+          </a>
+          <a href="https://chipa.tech/product/create-your-bot" class="btn btn-outline" target="_blank">
+            <i class="fas fa-cogs"></i>
+            Custom Bot Development
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.error-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.error-illustration {
+  margin-bottom: 3rem;
+}
+
+.error-title {
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.error-description {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.error-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.error-search {
+  margin-bottom: 3rem;
+  text-align: left;
+  background: var(--bg-secondary);
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.error-search h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-box {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.search-box input {
+  flex: 1;
+}
+
+.search-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.search-btn:hover {
+  background: var(--primary-dark);
+}
+
+.popular-pages {
+  margin-bottom: 3rem;
+  text-align: left;
+}
+
+.popular-pages h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.popular-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.popular-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: var(--transition-fast);
+}
+
+.popular-item:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.popular-item i {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+}
+
+.help-section {
+  background: linear-gradient(135deg, var(--chipa-primary), var(--chipa-secondary));
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.help-card h3 {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.help-card p {
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.help-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .error-title {
+    font-size: 2rem;
+  }
+  
+  .error-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .popular-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .help-actions {
+    flex-direction: column;
+  }
+}
+</style>
+
+<script>
+function performErrorSearch() {
+  const query = document.getElementById('error-search').value.trim();
+  const resultsContainer = document.getElementById('error-search-results');
+  
+  if (!query || query.length < 2) {
+    resultsContainer.innerHTML = '';
+    return;
+  }
+  
+  // Simple client-side search
+  const pages = [
+    { title: 'Installation Guide', url: '/installation', description: 'Step-by-step installation instructions for AxiomTradeAPI' },
+    { title: 'Trading Bot Development', url: '/trading-bots', description: 'Learn to build profitable Solana trading bots' },
+    { title: 'WebSocket Streaming', url: '/websocket-guide', description: 'Real-time data streaming with WebSocket connections' },
+    { title: 'API Reference', url: '/api-reference', description: 'Complete API documentation and endpoints' },
+    { title: 'Authentication', url: '/authentication', description: 'Secure authentication setup and best practices' },
+    { title: 'Balance Queries', url: '/balance-queries', description: 'Query wallet balances and portfolio data' },
+    { title: 'Error Handling', url: '/error-handling', description: 'Handle errors gracefully in your trading bots' },
+    { title: 'Performance Optimization', url: '/performance', description: 'Optimize your trading bot performance' },
+    { title: 'Security Best Practices', url: '/security', description: 'Secure your trading bot and protect your assets' }
+  ];
+  
+  const results = pages.filter(page => 
+    page.title.toLowerCase().includes(query.toLowerCase()) ||
+    page.description.toLowerCase().includes(query.toLowerCase())
+  );
+  
+  if (results.length === 0) {
+    resultsContainer.innerHTML = '<p class="no-results">No results found. Try a different search term.</p>';
+    return;
+  }
+  
+  const resultsHTML = results.map(result => `
+    <div class="search-result-item">
+      <h4><a href="{{ site.baseurl }}${result.url}">${result.title}</a></h4>
+      <p>${result.description}</p>
+    </div>
+  `).join('');
+  
+  resultsContainer.innerHTML = resultsHTML;
+}
+
+// Allow Enter key to trigger search
+document.getElementById('error-search').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    performErrorSearch();
+  }
+});
+</script>

@@ -1,0 +1,187 @@
+---
+layout: page
+---
+
+<div class="api-documentation">
+  <!-- API Method Header -->
+  <div class="api-header">
+    <div class="method-badge {{ page.method | downcase }}">{{ page.method | upcase }}</div>
+    <h1 class="api-title">{{ page.title }}</h1>
+    <div class="api-endpoint">
+      <code>{{ page.endpoint }}</code>
+    </div>
+    {% if page.description %}
+    <p class="api-description">{{ page.description }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Quick Reference -->
+  {% if page.quick_example %}
+  <div class="quick-reference">
+    <h3>Quick Example</h3>
+    <div class="code-block">
+      <pre><code class="language-python">{{ page.quick_example }}</code></pre>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Parameters Section -->
+  {% if page.parameters %}
+  <section class="api-section">
+    <h2>Parameters</h2>
+    <div class="parameters-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for param in page.parameters %}
+          <tr>
+            <td><code>{{ param.name }}</code></td>
+            <td><span class="type-badge">{{ param.type }}</span></td>
+            <td>
+              {% if param.required %}
+                <span class="required-badge">Required</span>
+              {% else %}
+                <span class="optional-badge">Optional</span>
+              {% endif %}
+            </td>
+            <td>{{ param.description }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Response Section -->
+  {% if page.response %}
+  <section class="api-section">
+    <h2>Response</h2>
+    {% if page.response.description %}
+    <p>{{ page.response.description }}</p>
+    {% endif %}
+    
+    {% if page.response.example %}
+    <div class="response-example">
+      <h4>Example Response</h4>
+      <div class="code-block">
+        <pre><code class="language-json">{{ page.response.example }}</code></pre>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if page.response.fields %}
+    <div class="response-fields">
+      <h4>Response Fields</h4>
+      <div class="parameters-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for field in page.response.fields %}
+            <tr>
+              <td><code>{{ field.name }}</code></td>
+              <td><span class="type-badge">{{ field.type }}</span></td>
+              <td>{{ field.description }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  <!-- Error Codes Section -->
+  {% if page.errors %}
+  <section class="api-section">
+    <h2>Error Codes</h2>
+    <div class="error-codes">
+      {% for error in page.errors %}
+      <div class="error-item">
+        <div class="error-code">{{ error.code }}</div>
+        <div class="error-details">
+          <h4>{{ error.title }}</h4>
+          <p>{{ error.description }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Code Examples Section -->
+  {% if page.examples %}
+  <section class="api-section">
+    <h2>Code Examples</h2>
+    {% for example in page.examples %}
+    <div class="example-block">
+      <h3>{{ example.title }}</h3>
+      {% if example.description %}
+      <p>{{ example.description }}</p>
+      {% endif %}
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">{{ example.language | default: "python" }}</span>
+        </div>
+        <pre><code class="language-{{ example.language | default: 'python' }}">{{ example.code }}</code></pre>
+      </div>
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <!-- Related Endpoints -->
+  {% if page.related %}
+  <section class="api-section">
+    <h2>Related Endpoints</h2>
+    <div class="related-links">
+      {% for related in page.related %}
+      <a href="{{ related.url }}" class="related-link">
+        <div class="method-badge {{ related.method | downcase }}">{{ related.method }}</div>
+        <div class="related-details">
+          <h4>{{ related.title }}</h4>
+          <p>{{ related.description }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Content from Markdown -->
+  <div class="api-content">
+    {{ content }}
+  </div>
+
+  <!-- Community Section -->
+  <section class="community-section">
+    <div class="community-card">
+      <h3>Need Help?</h3>
+      <p>Join the chipa.tech community for support and to share your trading strategies.</p>
+      <div class="community-links">
+        <a href="{{ site.custom.discord_invite }}" class="btn btn-secondary" target="_blank">
+          <i class="fab fa-discord"></i>
+          Join Discord
+        </a>
+        <a href="https://chipa.tech" class="btn btn-outline" target="_blank">
+          <i class="fas fa-globe"></i>
+          Visit chipa.tech
+        </a>
+      </div>
+    </div>
+  </section>
+</div>

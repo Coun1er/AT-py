@@ -1,0 +1,410 @@
+<!-- AxiomTradeAPI Documentation Header Component -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo-section">
+        <a href="{{ site.baseurl }}/" class="logo-link">
+          <h1 class="site-title">
+            <i class="fas fa-robot"></i>
+            AxiomTradeAPI
+          </h1>
+        </a>
+        <p class="site-tagline">Professional Solana Trading Bot Library</p>
+      </div>
+      
+      <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="{{ site.baseurl }}/" class="nav-link {% if page.url == '/' %}active{% endif %}">Home</a></li>
+          <li><a href="{{ site.baseurl }}/installation" class="nav-link {% if page.url contains 'installation' %}active{% endif %}">Quick Start</a></li>
+          <li><a href="{{ site.baseurl }}/trading-bots" class="nav-link {% if page.url contains 'trading-bots' %}active{% endif %}">Trading Bots</a></li>
+          <li><a href="{{ site.baseurl }}/websocket-guide" class="nav-link {% if page.url contains 'websocket' %}active{% endif %}">WebSocket</a></li>
+          <li><a href="{{ site.baseurl }}/api-reference" class="nav-link {% if page.url contains 'api' %}active{% endif %}">API</a></li>
+          <li>
+            <a href="https://chipa.tech" class="nav-link external" target="_blank" rel="noopener">
+              chipa.tech <i class="fas fa-external-link-alt"></i>
+            </a>
+          </li>
+        </ul>
+        
+        <!-- Mobile menu toggle -->
+        <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </nav>
+      
+      <!-- Search toggle -->
+      <button class="search-toggle" onclick="toggleSearch()" aria-label="Open search">
+        <i class="fas fa-search"></i>
+      </button>
+      
+      <!-- Theme toggle -->
+      <button class="theme-toggle-header" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+    
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobile-menu">
+      <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
+        <a href="{{ site.baseurl }}/" class="mobile-nav-link">Home</a>
+        <a href="{{ site.baseurl }}/installation" class="mobile-nav-link">Quick Start</a>
+        <a href="{{ site.baseurl }}/trading-bots" class="mobile-nav-link">Trading Bots</a>
+        <a href="{{ site.baseurl }}/websocket-guide" class="mobile-nav-link">WebSocket</a>
+        <a href="{{ site.baseurl }}/api-reference" class="mobile-nav-link">API Reference</a>
+        <a href="https://chipa.tech" class="mobile-nav-link external" target="_blank">chipa.tech</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="search-overlay">
+  <div class="search-container">
+    <div class="search-header">
+      <h3>Search Documentation</h3>
+      <button class="search-close" onclick="toggleSearch()" aria-label="Close search">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <input type="text" class="search-input" id="global-search" placeholder="Search for guides, API methods, examples...">
+    <div class="search-results" id="global-search-results"></div>
+    <div class="search-shortcuts">
+      <div class="shortcut-section">
+        <h4>Quick Links</h4>
+        <a href="{{ site.baseurl }}/installation" class="search-shortcut">
+          <i class="fas fa-download"></i>
+          Installation
+        </a>
+        <a href="{{ site.baseurl }}/trading-bots" class="search-shortcut">
+          <i class="fas fa-robot"></i>
+          Trading Bots
+        </a>
+        <a href="{{ site.baseurl }}/websocket-guide" class="search-shortcut">
+          <i class="fas fa-stream"></i>
+          WebSocket
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Header styles */
+.site-header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.site-title {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.site-tagline {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-fast);
+  padding: 0.5rem 0;
+  position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-color);
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-color);
+}
+
+.nav-link.external {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.search-toggle,
+.theme-toggle-header {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+}
+
+.search-toggle:hover,
+.theme-toggle-header:hover {
+  background: var(--bg-secondary);
+  color: var(--primary-color);
+}
+
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  gap: 3px;
+}
+
+.hamburger-line {
+  width: 20px;
+  height: 2px;
+  background: var(--text-primary);
+  transition: var(--transition-fast);
+}
+
+.mobile-menu {
+  display: none;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-light);
+  padding: 1rem 0;
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mobile-nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+}
+
+.mobile-nav-link:hover {
+  background: var(--bg-primary);
+  color: var(--primary-color);
+}
+
+/* Search overlay styles */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: none;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.search-overlay.active {
+  display: flex;
+  opacity: 1;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 5vh;
+}
+
+.search-container {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+}
+
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-header h3 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.search-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+}
+
+.search-close:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.search-shortcuts {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.shortcut-section h4 {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.search-shortcut {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+  margin-bottom: 0.5rem;
+}
+
+.search-shortcut:hover {
+  background: var(--bg-secondary);
+  color: var(--primary-color);
+}
+
+.search-shortcut i {
+  color: var(--primary-color);
+  width: 16px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .main-nav .nav-list {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .mobile-menu.active {
+    display: block;
+  }
+  
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+  
+  .header-content {
+    flex-wrap: wrap;
+  }
+  
+  .search-container {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}
+</style>
+
+<script>
+function toggleSearch() {
+  const overlay = document.getElementById('search-overlay');
+  const searchInput = document.getElementById('global-search');
+  
+  if (overlay.classList.contains('active')) {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  } else {
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => searchInput.focus(), 100);
+  }
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  // Update theme toggle icons
+  const headerToggle = document.querySelector('.theme-toggle-header i');
+  const footerToggle = document.querySelector('.theme-toggle i');
+  
+  const newIcon = newTheme === 'dark' ? 'fa-sun' : 'fa-moon';
+  
+  if (headerToggle) headerToggle.className = `fas ${newIcon}`;
+  if (footerToggle) footerToggle.className = `fas ${newIcon}`;
+}
+
+// Close search with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const overlay = document.getElementById('search-overlay');
+    if (overlay.classList.contains('active')) {
+      toggleSearch();
+    }
+  }
+});
+
+// Close search when clicking outside
+document.getElementById('search-overlay').addEventListener('click', function(e) {
+  if (e.target === this) {
+    toggleSearch();
+  }
+});
+</script>

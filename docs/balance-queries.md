@@ -1,3 +1,11 @@
+---
+layout: api
+title: "Balance Queries API - AxiomTradeAPI"
+description: "Complete API reference for Solana wallet balance monitoring, portfolio tracking, and batch operations using AxiomTradeAPI-py."
+endpoint: "/api/balance"
+method: "GET"
+---
+
 # Balance Queries Guide - AxiomTradeAPI-py | Solana Wallet Monitoring SDK
 
 ## Complete Guide to Solana Wallet Balance Monitoring and Batch Operations
