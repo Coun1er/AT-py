@@ -1,3 +1,9 @@
+---
+layout: page
+title: "Authentication Guide - Secure API Setup"
+description: "Complete authentication setup guide for AxiomTradeAPI-py. Learn how to securely authenticate with Axiom Trade API for professional trading bot development."
+---
+
 # Authentication Guide - AxiomTradeAPI-py | Secure Solana Trading Bot Setup
 
 ## Complete Authentication Setup for Axiom Trade API Integration
