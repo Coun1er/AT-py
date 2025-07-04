@@ -18,4 +18,4 @@ async def main():
     await client.subscribe_new_tokens(handle_tokens)
     await client.ws.start()
 
-asyncio.run(main())
+asyncio.run(main())``

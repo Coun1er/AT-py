@@ -335,3 +335,158 @@ class AxiomTradeClient:
     async def subscribe_new_tokens(self, callback):
         """Subscribe to new token updates via WebSocket."""
         return await self.ws.subscribe_new_tokens(callback)
+    
+    def login_step1(self, email: str, b64_password: str) -> str:
+        """
+        First step of login - send email and password to get OTP JWT token
+        Returns the OTP JWT token needed for step 2
+        """
+        url = 'https://api6.axiom.trade/login-password-v2'
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0',
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br, zstd',
+            'Content-Type': 'application/json',
+            'Origin': 'https://axiom.trade',
+            'Connection': 'keep-alive',
+            'Referer': 'https://axiom.trade/',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-site',
+            'TE': 'trailers'
+        }
+        
+        data = {
+            "email": email,
+            "b64Password": b64_password
+        }
+        
+        self.logger.debug(f"Sending login step 1 request for email: {email}")
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()
+        
+        result = response.json()
+        otp_token = result.get('otpJwtToken')
+        self.logger.debug("OTP JWT token received successfully")
+        return otp_token
+
+    def login_step2(self, otp_jwt_token: str, otp_code: str, email: str, b64_password: str) -> Dict:
+        """
+        Second step of login - send OTP code to complete authentication
+        Returns client credentials (clientSecret, orgId, userId)
+        """
+        url = 'https://api10.axiom.trade/login-otp'
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0',
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br, zstd',
+            'Content-Type': 'application/json',
+            'Origin': 'https://axiom.trade',
+            'Connection': 'keep-alive',
+            'Referer': 'https://axiom.trade/',
+            'Cookie': f'auth-otp-login-token={otp_jwt_token}',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-site',
+            'TE': 'trailers'
+        }
+        
+        data = {
+            "code": otp_code,
+            "email": email,
+            "b64Password": b64_password
+        }
+        
+        self.logger.debug("Sending login step 2 request with OTP code")
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()
+        
+        credentials = response.json()
+        self.logger.info("Login completed successfully")
+        return credentials
+
+    def complete_login(self, email: str, b64_password: str, otp_code: str) -> Dict:
+        """
+        Complete the full login process
+        Returns client credentials (clientSecret, orgId, userId)
+        """
+        self.logger.info("Starting login process...")
+        otp_jwt_token = self.login_step1(email, b64_password)
+        credentials = self.login_step2(otp_jwt_token, otp_code, email, b64_password)
+        
+        # Store credentials in auth manager if available
+        if hasattr(self, 'auth_manager'):
+            # Update auth manager with new credentials
+            # Note: This may need adjustment based on how auth_manager handles these credentials
+            pass
+            
+        return credentials
+
+    def refresh_access_token_direct(self, refresh_token: str) -> str:
+        """
+        Refresh the access token using a refresh token
+        Returns the new access token
+        """
+        url = 'https://api9.axiom.trade/refresh-access-token'
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0',
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br, zstd',
+            'Origin': 'https://axiom.trade',
+            'Connection': 'keep-alive',
+            'Referer': 'https://axiom.trade/',
+            'Cookie': f'auth-refresh-token={refresh_token}',
+            'Content-Length': '0',
+            'TE': 'trailers'
+        }
+        
+        self.logger.debug("Refreshing access token")
+        response = requests.post(url, headers=headers)
+        response.raise_for_status()
+        
+        # Check if token is in response JSON or cookies
+        try:
+            result = response.json()
+            new_token = result.get('auth-access-token')
+        except:
+            new_token = None
+            
+        if not new_token:
+            # Try to get from cookies
+            new_token = response.cookies.get('auth-access-token')
+            
+        if new_token:
+            self.logger.debug("Access token refreshed successfully")
+        else:
+            self.logger.warning("Could not extract new access token from response")
+            
+        return new_token
+
+    def get_trending_tokens(self, access_token: str, time_period: str = '1h') -> Dict:
+        """
+        Get trending meme tokens
+        Available time periods: 1h, 24h, 7d
+        """
+        url = f'https://api6.axiom.trade/meme-trending?timePeriod={time_period}'
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0',
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br, zstd',
+            'Origin': 'https://axiom.trade',
+            'Connection': 'keep-alive',
+            'Referer': 'https://axiom.trade/',
+            'Cookie': f'auth-access-token={access_token}',
+            'TE': 'trailers'
+        }
+        
+        self.logger.debug(f"Fetching trending tokens for period: {time_period}")
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        
+        result = response.json()
+        self.logger.debug(f"Retrieved {len(result) if isinstance(result, list) else 'N/A'} trending tokens")
+        return result
