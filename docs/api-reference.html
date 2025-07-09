@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Reference - Your Trading Bot Company</title>
+    <meta name="description" content="Comprehensive API documentation for accessing our trading bots and services. Automate your trading and workflows with our powerful API.">
+    <meta name="keywords" content="trading bot api, forex api, binary options api, crypto api, automation api, data scraping api, AI api, API documentation, trading automation">
+    <link rel="stylesheet" href="assets/css/style.css"> <!-- Link to your main stylesheet -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 10px;
+            min-height: 70px;
+            border-bottom: #0779e4 3px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+        header li {
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        .api-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .api-section h2 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .endpoint {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #0779e4;
+        }
+        .endpoint h3 {
+            margin-top: 0;
+            color: #0779e4;
+        }
+        .endpoint code {
+            background: #e2e2e2;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .endpoint pre {
+            background: #e2e2e2;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .endpoint table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .endpoint table th, .endpoint table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .endpoint table th {
+            background-color: #f2f2f2;
+        }
+        .promo-banner {
+            background: #ffc107;
+            color: #333;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .promo-banner a {
+            color: #333;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Your Trading Bot Company</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="examples.html">Examples</a></li>
+                    <li><a href="api-reference.html">API Reference</a></li>
+                    <li><a href="https://shop.chipatrade.com/collections/all" target="_blank">Our Services</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="promo-banner">
+            Explore our powerful trading bots and automation services on our main website! <a href="https://shop.chipatrade.com/collections/all" target="_blank">Visit our shop</a> to automate your trading and workflows.
+        </div>
+        <div class="promo-banner">
+        <h1>API Reference</h1>
+        <p>This document provides a detailed reference for our trading bot API, allowing you to programmatically interact with our services and automate your trading strategies.</p>
+
+        <div class="api-section">
+            <h2>Authentication</h2>
+            <p>All API requests require authentication. Please refer to the authentication guide for details on how to obtain and use your API keys.</p>
+            <div class="endpoint">
+                <h3>Authenticate</h3>
+                <p><strong>HTTP Method:</strong> POST</p>
+                <p><strong>Endpoint:</strong> Details depend on AxiomAuth class</p>
+                <p><strong>Description:</strong> Authenticates the user and returns an API token for subsequent requests.</p>
+                <h4>Parameters:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>username</code></td>
+                            <td>string</td>
+                            <td>Your API username.</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>b64_password</code></td>
+                            <td>string</td>
+                            <td>The one-time password for 2FA.</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Response:</h4>
+                <p>Returns a JSON object containing the API token and its expiration time.</p>
+                <pre><code>
+{
+  "token": "your_api_token",
+  "expires_at": "timestamp"
+}
+                </code></pre>
+            </div>
+            
+            <div class="endpoint">
+                <h3>Refresh Access Token</h3>
+                <p><strong>HTTP Method:</strong> POST (Details depend on AxiomAuth class)</p>
+                <p><strong>Endpoint:</strong> Details depend on AxiomAuth class</p>
+                <p><strong>Description:</strong> Refreshes the access token using a valid refresh token.</p>
+                <h4>Parameters:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Requires a valid refresh token set in the client instance.</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Response:</h4>
+                <p>Returns the new access token as a string.</p>
+                <pre><code>
+"new_access_token_string"
+                </code></pre>
+                 <p><strong>Error Codes:</strong></p>
+                <ul>
+                    <li><code>401 Unauthorized</code>: Invalid or expired refresh token.</li>
+                     <li><code>400 Bad Request</code>: No refresh token available.</li>
+                </ul>
+            </div>
+             <div class="promo-banner">
+            Need custom authentication solutions for your trading strategy? Our <a href="https://shop.chipatrade.com/collections/all" target="_blank">Custom Bot Development services</a> can help!
+        </div>
+         <div class="promo-banner">
+            Looking for pre-built trading bots or want a custom solution tailored to your strategy? <a href="https://shop.chipatrade.com/collections/all" target="_blank">Explore our services</a> and automate your trading today!
+        </div>
+
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>Account Information</h2>
+            <div class="endpoint">
+                <h3>Get Account Balance</h3>
+                <p><strong>HTTP Method:</strong> GET</p>
+                <p><strong>Endpoint:</strong> <code>https://api6.axiom.trade/portfolio</code></p>
+                <p><strong>Description:</strong> Retrieves the current account balance for your trading account.</p>
+                <h4>Parameters:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Requires a valid access token in the 'Cookie' header.</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Response:</h4>
+                <p>Returns a JSON object with the account balance details.</p>
+                <pre><code>
+{
+  "currency": "USD",
+  "balance_details": {} // Structure depends on the actual API response
+}
+                </code></pre>
+                <p><strong>Error Codes:</strong></p>
+                <ul>
+                    <li><code>401 Unauthorized</code>: Invalid or expired API token.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>Trading Operations</h2>
+            <div class="endpoint">
+                <h3>Place Order</h3>
+                <p><strong>HTTP Method:</strong> POST</p>
+                <p><strong>Endpoint:</strong> Specific endpoint not available in client.py, likely a trading endpoint.</p>
+                <p><strong>Description:</strong> Places a new trading order.</p>
+                <h4>Parameters:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Requires a valid access token for authentication.</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>symbol</code></td>
+                            <td>string</td>
+                            <td>The trading symbol (e.g., "EURUSD", "BTCUSDT").</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>type</code></td>
+                            <td>string</td>
+                            <td>Order type (e.g., "market", "limit", "stop").</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>side</code></td>
+                            <td>string</td>
+                            <td>Order side ("buy" or "sell").</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>volume</code></td>
+                            <td>number</td>
+                            <td>The order volume.</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>price</code></td>
+                            <td>number</td>
+                            <td>The order price (required for limit/stop orders).</td>
+                            <td>Optional</td>
+                        </tr>
+                        <tr>
+                            <td><code>stop_loss</code></td>
+                            <td>number</td>
+                            <td>Stop loss price.</td>
+                            <td>Optional</td>
+                        </tr>
+                        <tr>
+                            <td><code>take_profit</code></td>
+                            <td>number</td>
+                            <td>Take profit price.</td>
+                            <td>Optional</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Response:</h4>
+                <p>Returns a JSON object with the order details.</p>
+                <pre><code>
+{
+  "order_id": "unique_order_id",
+  "symbol": "EURUSD",
+  "type": "market",
+  "side": "buy",
+  "volume": 0.1,
+  "status": "filled"
+}
+                </code></pre>
+                <p><strong>Error Codes:</strong></p>
+                <ul>
+                    <li><code>400 Bad Request</code>: Invalid parameters provided.</li>
+                    <li><code>401 Unauthorized</code>: Invalid or expired API token.</li>
+                    <li><code>400 Insufficient Funds</code>: Not enough balance to place the order.</li>
+                </ul>
+            </div>
+
+            <div class="endpoint">
+                <h3>Cancel Order</h3>
+                <p><strong>HTTP Method:</strong> POST</p>
+                <p><strong>Endpoint:</strong> Specific endpoint not available in client.py, likely a trading endpoint.</p>
+                <p><strong>Description:</strong> Cancels an existing trading order.</p>
+                <h4>Parameters:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Requires a valid access token for authentication.</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>order_id</code></td>
+                            <td>string</td>
+                            <td>The ID of the order to cancel.</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Response:</h4>
+                <p>Returns a JSON object indicating the status of the cancellation.</p>
+                <pre><code>
+{
+  "order_id": "unique_order_id",
+  "status": "cancelled"
+}
+                </code></pre>
+                <p><strong>Error Codes:</strong></p>
+                <ul>
+                    <li><code>400 Bad Request</code>: Invalid order ID.</li>
+                    <li><code>401 Unauthorized</code>: Invalid or expired API token.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>Data Retrieval</h2>
+            <div class="endpoint">
+                <h3>Get Historical Data</h3>
+                <p><strong>HTTP Method:</strong> GET</p>
+                <p><strong>Endpoint:</strong> Specific endpoint not available in client.py, likely a data endpoint.</p>
+                <p><strong>Description:</strong> Retrieves historical price data for a given symbol and timeframe.</p>
+                <h4>Parameters:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Requires a valid access token for authentication.</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>symbol</code></td>
+                            <td>string</td>
+                            <td>The trading symbol (e.g., "EURUSD", "BTCUSDT").</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>timeframe</code></td>
+                            <td>string</td>
+                            <td>The data timeframe (e.g., "1m", "5m", "1h", "1d").</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>start_time</code></td>
+                            <td>timestamp</td>
+                            <td>The start time for the data range.</td>
+                            <td>Optional</td>
+                        </tr>
+                        <tr>
+                            <td><code>end_time</code></td>
+                            <td>timestamp</td>
+                            <td>The end time for the data range.</td>
+                            <td>Optional</td>
+                        </tr>
+                        <tr>
+                            <td><code>limit</code></td>
+                            <td>integer</td>
+                            <td>Maximum number of data points to return.</td>
+                            <td>Optional (default: 100)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Response:</h4>
+                <p>Returns a JSON array of historical price data (OHLCV format).</p>
+                <pre><code>
+[
+  {
+    "timestamp": "timestamp",
+    "open": 1.1234,
+    "high": 1.1235,
+    "low": 1.1230,
+    "close": 1.1233,
+    "volume": 1000
+  },
+  {
+    "timestamp": "timestamp",
+    "open": 1.1233,
+    "high": 1.1236,
+    "low": 1.1231,
+    "close": 1.1235,
+    "volume": 1200
+  }
+]
+                </code></pre>
+                <p><strong>Error Codes:</strong></p>
+                <ul>
+                    <li><code>400 Bad Request</code>: Invalid parameters provided.</li>
+                    <li><code>401 Unauthorized</code>: Invalid or expired API token.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="promo-banner">
+            Automate your trading and data analysis with our powerful bots and services. <a href="https://shop.chipatrade.com/collections/all" target="_blank">Find the perfect solution</a> for your trading needs.
+        </div>
+
+         <div class="api-section">
+            <h2>Data Retrieval</h2>
+            <div class="endpoint">
+                <h3>Get Trending Tokens</h3>
+                <p><strong>HTTP Method:</strong> GET</p>
+                <p><strong>Endpoint:</strong> <code>https://api6.axiom.trade/meme-trending</code></p>
+                <p><strong>Description:</strong> Retrieves a list of trending meme tokens.</p>
+                <h4>Parameters:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>timePeriod</code></td>
+                            <td>string</td>
+                            <td>The time period for trending data ('1h', '24h', '7d'). Defaults to '1h'.</td>
+                            <td>Optional</td>
+                        </tr>
+                         <tr>
+                            <td>Requires a valid access token in the 'Cookie' header.</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Response:</h4>
+                <p>Returns a JSON object containing trending token data.</p>
+                <pre><code>
+{
+  "trending_tokens": [
+    {
+      "name": "Token A",
+      "symbol": "TKA",
+      "price": 0.001,
+      "change_24h": 15.5
+    },
+    {
+      "name": "Token B",
+      "symbol": "TKB",
+      "price": 0.0005,
+      "change_24h": 10.2
+    }
+  ]
+}
+                </code></pre>
+                <p><strong>Error Codes:</strong></p>
+                <ul>
+                    <li><code>400 Bad Request</code>: Invalid time period provided.</li>
+                    <li><code>401 Unauthorized</code>: Invalid or expired access token.</li>
+                </ul>
+            </div>
+
+            <div class="endpoint">
+                <h3>Get Token Info</h3>
+                <p><strong>HTTP Method:</strong> GET</p>
+                <p><strong>Endpoint:</strong> <code>https://api6.axiom.trade/token/{token_address}</code></p>
+                <p><strong>Description:</strong> Retrieves information about a specific token.</p>
+                <h4>Parameters:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr>
+                            <td><code>token_address</code></td>
+                            <td>string</td>
+                            <td>The address of the token.</td>
+                            <td>Yes</td>
+                        </tr>
+                         <tr>
+                            <td>Requires a valid access token in the 'Cookie' header.</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Response:</h4>
+                 <p>Returns a JSON object containing token information (structure depends on the actual API response).</p>
+                <pre><code>
+{
+  "token_details": {} // Structure depends on the actual API response
+}
+                </code></pre>
+                <p><strong>Error Codes:</strong></p>
+                <ul>
+                    <li><code>400 Bad Request</code>: Invalid token address.</li>
+                    <li><code>401 Unauthorized</code>: Invalid or expired access token.</li>
+                    <li><code>404 Not Found</code>: Token not found.</li>
+                </ul>
+            </div>
+
+             <div class="endpoint">
+                <h3>Get User Portfolio</h3>
+                <p><strong>HTTP Method:</strong> GET</p>
+                <p><strong>Endpoint:</strong> <code>https://api6.axiom.trade/portfolio</code></p>
+                <p><strong>Description:</strong> Retrieves the user's portfolio information.</p>
+                <h4>Parameters:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr>
+                            <td>Requires a valid access token in the 'Cookie' header.</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Response:</h4>
+                 <p>Returns a JSON object containing the user's portfolio data (structure depends on the actual API response).</p>
+                <pre><code>
+{
+  "portfolio_data": {} // Structure depends on the actual API response
+}
+                </code></pre>
+                <p><strong>Error Codes:</strong></p>
+                <ul>
+                    <li><code>401 Unauthorized</code>: Invalid or expired access token.</li>
+                </ul>
+            </div>
+        </div>
+
+         <div class="promo-banner">
+            Ready to take your trading to the next level? Visit our website at <a href="https://shop.chipatrade.com" target="_blank">https://shop.chipatrade.com</a> to discover a wide range of trading bots, custom development options, and automation tools designed to empower your trading strategy.
+        </div>
+
+        <div class="promo-banner">
+            Supercharge your trading with our automated solutions! Find the perfect bot or service for your needs on our website: <a href="https://shop.chipatrade.com/collections/all" target="_blank">Shop Now</a>.
+        </div>
+
+        <!-- Add more API endpoints and sections as needed -->
+
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Your Trading Bot Company. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
