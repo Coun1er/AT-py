@@ -8,7 +8,7 @@ permalink: /
 
 # AxiomTradeAPI-py: Complete Python SDK for Solana Trading Automation
 
-## The Ultimate Python Library for Axiom Trade Integration | Built by [Chipa.tech](https://chipa.tech)
+## The Ultimate Python Library for Axiom Trade Integration | Built by [Chipa.tech](https://shop.chipatrade.com/collections/all)
 
 Welcome to the **most comprehensive Python SDK** for Axiom Trade - the leading Solana trading platform. Our AxiomTradeAPI-py library enables developers to build powerful trading bots, automated strategies, and real-time market monitoring tools with just a few lines of Python code.
 
@@ -18,7 +18,7 @@ Welcome to the **most comprehensive Python SDK** for Axiom Trade - the leading S
 - **Comprehensive Balance Management**: Query single or multiple wallet balances with batch optimization
 - **Production-Ready**: Built with enterprise-level logging, error handling, and reconnection logic
 - **SEO-Optimized Documentation**: Complete guides for every feature and use case
-- **Professional Support**: Backed by [Chipa.tech's expert team](https://chipa.tech/shop/)
+- **Professional Support**: Backed by [Chipa.tech's expert team](https://shop.chipatrade.com/collections/all/shop/)
 
 ### 🎯 Perfect for Solana Trading Bot Development
 
@@ -82,18 +82,18 @@ asyncio.run(main())
 
 ## 🏆 Professional Bot Development Services
 
-Need a custom trading bot or advanced automation strategy? [Chipa.tech offers professional bot development services](https://chipa.tech/product/create-your-bot/) with:
+Need a custom trading bot or advanced automation strategy? [Chipa.tech offers professional bot development services](https://shop.chipatrade.com/collections/all) with:
 
 - **Custom Solana Trading Bots**: Tailored to your specific strategy
 - **DeFi Automation Tools**: Yield farming, liquidity provision, and more
 - **Real-time Monitoring Systems**: Advanced analytics and alerting
 - **High-Frequency Trading Solutions**: Optimized for speed and reliability
 
-[**Get Your Custom Bot Built →**](https://chipa.tech/product/create-your-bot/)
+[**Get Your Custom Bot Built →**]([https://shop.chipatrade.com/collections/all/product/create-your-bot/](https://shop.chipatrade.com/collections/all))
 
 ## 🛍️ Explore Our Trading Tools
 
-Visit our [**Chipa.tech Shop**](https://chipa.tech/shop/) for:
+Visit our [**Chipa.tech Shop**](https://shop.chipatrade.com/collections/all) for:
 - Pre-built trading bot templates
 - Advanced strategy modules
 - Professional consulting services
@@ -154,8 +154,8 @@ Implement stop-loss, take-profit, and position sizing automation.
 
 - **GitHub Issues**: Report bugs and request features
 - **Discord Community**: Join thousands of developers
-- **Professional Support**: [Premium support packages available](https://chipa.tech/shop/)
-- **Custom Development**: [Get your bot built by experts](https://chipa.tech/product/create-your-bot/)
+- **Professional Support**: [Premium support packages available](https://shop.chipatrade.com/collections/all/)
+- **Custom Development**: [Get your bot built by experts](https://shop.chipatrade.com/collections/all/)
 
 ## 📊 Performance Benchmarks
 
@@ -181,8 +181,8 @@ Ready to build the next generation of Solana trading tools?
 3. [Build your first bot](./trading-bots.md)
 4. [Scale to production](./performance.md)
 
-Or [**hire our team**](https://chipa.tech/product/create-your-bot/) to build your custom solution!
+Or [**hire our team**](https://shop.chipatrade.com/collections/all/) to build your custom solution!
 
 ---
 
-*Built with ❤️ by [Chipa.tech](https://chipa.tech) - Your trusted partner for crypto automation and trading bot development.*
+*Built with ❤️ by [Chipa.tech](https://shop.chipatrade.com/collections/all) - Your trusted partner for crypto automation and trading bot development.*
