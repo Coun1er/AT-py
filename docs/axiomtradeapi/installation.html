@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AxiomTradeAPI-py Installation Guide</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+        h1, h2 {
+            color: #0056b3;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .promo {
+            background-color: #e9f5ff;
+            border: 1px solid #b3e0ff;
+            padding: 15px;
+            margin-top: 30px;
+            border-radius: 5px;
+        }
+        .promo a {
+            color: #0056b3;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Installation Guide for AxiomTradeAPI-py</h1>
+
+        <p>This guide will walk you through the process of installing the AxiomTradeAPI-py Python library, allowing you to easily interact with the axiom.trade platform from your Python applications.</p>
+
+        <h2>Prerequisites</h2>
+        <p>Before installing the library, ensure you have the following installed on your system:</p>
+        <ul>
+            <li>Python 3.6 or higher</li>
+            <li><code>pip</code> (Python package installer), which usually comes bundled with Python.</li>
+        </ul>
+
+        <h2>Installation using pip</h2>
+        <p>The recommended way to install AxiomTradeAPI-py is by using <code>pip</code>. If the library is available on a public package repository like PyPI, you can install it directly:</p>
+        <pre><code class="language-bash">pip install axiomtradeapi</code></pre>
+
+        <p>If you need to install a specific version, you can specify it:</p>
+        <pre><code class="language-bash">pip install axiomtradeapi==X.Y.Z</code></pre>
+        <p>(Replace <code>X.Y.Z</code> with the desired version number).</p>
+
+        <h2>Installation from Source</h2>
+        <p>If the library is not yet on a package repository, or if you want to install from the latest source code from a repository like GitHub, follow these steps:</p>
+        <ol>
+            <li>Clone the repository (replace <code>&lt;repository_url&gt;</code> with the actual URL):
+                <pre><code class="language-bash">git clone &lt;repository_url&gt;</code></pre>
+            </li>
+            <li>Navigate to the cloned directory:
+                <pre><code class="language-bash">cd &lt;repository_directory&gt;</code></pre>
+            </li>
+            <li>Install the library using pip in editable mode (for development) or standard install:
+                <pre><code class="language-bash">pip install .</code></pre>
+                or
+                <pre><code class="language-bash">pip install -e .</code></pre>
+            </li>
+        </ol>
+
+        <h2>Verifying Installation</h2>
+        <p>To verify that the library has been installed correctly, open a Python interpreter and try importing the main client class:</p>
+        <pre><code class="language-python">from axiomtradeapi.client import AxiomTradeClient
+print("AxiomTradeAPI-py installed successfully!")
+</code></pre>
+        <p>If the import is successful and you see the confirmation message, the library is ready to use.</p>
+
+        <div class="promo">
+            <h3>Looking for powerful trading bots or custom automation solutions?</h3>
+            <p>Explore our wide range of services and pre-built trading bots designed to enhance your trading experience. Visit our website to learn more and find the perfect solution for your needs.</p>
+            <p><a href="https://shop.chipatrade.com" target="_blank">Visit Our Services Website</a></p>
+        </div>
+
+    </div>
+</body>
+</html>
