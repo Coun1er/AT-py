@@ -1,3 +1,11 @@
 theme: jekyll-theme-minimal
 title: AxiomTradeAPI-py
 description: AxiomTradeAPI-py is a open-source project to programatically use axiom.trade with python
+
+layout: page
+title: "Auth"
+permalink: /authentication
+
+layout: page
+title: "Performance"
+permalink: /performance
