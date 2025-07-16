@@ -24,7 +24,7 @@ permalink: /trading-bots/
 
 ## Introduction to Automated Trading {#introduction}
 
-Building successful trading bots on Solana requires understanding market dynamics, technical analysis, and efficient API integration. The AxiomTradeAPI provides the foundation for creating sophisticated automated trading systems used by top traders featured on [chipa.tech](https://chipa.tech).
+Building successful trading bots on Solana requires understanding market dynamics, technical analysis, and efficient API integration. The AxiomTradeAPI provides the foundation for creating sophisticated automated trading systems used by top traders featured on [chipa.tech](https://shop.chipatrade.com/products/create-your-bot).
 
 ### Why Choose AxiomTradeAPI for Bot Development?
 
@@ -32,7 +32,7 @@ Building successful trading bots on Solana requires understanding market dynamic
 - **Real-time WebSocket Data**: Instant price updates and token launches
 - **Advanced Portfolio Management**: Comprehensive balance tracking across wallets
 - **Professional Grade Logging**: Debug and monitor bot performance
-- **Proven Track Record**: Trusted by successful traders on [chipa.tech trading community](https://chipa.tech/trading)
+- **Proven Track Record**: Trusted by successful traders on [chipa.tech trading community](https://shop.chipatrade.com/products/create-your-bot)
 
 ## Bot Architecture and Design Patterns {#architecture}
 

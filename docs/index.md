@@ -5,6 +5,15 @@ if you are looking to build a bot, let us build it for you! check [Our shop](htt
 
 A Python wrapper for the [Axiom Trade](https://axiom.trade/@chipa) API. Easily interact with Axiom Trade's trading features using Python.
 
+## Docs
+- [auth](https://chipadevteam.github.io/AxiomTradeAPI-py/authentication)
+- [balance-queries](https://chipadevteam.github.io/AxiomTradeAPI-py/balance-queries)
+- [installation](https://chipadevteam.github.io/AxiomTradeAPI-py/installation/)
+- [performance](https://chipadevteam.github.io/AxiomTradeAPI-py/performance/)
+- [security](https://chipadevteam.github.io/AxiomTradeAPI-py/security/)
+- [trading-bots](https://chipadevteam.github.io/AxiomTradeAPI-py/trading-bots/)
+- [websocket-guide](https://chipadevteam.github.io/AxiomTradeAPI-py/websocket-guide/)
+
 ## 📌 Features
 - Access market data  
 - Place and manage trades  
