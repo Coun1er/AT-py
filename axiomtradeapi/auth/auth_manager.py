@@ -99,10 +99,6 @@ class AuthManager:
         # Initialize with existing tokens if provided
         if auth_token and refresh_token:
             self._set_tokens(auth_token, refresh_token)
-        
-        # Auto-login if credentials provided
-        elif username and password:
-            self.authenticate()
     
     def _set_tokens(self, auth_token: str, refresh_token: str, 
                    expires_in: int = 3600) -> None:

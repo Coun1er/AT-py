@@ -11,11 +11,14 @@ async def handle_tokens(tokens):
 
 async def main():
     client = AxiomTradeClient(
-        log_level=logging.DEBUG,
-        auth_token=os.getenv("auth_access_token"),
-        refresh_token=os.getenv("auth_refresh_token")
+        username=os.getenv("email"),
+        password=os.getenv("password"),
+    )
+    client.complete_login(
+        email=os.getenv("email"),
+        b64_password=os.getenv("password")
     )
     await client.subscribe_new_tokens(handle_tokens)
     await client.ws.start()
 
-asyncio.run(main())``
+asyncio.run(main())

@@ -14,6 +14,10 @@ from solders.pubkey import Pubkey
 from solders.rpc.responses import SendTransactionResp
 import base64
 import time
+import hashlib
+
+from axiomtradeapi.urls import AAllBaseUrls, AxiomTradeApiUrls
+from axiomtradeapi.helpers.TryServers import try_servers
 
 class AxiomTradeClient:
     def __init__(self, username: str = None, password: str = None,
@@ -341,7 +345,7 @@ class AxiomTradeClient:
         First step of login - send email and password to get OTP JWT token
         Returns the OTP JWT token needed for step 2
         """
-        url = 'https://api6.axiom.trade/login-password-v2'
+        url = f'{AAllBaseUrls.BASE_URL_v3}{AxiomTradeApiUrls.LOGIN_STEP1}'
         headers = {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0',
             'Accept': 'application/json, text/plain, */*',
@@ -371,12 +375,57 @@ class AxiomTradeClient:
         self.logger.debug("OTP JWT token received successfully")
         return otp_token
 
+    def login_step1_try_servers(self, email: str, b64_password: str, otp_token: str = "") -> str:
+        """
+        First step of login - tries all servers for login step 1, returns the OTP JWT token from the first server that responds with 200.
+        The token is extracted from the response cookies (auth-otp-login-token).
+        All headers are set as in the curl example, including the Cookie header.
+        Args:
+            email (str): User email
+            b64_password (str): Base64-encoded password
+            otp_token (str): Optional, value for auth-otp-login-token cookie (default: empty)
+        """
+        path = AxiomTradeApiUrls.LOGIN_STEP1
+        data = {
+            "email": email,
+            "b64Password": b64_password
+        }
+        print(data)
+        headers = {
+            'accept': 'application/json, text/plain, */*',
+            'accept-language': 'en-US,en;q=0.9,es;q=0.8',
+            'content-type': 'application/json',
+            'origin': 'https://axiom.trade',
+            'priority': 'u=1, i',
+            'referer': 'https://axiom.trade/',
+            'sec-ch-ua': '"Chromium";v="134", "Not:A-Brand";v="24", "Opera GX";v="119"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36 OPR/119.0.0.0',
+            'Cookie': f'auth-otp-login-token={otp_token}'
+        }
+        self.logger.debug(f"Trying login step 1 on all servers for email: {email}")
+        base_url = f'{AAllBaseUrls.BASE_URL_v6}{AxiomTradeApiUrls.LOGIN_STEP1}'
+        if base_url is None:
+            raise Exception("No server responded with 200 for login step 1.")
+        response = requests.post(base_url, headers=headers, json=data)
+        print(f"Response from server: {response.json()}")
+        otp_token = response.cookies.get('auth-otp-login-token')
+        if not otp_token:
+            self.logger.error("auth-otp-login-token not found in cookies!")
+            raise Exception("auth-otp-login-token not found in cookies!")
+        self.logger.debug(f"OTP JWT token received from {base_url} (from cookies)")
+        return otp_token
+
     def login_step2(self, otp_jwt_token: str, otp_code: str, email: str, b64_password: str) -> Dict:
         """
         Second step of login - send OTP code to complete authentication
         Returns client credentials (clientSecret, orgId, userId)
         """
-        url = 'https://api10.axiom.trade/login-otp'
+        url = f'{AAllBaseUrls.BASE_URL_v3}{AxiomTradeApiUrls.LOGIN_STEP2}'
         headers = {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0',
             'Accept': 'application/json, text/plain, */*',
@@ -407,13 +456,23 @@ class AxiomTradeClient:
         self.logger.info("Login completed successfully")
         return credentials
 
-    def complete_login(self, email: str, b64_password: str, otp_code: str) -> Dict:
+    def get_b64_password(self, password: str) -> str:
+        """
+        Hash the password with SHA256 and then base64 encode the result, using ISO-8859-1 encoding for the password.
+        """
+        sha256_hash = hashlib.sha256(password.encode('iso-8859-1')).digest()
+        b64_password = base64.b64encode(sha256_hash).decode('utf-8')
+        return b64_password
+
+    def complete_login(self, email: str, b64_password: str) -> Dict:
         """
         Complete the full login process
         Returns client credentials (clientSecret, orgId, userId)
         """
         self.logger.info("Starting login process...")
-        otp_jwt_token = self.login_step1(email, b64_password)
+        #b64_password = self.get_b64_password(password)
+        otp_jwt_token = self.login_step1_try_servers(email, b64_password)
+        otp_code = input("Enter the OTP code sent to your email: ")
         credentials = self.login_step2(otp_jwt_token, otp_code, email, b64_password)
         
         # Store credentials in auth manager if available
