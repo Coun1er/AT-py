@@ -57,7 +57,12 @@ class AxiomTradeWebSocketClient:
             self.logger.info("Connected to WebSocket server")
             return True
         except Exception as e:
-            self.logger.error(f"Failed to connect to WebSocket: {e}")
+            if "HTTP 401" in str(e) or "401" in str(e):
+                self.logger.error("WebSocket authentication failed - invalid or missing tokens")
+                self.logger.error("Please obtain valid auth-access-token and auth-refresh-token")
+                self.logger.error("Visit https://axiom.trade, login, and check browser cookies")
+            else:
+                self.logger.error(f"Failed to connect to WebSocket: {e}")
             return False
 
     async def subscribe_new_tokens(self, callback: Callable[[Dict[str, Any]], None]):
