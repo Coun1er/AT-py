@@ -20,29 +20,28 @@ from axiomtradeapi.urls import AAllBaseUrls, AxiomTradeApiUrls
 from axiomtradeapi.helpers.TryServers import try_servers
 
 class AxiomTradeClient:
-    def __init__(self, username: str = None, password: str = None,
-                 auth_token: str = None, refresh_token: str = None, 
+    def __init__(self, username: str, password: str, 
                  log_level: int = logging.INFO) -> None:
         """
         Initialize Axiom Trade Client with automatic authentication
         
         Args:
-            username: Email for automatic login (recommended)
-            password: Password for automatic login (recommended)  
-            auth_token: Existing auth token (optional)
-            refresh_token: Existing refresh token (optional)
+            username: Email for automatic login (required)
+            password: Password for automatic login (required)
             log_level: Logging level
         """
         self.endpoints = Endpoints()
         self.base_url_api = self.endpoints.BASE_URL_API
         self.helper = Helping()
         
+        # Validate required parameters
+        if not username or not password:
+            raise ValueError("Username and password are required for authentication")
+        
         # Initialize authentication manager
         self.auth_manager = AuthManager(
             username=username,
-            password=password,
-            auth_token=auth_token,
-            refresh_token=refresh_token
+            password=password
         )
         
         # Setup logging
@@ -57,11 +56,9 @@ class AxiomTradeClient:
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
         
-        # Initialize WebSocket client with tokens from auth manager
-        tokens = self.auth_manager.get_tokens()
+        # Initialize WebSocket client with auth manager
         self.ws = AxiomTradeWebSocketClient(
-            auth_token=tokens.access_token if tokens else auth_token,
-            refresh_token=tokens.refresh_token if tokens else refresh_token,
+            auth_manager=self.auth_manager,
             log_level=log_level
         )
             

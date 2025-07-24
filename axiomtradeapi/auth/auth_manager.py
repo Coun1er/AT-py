@@ -8,6 +8,8 @@ import json
 import time
 import logging
 import os
+import hashlib
+import base64
 from typing import Dict, Optional, Union
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -84,8 +86,6 @@ class AuthManager:
         self.username = username
         self.password = password
         self.base_url = "https://axiom.trade"
-        self.login_url = f"{self.base_url}/api/auth/login"
-        self.refresh_url = f"{self.base_url}/api/auth/refresh"
         
         # Setup logging
         self.logger = logging.getLogger(__name__)
@@ -119,7 +119,7 @@ class AuthManager:
     
     def authenticate(self) -> bool:
         """
-        Authenticate with username/password
+        Authenticate with username/password using Axiom's OTP login flow
         
         Returns:
             bool: True if authentication successful, False otherwise
@@ -128,28 +128,118 @@ class AuthManager:
             self.logger.error("Username and password required for authentication")
             return False
         
-        payload = {
-            "email": self.username,
-            "password": self.password
-        }
+        try:
+            self.logger.info("Starting Axiom Trade authentication...")
+            
+            # Step 1: Get OTP JWT token
+            otp_jwt_token = self._login_step1()
+            if not otp_jwt_token:
+                return False
+            
+            # Step 2: Get OTP code from user
+            otp_code = input("Enter the OTP code sent to your email: ")
+            if not otp_code:
+                self.logger.error("OTP code is required")
+                return False
+            
+            # Step 3: Complete login with OTP
+            return self._login_step2(otp_jwt_token, otp_code)
+            
+        except Exception as e:
+            self.logger.error(f"❌ Authentication error: {e}")
+            return False
+    
+    def _get_b64_password(self, password: str) -> str:
+        """Hash password with SHA256 and base64 encode using ISO-8859-1 encoding"""
+        sha256_hash = hashlib.sha256(password.encode('iso-8859-1')).digest()
+        b64_password = base64.b64encode(sha256_hash).decode('utf-8')
+        return b64_password
+    
+    def _login_step1(self) -> Optional[str]:
+        """First step of login - send email and password to get OTP JWT token"""
+        from axiomtradeapi.urls import AAllBaseUrls, AxiomTradeApiUrls
+        
+        # Hash password
+        b64_password = self._get_b64_password(self.password)
+        
+        url = f'{AAllBaseUrls.BASE_URL_v6}{AxiomTradeApiUrls.LOGIN_STEP1}'
         
         headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Origin": self.base_url,
-            "Referer": f"{self.base_url}/discover",
-            "User-Agent": "AxiomTradeAPI-py/1.0"
+            'accept': 'application/json, text/plain, */*',
+            'accept-language': 'en-US,en;q=0.9,es;q=0.8',
+            'content-type': 'application/json',
+            'origin': 'https://axiom.trade',
+            'priority': 'u=1, i',
+            'referer': 'https://axiom.trade/',
+            'sec-ch-ua': '"Chromium";v="134", "Not:A-Brand";v="24", "Opera GX";v="119"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36 OPR/119.0.0.0',
+            'Cookie': 'auth-otp-login-token='
+        }
+        
+        data = {
+            "email": self.username,
+            "b64Password": b64_password
         }
         
         try:
-            self.logger.info("Attempting authentication...")
+            self.logger.debug(f"Sending login step 1 request for email: {self.username}")
+            response = requests.post(url, headers=headers, json=data, timeout=30)
             
-            response = requests.post(
-                self.login_url, 
-                json=payload, 
-                headers=headers,
-                timeout=30
-            )
+            if response.status_code == 200:
+                otp_token = response.cookies.get('auth-otp-login-token')
+                if otp_token:
+                    self.logger.debug("OTP JWT token received successfully")
+                    return otp_token
+                else:
+                    self.logger.error("auth-otp-login-token not found in cookies!")
+                    return None
+            else:
+                self.logger.error(f"Login step 1 failed: {response.status_code} - {response.text}")
+                return None
+                
+        except Exception as e:
+            self.logger.error(f"Login step 1 error: {e}")
+            return None
+    
+    def _login_step2(self, otp_jwt_token: str, otp_code: str) -> bool:
+        """Second step of login - send OTP code to complete authentication"""
+        from axiomtradeapi.urls import AAllBaseUrls, AxiomTradeApiUrls
+        
+        # Hash password
+        b64_password = self._get_b64_password(self.password)
+        
+        url = f'{AAllBaseUrls.BASE_URL_v3}{AxiomTradeApiUrls.LOGIN_STEP2}'
+        
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0',
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br, zstd',
+            'Content-Type': 'application/json',
+            'Origin': 'https://axiom.trade',
+            'Connection': 'keep-alive',
+            'Referer': 'https://axiom.trade/',
+            'Cookie': f'auth-otp-login-token={otp_jwt_token}',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-site',
+            'TE': 'trailers'
+        }
+        
+        data = {
+            "code": otp_code,
+            "email": self.username,
+            "b64Password": b64_password
+        }
+        
+        try:
+            self.logger.debug("Sending login step 2 request with OTP code")
+            response = requests.post(url, headers=headers, json=data, timeout=30)
             
             if response.status_code == 200:
                 # Extract tokens from response cookies
@@ -161,17 +251,27 @@ class AuthManager:
                     self.logger.info("✅ Authentication successful!")
                     return True
                 else:
-                    self.logger.error("❌ No authentication tokens in response")
+                    # Sometimes tokens are in response body
+                    try:
+                        response_data = response.json()
+                        auth_token = response_data.get('accessToken') or response_data.get('auth-access-token')
+                        refresh_token = response_data.get('refreshToken') or response_data.get('auth-refresh-token')
+                        
+                        if auth_token and refresh_token:
+                            self._set_tokens(auth_token, refresh_token)
+                            self.logger.info("✅ Authentication successful!")
+                            return True
+                    except:
+                        pass
+                    
+                    self.logger.error("❌ No authentication tokens found in response")
                     return False
             else:
-                self.logger.error(f"❌ Authentication failed: {response.status_code} - {response.text}")
+                self.logger.error(f"❌ Login step 2 failed: {response.status_code} - {response.text}")
                 return False
                 
-        except requests.exceptions.RequestException as e:
-            self.logger.error(f"❌ Authentication request failed: {e}")
-            return False
         except Exception as e:
-            self.logger.error(f"❌ Unexpected authentication error: {e}")
+            self.logger.error(f"❌ Login step 2 error: {e}")
             return False
     
     def refresh_tokens(self) -> bool:
@@ -197,8 +297,9 @@ class AuthManager:
         try:
             self.logger.info("Refreshing authentication tokens...")
             
+            refresh_url = 'https://api9.axiom.trade/refresh-access-token'
             response = requests.post(
-                self.refresh_url,
+                refresh_url,
                 headers=headers,
                 timeout=30
             )

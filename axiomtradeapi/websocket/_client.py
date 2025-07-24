@@ -5,12 +5,14 @@ import asyncio
 from typing import Optional, Callable, Dict, Any
 
 class AxiomTradeWebSocketClient:    
-    def __init__(self, auth_token=None, refresh_token=None, log_level=logging.INFO, auth_manager=None) -> None:
+    def __init__(self, auth_manager, log_level=logging.INFO) -> None:
         self.ws_url = "wss://cluster3.axiom.trade/"
         self.ws_url_token_price = "wss://socket8.axiom.trade/"
         self.ws: Optional[websockets.WebSocketClientProtocol] = None
-        self.auth_token = auth_token
-        self.refresh_token = refresh_token
+        
+        if not auth_manager:
+            raise ValueError("auth_manager is required and must be an authenticated AuthManager instance")
+        
         self.auth_manager = auth_manager
         
         # Setup logging
@@ -29,6 +31,18 @@ class AxiomTradeWebSocketClient:
 
     async def connect(self, is_token_price: bool = False) -> bool:
         """Connect to the WebSocket server."""
+        # Ensure we have valid authentication
+        if not self.auth_manager.ensure_valid_authentication():
+            self.logger.error("WebSocket authentication failed - unable to obtain valid tokens")
+            self.logger.error("Please login with valid email and password")
+            return False
+        
+        # Get tokens from auth manager
+        tokens = self.auth_manager.get_tokens()
+        if not tokens:
+            self.logger.error("No authentication tokens available")
+            return False
+        
         headers = {
             'Origin': 'https://axiom.trade',
             'Cache-Control': 'no-cache',
@@ -42,10 +56,8 @@ class AxiomTradeWebSocketClient:
             'Sec-WebSocket-Extensions': 'permessage-deflate; client_max_window_bits' # Negotiated by the library
         }
         
-        if self.auth_token:
-            headers["Cookie"] = f"auth-access-token={self.auth_token}"
-            if self.refresh_token:
-                headers["Cookie"] += f"; auth-refresh-token={self.refresh_token}"
+        # Add authentication cookies from auth manager
+        headers["Cookie"] = f"auth-access-token={tokens.access_token}; auth-refresh-token={tokens.refresh_token}"
         
         try:
             if is_token_price:
@@ -59,8 +71,7 @@ class AxiomTradeWebSocketClient:
         except Exception as e:
             if "HTTP 401" in str(e) or "401" in str(e):
                 self.logger.error("WebSocket authentication failed - invalid or missing tokens")
-                self.logger.error("Please obtain valid auth-access-token and auth-refresh-token")
-                self.logger.error("Visit https://axiom.trade, login, and check browser cookies")
+                self.logger.error("Please login with valid email and password")
             else:
                 self.logger.error(f"Failed to connect to WebSocket: {e}")
             return False
