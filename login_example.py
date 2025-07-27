@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Example script demonstrating Axiom Trade API login and trending tokens functionality
+Updated to show the new token-based authentication approach
 """
 
 from axiomtradeapi import AxiomTradeClient
@@ -10,24 +11,26 @@ def main():
     print("Axiom Trade API - Login and Trending Tokens Example")
     print("=" * 55)
     
-    # Initialize client
+    # Initialize client (NEW: No credentials required in constructor)
     client = AxiomTradeClient()
     
-    # Option 1: Fresh login with OTP
-    print("\nOption 1: Complete login process")
+    # Option 1: Fresh login with OTP (NEW: Simplified login method)
+    print("\nOption 1: Complete login process (New Method)")
     email = input("Enter your email: ")
     b64_password = input("Enter your base64 encoded password: ")
+    otp_code = input("Enter the OTP code: ")
     
     try:
-        # Step 1: Send credentials and get OTP token
-        otp_token = client.login_step1(email, b64_password)
-        print("✓ OTP request sent. Check your email/phone for the verification code.")
-        
-        # Step 2: Complete login with OTP
-        otp_code = input("Enter the OTP code: ")
-        credentials = client.login_step2(otp_token, otp_code, email, b64_password)
+        # NEW: Single login method that handles the entire process
+        login_result = client.login(email, b64_password, otp_code)
         
         print("✓ Login successful!")
+        print(f"Access Token: {login_result.get('access_token', 'Not available')[:50]}...")
+        print(f"Refresh Token: {login_result.get('refresh_token', 'Not available')[:50]}...")
+        
+    except Exception as e:
+        print(f"✗ Login failed: {e}")
+        return
         print(f"Client Secret: {credentials.get('clientSecret', 'N/A')}")
         print(f"Org ID: {credentials.get('orgId', 'N/A')}")
         print(f"User ID: {credentials.get('userId', 'N/A')}")

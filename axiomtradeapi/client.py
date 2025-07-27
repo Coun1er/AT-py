@@ -28,9 +28,28 @@ class AxiomTradeClient:
     def login(self, email: str, b64_password: str, otp_code: str) -> Dict:
         """
         Complete login process and store credentials
+        Returns a dictionary containing access_token, refresh_token, and other credentials
         """
-        self.client_credentials = self.auth.complete_login(email, b64_password, otp_code)
-        return self.client_credentials
+        login_result = self.auth.complete_login(email, b64_password, otp_code)
+        
+        # Extract tokens from the login response
+        # The API typically returns tokens in cookies or response body
+        if isinstance(login_result, dict):
+            # Store the full credentials
+            self.client_credentials = login_result
+            
+            # Extract tokens if available in the response
+            self.access_token = login_result.get('accessToken') or login_result.get('access_token')
+            self.refresh_token = login_result.get('refreshToken') or login_result.get('refresh_token')
+            
+            # Return tokens in a standardized format
+            return {
+                'access_token': self.access_token,
+                'refresh_token': self.refresh_token,
+                'client_credentials': login_result
+            }
+        
+        return login_result
     
     def set_tokens(self, access_token: str = None, refresh_token: str = None):
         """
@@ -40,6 +59,21 @@ class AxiomTradeClient:
             self.access_token = access_token
         if refresh_token:
             self.refresh_token = refresh_token
+    
+    def get_tokens(self) -> Dict[str, Optional[str]]:
+        """
+        Get current tokens
+        """
+        return {
+            'access_token': self.access_token,
+            'refresh_token': self.refresh_token
+        }
+    
+    def is_authenticated(self) -> bool:
+        """
+        Check if the client has valid authentication tokens
+        """
+        return self.access_token is not None
     
     def refresh_access_token(self) -> str:
         """

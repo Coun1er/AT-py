@@ -49,19 +49,51 @@ python -c "from axiomtradeapi import AxiomTradeClient; print('✅ Installation s
 
 ### Basic Usage
 
+#### New Token-Based Authentication (Recommended)
+
 ```python
 from axiomtradeapi import AxiomTradeClient
-import logging
 
-# Initialize client
-client = AxiomTradeClient(log_level=logging.INFO)
+# Initialize client (no credentials required in constructor)
+client = AxiomTradeClient()
 
-# Get wallet balance
-wallet_address = "BJBgjyDZx5FSsyJf6bFKVXuJV7DZY9PCSMSi5d9tcEVh"
-balance = client.GetBalance(wallet_address)
+# Method 1: Login to get tokens
+tokens = client.login(
+    email="your_email@example.com",
+    b64_password="your_base64_encoded_password", 
+    otp_code="123456"  # OTP from email
+)
 
-print(f"💰 Balance: {balance['sol']} SOL")
-print(f"📊 Lamports: {balance['lamports']:,}")
+print(f"Access Token: {tokens['access_token']}")
+print(f"Refresh Token: {tokens['refresh_token']}")
+
+# Method 2: Use existing tokens
+client.set_tokens(
+    access_token="your_access_token_here",
+    refresh_token="your_refresh_token_here"
+)
+
+# Use the API
+if client.is_authenticated():
+    trending = client.get_trending_tokens('1h')
+    print(f"Found {len(trending.get('tokens', []))} trending tokens")
+```
+
+#### Environment Variables (Production)
+
+```python
+import os
+from axiomtradeapi import AxiomTradeClient
+
+# Secure authentication with environment variables
+client = AxiomTradeClient()
+client.set_tokens(
+    access_token=os.getenv('AXIOM_ACCESS_TOKEN'),
+    refresh_token=os.getenv('AXIOM_REFRESH_TOKEN')
+)
+
+# Your trading logic here
+portfolio = client.get_user_portfolio()
 ```
 
 ### Advanced Features

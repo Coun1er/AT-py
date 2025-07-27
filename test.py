@@ -10,15 +10,30 @@ async def handle_tokens(tokens):
     print(tokens)
 
 async def main():
-    client = AxiomTradeClient(
-        username=os.getenv("email"),
-        password=os.getenv("password"),
-    )
-    client.complete_login(
-        email=os.getenv("email"),
-        b64_password=os.getenv("password")
-    )
-    await client.subscribe_new_tokens(handle_tokens)
-    await client.ws.start()
+    # Get tokens from .env file
+    access_token = os.getenv("auth-access-token")
+    refresh_token = os.getenv("auth-refresh-token")
+    
+    if not access_token or not refresh_token:
+        print("Error: Missing auth-access-token or auth-refresh-token in .env file")
+        return
+    
+    try:
+        # Create client with tokens from .env file
+        client = AxiomTradeClient(
+            auth_token=access_token,
+            refresh_token=refresh_token,
+            log_level=logging.DEBUG
+        )
+        
+        if client.is_authenticated():
+            print("✓ Client authenticated with tokens from .env")
+            await client.ws.subscribe_new_tokens(handle_tokens)
+            await client.ws.start()
+        else:
+            print("✗ Authentication failed with provided tokens")
+            
+    except Exception as e:
+        print(f"✗ Failed to initialize client: {e}")
 
 asyncio.run(main())

@@ -47,7 +47,7 @@ class AxiomAuth:
     def login_step2(self, otp_jwt_token: str, otp_code: str, email: str, b64_password: str) -> Dict:
         """
         Second step of login - send OTP code to complete authentication
-        Returns client credentials (clientSecret, orgId, userId)
+        Returns authentication tokens and credentials
         """
         url = 'https://api10.axiom.trade/login-otp'
         headers = {
@@ -65,12 +65,25 @@ class AxiomAuth:
         response = requests.post(url, headers=headers, json=data)
         response.raise_for_status()
         
-        return response.json()
+        # Get the response data
+        result = response.json()
+        
+        # Extract tokens from cookies if available
+        access_token = response.cookies.get('auth-access-token')
+        refresh_token = response.cookies.get('auth-refresh-token')
+        
+        # Add tokens to the result if they exist
+        if access_token:
+            result['access_token'] = access_token
+        if refresh_token:
+            result['refresh_token'] = refresh_token
+        
+        return result
     
     def complete_login(self, email: str, b64_password: str, otp_code: str) -> Dict:
         """
         Complete the full login process
-        Returns client credentials (clientSecret, orgId, userId)
+        Returns authentication tokens and credentials
         """
         print("Step 1: Sending email and password...")
         otp_jwt_token = self.login_step1(email, b64_password)
@@ -97,6 +110,18 @@ class AxiomAuth:
         response = requests.post(url, headers=headers)
         response.raise_for_status()
         
-        # The response might contain the new token in cookies or JSON
-        # Need to check the actual response format
-        return response.json().get('auth-access-token') or response.cookies.get('auth-access-token')
+        # Try to get token from cookies first, then from JSON response
+        new_access_token = response.cookies.get('auth-access-token')
+        
+        if not new_access_token:
+            # If not in cookies, try JSON response
+            try:
+                json_response = response.json()
+                new_access_token = json_response.get('auth-access-token') or json_response.get('access_token')
+            except:
+                pass
+        
+        if not new_access_token:
+            raise ValueError("No access token found in refresh response")
+        
+        return new_access_token

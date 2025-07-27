@@ -70,7 +70,7 @@ class AxiomTradeWebSocketClient:
             return True
         except Exception as e:
             if "HTTP 401" in str(e) or "401" in str(e):
-                self.logger.error("WebSocket authentication failed - invalid or missing tokens")
+                self.logger.error(f"WebSocket authentication failed - invalid or missing tokens, error: {e} and tokens are {tokens}")
                 self.logger.error("Please login with valid email and password")
             else:
                 self.logger.error(f"Failed to connect to WebSocket: {e}")

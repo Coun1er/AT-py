@@ -20,28 +20,36 @@ from axiomtradeapi.urls import AAllBaseUrls, AxiomTradeApiUrls
 from axiomtradeapi.helpers.TryServers import try_servers
 
 class AxiomTradeClient:
-    def __init__(self, username: str, password: str, 
+    def __init__(self, username: str = None, password: str = None, 
+                 auth_token: str = None, refresh_token: str = None,
                  log_level: int = logging.INFO) -> None:
         """
         Initialize Axiom Trade Client with automatic authentication
         
         Args:
-            username: Email for automatic login (required)
-            password: Password for automatic login (required)
+            username: Email for automatic login (optional if tokens provided)
+            password: Password for automatic login (optional if tokens provided)
+            auth_token: Existing auth token (optional)
+            refresh_token: Existing refresh token (optional)
             log_level: Logging level
         """
         self.endpoints = Endpoints()
         self.base_url_api = self.endpoints.BASE_URL_API
         self.helper = Helping()
         
-        # Validate required parameters
-        if not username or not password:
-            raise ValueError("Username and password are required for authentication")
+        # Validate that either credentials or tokens are provided
+        has_credentials = username and password
+        has_tokens = auth_token and refresh_token
+        
+        if not has_credentials and not has_tokens:
+            raise ValueError("Either username/password or auth_token/refresh_token must be provided")
         
         # Initialize authentication manager
         self.auth_manager = AuthManager(
             username=username,
-            password=password
+            password=password,
+            auth_token=auth_token,
+            refresh_token=refresh_token
         )
         
         # Setup logging
@@ -61,6 +69,42 @@ class AxiomTradeClient:
             auth_manager=self.auth_manager,
             log_level=log_level
         )
+    
+    def set_tokens(self, access_token: str = None, refresh_token: str = None):
+        """
+        Set access and refresh tokens manually
+        """
+        if access_token or refresh_token:
+            from axiomtradeapi.auth.auth_manager import AuthTokens
+            # Update the auth manager's tokens
+            if not self.auth_manager.tokens:
+                self.auth_manager.tokens = AuthTokens(
+                    access_token=access_token or "",
+                    refresh_token=refresh_token or "",
+                    expires_at=None
+                )
+            else:
+                if access_token:
+                    self.auth_manager.tokens.access_token = access_token
+                if refresh_token:
+                    self.auth_manager.tokens.refresh_token = refresh_token
+    
+    def get_tokens(self) -> Dict[str, Optional[str]]:
+        """
+        Get current tokens
+        """
+        if self.auth_manager.tokens:
+            return {
+                'access_token': self.auth_manager.tokens.access_token,
+                'refresh_token': self.auth_manager.tokens.refresh_token
+            }
+        return {'access_token': None, 'refresh_token': None}
+    
+    def is_authenticated(self) -> bool:
+        """
+        Check if the client has valid authentication tokens
+        """
+        return self.auth_manager.tokens is not None and bool(self.auth_manager.tokens.access_token)
             
     async def GetTokenPrice(self, token_symbol: str) -> Optional[float]:
         """Get the current price of a token by its symbol."""
