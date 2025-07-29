@@ -124,13 +124,70 @@ class AxiomTradeWebSocketClient:
         
         try:
             await self.ws.send(json.dumps({
-                "action": "subscribe",
-                "token": token
+                "action": "join",
+                "room": token
             }))
             self.logger.info(f"Subscribed to token price updates for {token}")
             return True
         except Exception as e:
             self.logger.error(f"Failed to subscribe to token price: {e}")
+            return False
+        
+    async def subscribe_wallet_transactions(self, wallet_address: str, callback: Callable[[Dict[str, Any]], None]):
+        """Subscribe to wallet transaction updates."""
+        """
+        Response format:
+        {
+            "room": "v:<WALLET_ADDRESS>",
+            "content": {
+                "created_at": "<ISO_DATETIME>",
+                "liquidity_sol": <LIQUIDITY_SOL_AMOUNT>,
+                "liquidity_token": <LIQUIDITY_TOKEN_AMOUNT>,
+                "maker_address": "<WALLET_ADDRESS>",
+                "price_sol": <PRICE_IN_SOL>,
+                "price_usd": <PRICE_IN_USD>,
+                "signature": "<TRANSACTION_SIGNATURE>",
+                "token_amount": <TOKEN_AMOUNT>,
+                "total_sol": <TOTAL_SOL_AMOUNT>,
+                "total_usd": <TOTAL_USD_AMOUNT>,
+                "type": "<TRANSACTION_TYPE>",  // "buy" ou "sell"
+                "pair_address": "<PAIR_ADDRESS>",
+                "f": <FEE_OR_FACTOR>,
+                "pair": {
+                    "tokenAddress": "<TOKEN_ADDRESS>",
+                    "tokenName": "<TOKEN_NAME>",
+                    "tokenTicker": "<TOKEN_TICKER>",
+                    "tokenImage": "<IMAGE_URL_OR_NULL>",
+                    "protocol": "<PROTOCOL_NAME>",
+                    "protocolDetails": {
+                        "pairSolAccount": "<PAIR_SOL_ACCOUNT>",
+                        "tokenProgram": "<TOKEN_PROGRAM_ID>",
+                        "pairTokenAccount": "<PAIR_TOKEN_ACCOUNT>",
+                        "isTokenSideX": <BOOLEAN>
+                    },
+                    "supply": <TOKEN_SUPPLY>,
+                    "tokenDecimals": <DECIMALS>,
+                    "pairCreatedAt": "<ISO_DATETIME>",
+                    "extra": null
+                }
+            }
+        }
+        """
+        if not self.ws:
+            if not await self.connect():
+                return False
+
+        self._callbacks[f"wallet_transactions_{wallet_address}"] = callback
+        
+        try:
+            await self.ws.send(json.dumps({
+                "action": "join",
+                "room": f"v:{wallet_address}"
+            }))
+            self.logger.info(f"Subscribed to wallet transactions for {wallet_address}")
+            return True
+        except Exception as e:
+            self.logger.error(f"Failed to subscribe to wallet transactions: {e}")
             return False
 
     async def _message_handler(self):
@@ -146,9 +203,14 @@ class AxiomTradeWebSocketClient:
                     
                     # Handle token price updates
                     for key, callback in self._callbacks.items():
-                        if key.startswith("token_price_") and data.get("token") in key:
-                            await callback(data)
+                        if key.startswith("token_price_") and data.get("content"):
+                            await callback(data.get("content"))
                             
+                    # Handle wallet transactions
+                    for key, callback in self._callbacks.items():
+                        if key.startswith("wallet_transactions_") and data.get("content"):
+                            await callback(data.get("content"))
+                    
                 except json.JSONDecodeError:
                     self.logger.error(f"Failed to parse WebSocket message: {message}")
                 except Exception as e:
