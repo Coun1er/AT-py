@@ -87,7 +87,16 @@ def test_token_refresh():
             # Try to make an API call
             try:
                 trending = client.get_trending_tokens()
-                print(f"   ✅ API call successful! Got {len(trending.get('tokens', []))} trending tokens")
+                if isinstance(trending, list):
+                    print(f"   ✅ API call successful! Got {len(trending)} trending tokens")
+                elif isinstance(trending, dict):
+                    tokens = trending.get('tokens', trending.get('data', []))
+                    if isinstance(tokens, list):
+                        print(f"   ✅ API call successful! Got {len(tokens)} trending tokens")
+                    else:
+                        print(f"   ✅ API call successful! Response: {type(trending)}")
+                else:
+                    print(f"   ✅ API call successful! Response type: {type(trending)}")
             except Exception as e:
                 print(f"   ⚠️ API call failed (but auth worked): {e}")
         else:
