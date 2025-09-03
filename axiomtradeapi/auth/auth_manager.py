@@ -10,6 +10,8 @@ import logging
 import os
 import hashlib
 import base64
+from pathlib import Path
+from cryptography.fernet import Fernet
 from typing import Dict, Optional, Union
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -32,6 +34,144 @@ class AuthTokens:
     def needs_refresh(self) -> bool:
         """Check if token needs refresh (15 minute buffer)"""
         return time.time() >= (self.expires_at - 900)  # 15 minute buffer
+
+    def to_dict(self) -> dict:
+        """Convert to dictionary for serialization"""
+        return {
+            'access_token': self.access_token,
+            'refresh_token': self.refresh_token,
+            'expires_at': self.expires_at,
+            'issued_at': self.issued_at
+        }
+    
+    @classmethod
+    def from_dict(cls, data: dict) -> 'AuthTokens':
+        """Create from dictionary"""
+        return cls(
+            access_token=data['access_token'],
+            refresh_token=data['refresh_token'],
+            expires_at=data['expires_at'],
+            issued_at=data['issued_at']
+        )
+
+
+class SecureTokenStorage:
+    """Handles secure storage and retrieval of authentication tokens"""
+    
+    def __init__(self, storage_dir: str = None):
+        """
+        Initialize secure token storage
+        
+        Args:
+            storage_dir: Directory to store tokens (default: ~/.axiomtradeapi)
+        """
+        self.storage_dir = Path(storage_dir or Path.home() / '.axiomtradeapi')
+        self.storage_dir.mkdir(exist_ok=True, mode=0o700)  # Only user can access
+        
+        self.token_file = self.storage_dir / 'tokens.enc'
+        self.key_file = self.storage_dir / 'key.enc'
+        
+        self.logger = logging.getLogger(__name__)
+        
+        # Initialize encryption key
+        self._init_encryption_key()
+    
+    def _init_encryption_key(self):
+        """Initialize or load encryption key"""
+        if self.key_file.exists():
+            with open(self.key_file, 'rb') as f:
+                self.key = f.read()
+        else:
+            self.key = Fernet.generate_key()
+            with open(self.key_file, 'wb') as f:
+                f.write(self.key)
+            # Set file permissions to be readable only by user
+            os.chmod(self.key_file, 0o600)
+        
+        self.cipher_suite = Fernet(self.key)
+    
+    def save_tokens(self, tokens: AuthTokens) -> bool:
+        """
+        Securely save authentication tokens
+        
+        Args:
+            tokens: AuthTokens to save
+            
+        Returns:
+            bool: True if saved successfully, False otherwise
+        """
+        try:
+            # Convert tokens to JSON
+            token_data = json.dumps(tokens.to_dict()).encode('utf-8')
+            
+            # Encrypt the data
+            encrypted_data = self.cipher_suite.encrypt(token_data)
+            
+            # Write to file
+            with open(self.token_file, 'wb') as f:
+                f.write(encrypted_data)
+            
+            # Set file permissions to be readable only by user
+            os.chmod(self.token_file, 0o600)
+            
+            self.logger.debug("Tokens saved securely")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to save tokens: {e}")
+            return False
+    
+    def load_tokens(self) -> Optional[AuthTokens]:
+        """
+        Load and decrypt authentication tokens
+        
+        Returns:
+            AuthTokens: Loaded tokens if successful, None otherwise
+        """
+        if not self.token_file.exists():
+            self.logger.debug("No saved tokens found")
+            return None
+        
+        try:
+            # Read encrypted data
+            with open(self.token_file, 'rb') as f:
+                encrypted_data = f.read()
+            
+            # Decrypt the data
+            decrypted_data = self.cipher_suite.decrypt(encrypted_data)
+            
+            # Parse JSON
+            token_data = json.loads(decrypted_data.decode('utf-8'))
+            
+            # Create AuthTokens object
+            tokens = AuthTokens.from_dict(token_data)
+            
+            self.logger.debug("Tokens loaded successfully")
+            return tokens
+            
+        except Exception as e:
+            self.logger.error(f"Failed to load tokens: {e}")
+            return None
+    
+    def delete_tokens(self) -> bool:
+        """
+        Delete saved tokens
+        
+        Returns:
+            bool: True if deleted successfully, False otherwise
+        """
+        try:
+            if self.token_file.exists():
+                self.token_file.unlink()
+                self.logger.debug("Saved tokens deleted")
+            return True
+        except Exception as e:
+            self.logger.error(f"Failed to delete tokens: {e}")
+            return False
+    
+    def has_saved_tokens(self) -> bool:
+        """Check if saved tokens exist"""
+        return self.token_file.exists()
 
 
 class CookieManager:
@@ -73,7 +213,8 @@ class AuthManager:
     """
     
     def __init__(self, username: str = None, password: str = None, 
-                 auth_token: str = None, refresh_token: str = None):
+                 auth_token: str = None, refresh_token: str = None,
+                 storage_dir: str = None, use_saved_tokens: bool = True):
         """
         Initialize AuthManager
         
@@ -82,10 +223,13 @@ class AuthManager:
             password: Password for automatic login  
             auth_token: Existing auth token (optional)
             refresh_token: Existing refresh token (optional)
+            storage_dir: Directory for secure token storage
+            use_saved_tokens: Whether to load saved tokens (default: True)
         """
         self.username = username
         self.password = password
         self.base_url = "https://axiom.trade"
+        self.use_saved_tokens = use_saved_tokens
         
         # Setup logging
         self.logger = logging.getLogger(__name__)
@@ -93,15 +237,32 @@ class AuthManager:
         # Initialize cookie manager
         self.cookie_manager = CookieManager()
         
+        # Initialize secure token storage
+        self.token_storage = SecureTokenStorage(storage_dir)
+        
         # Token storage
         self.tokens: Optional[AuthTokens] = None
         
-        # Initialize with existing tokens if provided
+        # Try to load saved tokens first (if enabled)
+        if use_saved_tokens:
+            saved_tokens = self.token_storage.load_tokens()
+            if saved_tokens and not saved_tokens.is_expired:
+                self.tokens = saved_tokens
+                self.cookie_manager.set_auth_cookies(
+                    saved_tokens.access_token, 
+                    saved_tokens.refresh_token
+                )
+                self.logger.info("Loaded valid saved tokens")
+            elif saved_tokens and saved_tokens.is_expired:
+                self.logger.info("Saved tokens are expired, will attempt refresh")
+                self.tokens = saved_tokens
+        
+        # Initialize with provided tokens if given (overrides saved tokens)
         if auth_token and refresh_token:
             self._set_tokens(auth_token, refresh_token)
     
     def _set_tokens(self, auth_token: str, refresh_token: str, 
-                   expires_in: int = 3600) -> None:
+                   expires_in: int = 3600, save_tokens: bool = True) -> None:
         """Set authentication tokens"""
         current_time = time.time()
         
@@ -114,6 +275,13 @@ class AuthManager:
         
         # Update cookies
         self.cookie_manager.set_auth_cookies(auth_token, refresh_token)
+        
+        # Save tokens securely if enabled
+        if save_tokens and self.use_saved_tokens:
+            if self.token_storage.save_tokens(self.tokens):
+                self.logger.debug("Tokens saved securely")
+            else:
+                self.logger.warning("Failed to save tokens securely")
         
         self.logger.info("Authentication tokens updated successfully")
     
@@ -276,7 +444,7 @@ class AuthManager:
     
     def refresh_tokens(self) -> bool:
         """
-        Refresh authentication tokens
+        Refresh authentication tokens using the correct API endpoint
         
         Returns:
             bool: True if refresh successful, False otherwise
@@ -284,23 +452,39 @@ class AuthManager:
         if not self.tokens or not self.tokens.refresh_token:
             self.logger.error("No refresh token available")
             return False
-        
+
+        # Headers based on your curl command
         headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Cookie": f"auth-refresh-token={self.tokens.refresh_token}",
-            "Origin": self.base_url,
-            "Referer": f"{self.base_url}/discover",
-            "User-Agent": "AxiomTradeAPI-py/1.0"
+            'accept': 'application/json, text/plain, */*',
+            'accept-language': 'en-US,en;q=0.9,es;q=0.8,fr;q=0.7,de;q=0.6',
+            'content-length': '0',
+            'origin': 'https://axiom.trade/',
+            'priority': 'u=1, i',
+            'referer': 'https://axiom.trade/',
+            'sec-ch-ua': '"Opera GX";v="120", "Not-A.Brand";v="8", "Chromium";v="135"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0'
+        }
+        
+        # Add cookies with both tokens (as shown in your curl)
+        cookies = {
+            'auth-refresh-token': self.tokens.refresh_token,
+            'auth-access-token': self.tokens.access_token
         }
         
         try:
             self.logger.info("Refreshing authentication tokens...")
             
-            refresh_url = 'https://api9.axiom.trade/refresh-access-token'
+            # Use the exact endpoint from your curl command
+            refresh_url = 'https://api.axiom.trade/refresh-access-token'
             response = requests.post(
                 refresh_url,
                 headers=headers,
+                cookies=cookies,
                 timeout=30
             )
             
@@ -310,12 +494,30 @@ class AuthManager:
                 new_refresh_token = response.cookies.get('auth-refresh-token')
                 
                 if new_auth_token:
-                    # Use existing refresh token if new one not provided
-                    refresh_token = new_refresh_token or self.tokens.refresh_token
-                    self._set_tokens(new_auth_token, refresh_token)
+                    # Use new refresh token if provided, otherwise keep the existing one
+                    refresh_token_to_use = new_refresh_token or self.tokens.refresh_token
+                    self._set_tokens(new_auth_token, refresh_token_to_use)
                     self.logger.info("✅ Tokens refreshed successfully!")
                     return True
                 else:
+                    # Sometimes the response might be in JSON format
+                    try:
+                        response_data = response.json()
+                        new_auth_token = (response_data.get('accessToken') or 
+                                        response_data.get('auth-access-token') or
+                                        response_data.get('access_token'))
+                        new_refresh_token = (response_data.get('refreshToken') or 
+                                           response_data.get('auth-refresh-token') or
+                                           response_data.get('refresh_token'))
+                        
+                        if new_auth_token:
+                            refresh_token_to_use = new_refresh_token or self.tokens.refresh_token
+                            self._set_tokens(new_auth_token, refresh_token_to_use)
+                            self.logger.info("✅ Tokens refreshed successfully from JSON response!")
+                            return True
+                    except (json.JSONDecodeError, AttributeError):
+                        pass
+                    
                     self.logger.error("❌ No new access token in refresh response")
                     return False
             else:
@@ -402,10 +604,28 @@ class AuthManager:
                 self.cookie_manager.has_auth_cookies())
     
     def logout(self) -> None:
-        """Clear all authentication data"""
+        """Clear all authentication data including saved tokens"""
         self.tokens = None
         self.cookie_manager.clear_auth_cookies()
+        
+        # Also clear saved tokens if storage is enabled
+        if self.use_saved_tokens:
+            self.token_storage.delete_tokens()
+        
         self.logger.info("Logged out successfully")
+    
+    def clear_saved_tokens(self) -> bool:
+        """
+        Clear saved tokens from secure storage
+        
+        Returns:
+            bool: True if cleared successfully, False otherwise
+        """
+        return self.token_storage.delete_tokens()
+    
+    def has_saved_tokens(self) -> bool:
+        """Check if saved tokens exist in secure storage"""
+        return self.token_storage.has_saved_tokens()
     
     def get_token_info(self) -> Dict[str, Union[str, bool, float]]:
         """Get information about current tokens"""
@@ -463,7 +683,8 @@ class AuthManager:
 
 # Convenience function for quick authentication
 def create_authenticated_session(username: str = None, password: str = None,
-                                auth_token: str = None, refresh_token: str = None) -> AuthManager:
+                                auth_token: str = None, refresh_token: str = None,
+                                storage_dir: str = None, use_saved_tokens: bool = True) -> AuthManager:
     """
     Create an authenticated session
     
@@ -472,6 +693,8 @@ def create_authenticated_session(username: str = None, password: str = None,
         password: Password for automatic login
         auth_token: Existing auth token (optional)
         refresh_token: Existing refresh token (optional)
+        storage_dir: Directory for secure token storage
+        use_saved_tokens: Whether to load/save tokens (default: True)
         
     Returns:
         AuthManager: Configured authentication manager
@@ -480,5 +703,7 @@ def create_authenticated_session(username: str = None, password: str = None,
         username=username,
         password=password,
         auth_token=auth_token,
-        refresh_token=refresh_token
+        refresh_token=refresh_token,
+        storage_dir=storage_dir,
+        use_saved_tokens=use_saved_tokens
     )

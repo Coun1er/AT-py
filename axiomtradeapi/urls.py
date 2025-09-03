@@ -9,11 +9,13 @@ class AAllBaseUrls:
     BASE_URL_v8 = "https://api8.axiom.trade"
     BASE_URL_v9 = "https://api9.axiom.trade"
     BASE_URL_v10 = "https://api10.axiom.trade"
+    BASE_URL_MAIN = "https://api.axiom.trade"
 
 class AxiomTradeApiUrls:
     LOGIN_STEP1 = f"/login-password-v2"
     LOGIN_STEP2 = f"/login-otp"
     LOGOUT = f"/auth/logout"
+    REFRESH_TOKEN = f"/refresh-access-token"
     USER_INFO = f"/user/info"
     SUBSCRIBE_NEW_TOKENS = f"/ws/subscribe/new-tokens"
     SUBSCRIBE_ORDERS = f"/ws/subscribe/orders"
