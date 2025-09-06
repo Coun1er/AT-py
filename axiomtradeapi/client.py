@@ -425,24 +425,103 @@ class AxiomTradeClient:
         except Exception as e:
             raise Exception(f"Failed to get token analysis: {e}")
     
-    # ==================== TRADING METHODS ====================
-    
-    def buy_token(self, private_key: str, token_mint: str, amount_sol: float, 
-                  slippage_percent: float = 5.0) -> Dict[str, Union[str, bool]]:
+    def send_transaction_to_rpc(self, signed_transaction_base64: str, 
+                               rpc_url: str = "https://greer-651y13-fast-mainnet.helius-rpc.com/") -> Dict[str, Union[str, bool]]:
         """
-        Buy a token using SOL by building and sending Solana transactions directly.
-        
-        NOTE: This is a simplified implementation. Real DEX trading requires:
-        - Token account management
-        - Liquidity pool discovery
-        - Price calculation with slippage
-        - Complex instruction building for AMM protocols
+        Send a base64 encoded signed transaction directly to Solana RPC endpoint.
+        (Legacy method for backward compatibility)
         
         Args:
-            private_key (str): Private key as base58 string or hex
+            signed_transaction_base64 (str): Base64 encoded signed transaction
+            rpc_url (str): Solana RPC endpoint URL
+            
+        Returns:
+            Dict with transaction signature and success status
+        """
+        try:
+            headers = {
+                'accept': 'application/json, text/plain, */*',
+                'accept-language': 'en-US,en;q=0.9,es;q=0.8,fr;q=0.7,de;q=0.6,ru;q=0.5',
+                'content-type': 'application/json',
+                'origin': 'https://axiom.trade',
+                'priority': 'u=1, i',
+                'referer': 'https://axiom.trade/',
+                'sec-ch-ua': '"Opera GX";v="120", "Not-A.Brand";v="8", "Chromium";v="135"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+                'sec-fetch-dest': 'empty',
+                'sec-fetch-mode': 'cors',
+                'sec-fetch-site': 'cross-site',
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0'
+            }
+            
+            payload = {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "method": "sendTransaction",
+                "params": [
+                    signed_transaction_base64,
+                    {
+                        "encoding": "base64",
+                        "skipPreflight": True,
+                        "preflightCommitment": "confirmed",
+                        "maxRetries": 0
+                    }
+                ]
+            }
+            
+            self.logger.info(f"Sending base64 transaction to RPC: {rpc_url}")
+            
+            response = requests.post(rpc_url, headers=headers, json=payload, timeout=30)
+            
+            if response.status_code == 200:
+                result = response.json()
+                if "result" in result:
+                    signature = result["result"]
+                    self.logger.info(f"Transaction sent successfully. Signature: {signature}")
+                    return {
+                        "success": True,
+                        "signature": signature,
+                        "transactionId": signature,
+                        "explorer_url": f"https://solscan.io/tx/{signature}"
+                    }
+                elif "error" in result:
+                    error_msg = f"RPC Error: {result['error']}"
+                    self.logger.error(error_msg)
+                    return {"success": False, "error": error_msg}
+                else:
+                    error_msg = f"Unexpected RPC response: {result}"
+                    self.logger.error(error_msg)
+                    return {"success": False, "error": error_msg}
+            else:
+                error_msg = f"Failed to send transaction: {response.status_code} - {response.text}"
+                self.logger.error(error_msg)
+                return {"success": False, "error": error_msg}
+                
+        except Exception as e:
+            error_msg = f"Error sending transaction to RPC: {str(e)}"
+            self.logger.error(error_msg)
+            return {"success": False, "error": error_msg}
+
+    # ==================== TRADING METHODS ====================
+    
+    def buy_token(self, private_key: str, token_mint: str, amount: float, 
+                  slippage_percent: float = 10, priority_fee: float = 0.005, 
+                  pool: str = "auto", denominated_in_sol: bool = True,
+                  rpc_url: str = "https://api.mainnet-beta.solana.com/") -> Dict[str, Union[str, bool]]:
+        """
+        Buy a token using SOL via PumpPortal API following their exact specification.
+        
+        Args:
+            private_key (str): Private key as base58 string
             token_mint (str): Token mint address to buy
-            amount_sol (float): Amount of SOL to spend
-            slippage_percent (float): Slippage tolerance percentage (default: 5%)
+            amount (float): Amount of SOL or tokens to trade
+            slippage_percent (float): Slippage tolerance percentage (default: 10%)
+            priority_fee (float): Priority fee in SOL (default: 0.005)
+            pool (str): Exchange to trade on - "pump", "raydium", "pump-amm", 
+                       "launchlab", "raydium-cpmm", "bonk", or "auto" (default: "auto")
+            denominated_in_sol (bool): True if amount is SOL, False if amount is tokens (default: True)
+            rpc_url (str): Solana RPC endpoint URL
             
         Returns:
             Dict with transaction signature and success status
@@ -454,45 +533,101 @@ class AxiomTradeClient:
             }
         
         try:
-            # Convert private key to Keypair
-            keypair = self._get_keypair_from_private_key(private_key)
+            from solders.keypair import Keypair
+            from solders.transaction import VersionedTransaction
+            from solders.commitment_config import CommitmentLevel
+            from solders.rpc.requests import SendVersionedTransaction
+            from solders.rpc.config import RpcSendTransactionConfig
             
-            self.logger.info(f"Building buy transaction for {amount_sol} SOL worth of token {token_mint}")
+            # Convert private key to Keypair - use Keypair.from_base58_string as per PumpPortal example
+            keypair = Keypair.from_base58_string(private_key)
+            public_key = str(keypair.pubkey())
             
-            # This is where we would need to build a complete DEX transaction
-            # For now, return a placeholder indicating manual implementation needed
-            return {
-                "success": False,
-                "error": "Manual DEX transaction building required. This involves:\n" +
-                       "1. Getting token account addresses\n" +
-                       "2. Finding liquidity pools (Raydium, Orca, etc.)\n" +
-                       "3. Calculating swap amounts with slippage\n" +
-                       "4. Building complex transaction instructions\n" +
-                       "5. Sending to RPC endpoint like: https://greer-651y13-fast-mainnet.helius-rpc.com/\n" +
-                       "\nThis requires extensive Solana DEX integration beyond basic API calls."
+            self.logger.info(f"Initiating buy order for {amount} {'SOL' if denominated_in_sol else 'tokens'} of token {token_mint}")
+            
+            # Prepare trade data exactly as PumpPortal expects
+            trade_data = {
+                "publicKey": public_key,
+                "action": "buy",
+                "mint": token_mint,
+                "amount": int(amount * 1_000_000_000) if denominated_in_sol else int(amount),  # Convert SOL to lamports if needed
+                "denominatedInSol": "true" if denominated_in_sol else "false",
+                "slippage": int(slippage_percent),
+                "priorityFee": priority_fee,
+                "pool": pool
             }
+            
+            self.logger.info(f"Sending trade request to PumpPortal with data: {trade_data}")
+            
+            # Get transaction from PumpPortal exactly as shown in their example
+            response = requests.post(url="https://pumpportal.fun/api/trade-local", data=trade_data)
+            
+            if response.status_code != 200:
+                error_msg = f"PumpPortal API error: {response.status_code} - {response.text}"
+                self.logger.error(error_msg)
+                return {"success": False, "error": error_msg}
+            
+            # Create transaction exactly as PumpPortal shows
+            tx = VersionedTransaction(VersionedTransaction.from_bytes(response.content).message, [keypair])
+            
+            # Configure and send transaction exactly as PumpPortal example
+            commitment = CommitmentLevel.Confirmed
+            config = RpcSendTransactionConfig(preflight_commitment=commitment)
+            txPayload = SendVersionedTransaction(tx, config)
+            
+            # Send to RPC endpoint exactly as PumpPortal example
+            response = requests.post(
+                url=rpc_url,
+                headers={"Content-Type": "application/json"},
+                data=SendVersionedTransaction(tx, config).to_json()
+            )
+            
+            if response.status_code == 200:
+                result = response.json()
+                if "result" in result:
+                    tx_signature = result['result']
+                    self.logger.info(f"Transaction successful. Signature: {tx_signature}")
+                    return {
+                        "success": True,
+                        "signature": tx_signature,
+                        "transactionId": tx_signature,
+                        "explorer_url": f"https://solscan.io/tx/{tx_signature}"
+                    }
+                elif "error" in result:
+                    error_msg = f"RPC Error: {result['error']}"
+                    self.logger.error(error_msg)
+                    return {"success": False, "error": error_msg}
+                else:
+                    error_msg = f"Unexpected RPC response: {result}"
+                    self.logger.error(error_msg)
+                    return {"success": False, "error": error_msg}
+            else:
+                error_msg = f"Failed to send transaction: {response.status_code} - {response.text}"
+                self.logger.error(error_msg)
+                return {"success": False, "error": error_msg}
             
         except Exception as e:
             error_msg = f"Error in buy_token: {str(e)}"
             self.logger.error(error_msg)
             return {"success": False, "error": error_msg}
     
-    def sell_token(self, private_key: str, token_mint: str, amount_tokens: float, 
-                   slippage_percent: float = 5.0) -> Dict[str, Union[str, bool]]:
+    def sell_token(self, private_key: str, token_mint: str, amount: float, 
+                   slippage_percent: float = 10, priority_fee: float = 0.005, 
+                   pool: str = "auto", denominated_in_sol: bool = False,
+                   rpc_url: str = "https://api.mainnet-beta.solana.com/") -> Dict[str, Union[str, bool]]:
         """
-        Sell a token for SOL by building and sending Solana transactions directly.
-        
-        NOTE: This is a simplified implementation. Real DEX trading requires:
-        - Token account management
-        - Liquidity pool discovery
-        - Price calculation with slippage
-        - Complex instruction building for AMM protocols
+        Sell a token for SOL via PumpPortal API following their exact specification.
         
         Args:
-            private_key (str): Private key as base58 string or hex
+            private_key (str): Private key as base58 string
             token_mint (str): Token mint address to sell
-            amount_tokens (float): Amount of tokens to sell
-            slippage_percent (float): Slippage tolerance percentage (default: 5%)
+            amount (float): Amount of tokens or SOL to trade
+            slippage_percent (float): Slippage tolerance percentage (default: 10%)
+            priority_fee (float): Priority fee in SOL (default: 0.005)
+            pool (str): Exchange to trade on - "pump", "raydium", "pump-amm", 
+                       "launchlab", "raydium-cpmm", "bonk", or "auto" (default: "auto")
+            denominated_in_sol (bool): True if amount is SOL, False if amount is tokens (default: False)
+            rpc_url (str): Solana RPC endpoint URL
             
         Returns:
             Dict with transaction signature and success status
@@ -504,23 +639,78 @@ class AxiomTradeClient:
             }
         
         try:
-            # Convert private key to Keypair
-            keypair = self._get_keypair_from_private_key(private_key)
+            from solders.keypair import Keypair
+            from solders.transaction import VersionedTransaction
+            from solders.commitment_config import CommitmentLevel
+            from solders.rpc.requests import SendVersionedTransaction
+            from solders.rpc.config import RpcSendTransactionConfig
             
-            self.logger.info(f"Building sell transaction for {amount_tokens} tokens of {token_mint}")
+            # Convert private key to Keypair - use Keypair.from_base58_string as per PumpPortal example
+            keypair = Keypair.from_base58_string(private_key)
+            public_key = str(keypair.pubkey())
             
-            # This is where we would need to build a complete DEX transaction
-            # For now, return a placeholder indicating manual implementation needed
-            return {
-                "success": False,
-                "error": "Manual DEX transaction building required. This involves:\n" +
-                       "1. Getting token account addresses\n" +
-                       "2. Finding liquidity pools (Raydium, Orca, etc.)\n" +
-                       "3. Calculating swap amounts with slippage\n" +
-                       "4. Building complex transaction instructions\n" +
-                       "5. Sending to RPC endpoint like: https://greer-651y13-fast-mainnet.helius-rpc.com/\n" +
-                       "\nThis requires extensive Solana DEX integration beyond basic API calls."
+            self.logger.info(f"Initiating sell order for {amount} {'SOL' if denominated_in_sol else 'tokens'} of token {token_mint}")
+            
+            # Prepare trade data exactly as PumpPortal expects
+            trade_data = {
+                "publicKey": public_key,
+                "action": "sell",
+                "mint": token_mint,
+                "amount": int(amount * 1_000_000_000) if denominated_in_sol else int(amount),  # Convert SOL to lamports if needed
+                "denominatedInSol": "true" if denominated_in_sol else "false",
+                "slippage": int(slippage_percent),
+                "priorityFee": priority_fee,
+                "pool": pool
             }
+            
+            self.logger.info(f"Sending trade request to PumpPortal with data: {trade_data}")
+            
+            # Get transaction from PumpPortal exactly as shown in their example
+            response = requests.post(url="https://pumpportal.fun/api/trade-local", data=trade_data)
+            
+            if response.status_code != 200:
+                error_msg = f"PumpPortal API error: {response.status_code} - {response.text}"
+                self.logger.error(error_msg)
+                return {"success": False, "error": error_msg}
+            
+            # Create transaction exactly as PumpPortal shows
+            tx = VersionedTransaction(VersionedTransaction.from_bytes(response.content).message, [keypair])
+            
+            # Configure and send transaction exactly as PumpPortal example
+            commitment = CommitmentLevel.Confirmed
+            config = RpcSendTransactionConfig(preflight_commitment=commitment)
+            txPayload = SendVersionedTransaction(tx, config)
+            
+            # Send to RPC endpoint exactly as PumpPortal example
+            response = requests.post(
+                url=rpc_url,
+                headers={"Content-Type": "application/json"},
+                data=SendVersionedTransaction(tx, config).to_json()
+            )
+            
+            if response.status_code == 200:
+                result = response.json()
+                if "result" in result:
+                    tx_signature = result['result']
+                    self.logger.info(f"Transaction successful. Signature: {tx_signature}")
+                    return {
+                        "success": True,
+                        "signature": tx_signature,
+                        "transactionId": tx_signature,
+                        "explorer_url": f"https://solscan.io/tx/{tx_signature}"
+                    }
+                elif "error" in result:
+                    error_msg = f"RPC Error: {result['error']}"
+                    self.logger.error(error_msg)
+                    return {"success": False, "error": error_msg}
+                else:
+                    error_msg = f"Unexpected RPC response: {result}"
+                    self.logger.error(error_msg)
+                    return {"success": False, "error": error_msg}
+            else:
+                error_msg = f"Failed to send transaction: {response.status_code} - {response.text}"
+                self.logger.error(error_msg)
+                return {"success": False, "error": error_msg}
             
         except Exception as e:
             error_msg = f"Error in sell_token: {str(e)}"
@@ -597,19 +787,28 @@ class AxiomTradeClient:
             self.logger.error(f"Error getting SOL balance: {str(e)}")
             return None
     
-    def send_transaction_to_rpc(self, signed_transaction_base64: str, 
-                               rpc_url: str = "https://greer-651y13-fast-mainnet.helius-rpc.com/") -> Dict[str, Union[str, bool]]:
+    def _send_transaction_to_rpc(self, signed_transaction, 
+                                rpc_url: str = "https://greer-651y13-fast-mainnet.helius-rpc.com/") -> Dict[str, Union[str, bool]]:
         """
-        Send a signed transaction directly to Solana RPC endpoint.
+        Send a signed VersionedTransaction to Solana RPC endpoint.
         
         Args:
-            signed_transaction_base64 (str): Base64 encoded signed transaction
+            signed_transaction: VersionedTransaction object that's already signed
             rpc_url (str): Solana RPC endpoint URL
             
         Returns:
             Dict with transaction signature and success status
         """
         try:
+            from solders.commitment_config import CommitmentLevel
+            from solders.rpc.requests import SendVersionedTransaction
+            from solders.rpc.config import RpcSendTransactionConfig
+            
+            # Configure transaction sending
+            commitment = CommitmentLevel.Confirmed
+            config = RpcSendTransactionConfig(preflight_commitment=commitment)
+            tx_payload = SendVersionedTransaction(signed_transaction, config)
+            
             headers = {
                 'accept': 'application/json, text/plain, */*',
                 'accept-language': 'en-US,en;q=0.9,es;q=0.8,fr;q=0.7,de;q=0.6,ru;q=0.5',
@@ -626,24 +825,14 @@ class AxiomTradeClient:
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0'
             }
             
-            payload = {
-                "jsonrpc": "2.0",
-                "id": 1,
-                "method": "sendTransaction",
-                "params": [
-                    signed_transaction_base64,
-                    {
-                        "encoding": "base64",
-                        "skipPreflight": True,
-                        "preflightCommitment": "confirmed",
-                        "maxRetries": 0
-                    }
-                ]
-            }
-            
             self.logger.info(f"Sending transaction to RPC: {rpc_url}")
             
-            response = requests.post(rpc_url, headers=headers, json=payload)
+            response = requests.post(
+                url=rpc_url,
+                headers=headers,
+                data=tx_payload.to_json(),
+                timeout=30
+            )
             
             if response.status_code == 200:
                 result = response.json()
@@ -653,7 +842,8 @@ class AxiomTradeClient:
                     return {
                         "success": True,
                         "signature": signature,
-                        "transactionId": signature
+                        "transactionId": signature,
+                        "explorer_url": f"https://solscan.io/tx/{signature}"
                     }
                 elif "error" in result:
                     error_msg = f"RPC Error: {result['error']}"
