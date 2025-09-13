@@ -543,14 +543,26 @@ class AxiomTradeClient:
             keypair = Keypair.from_base58_string(private_key)
             public_key = str(keypair.pubkey())
             
-            self.logger.info(f"Initiating buy order for {amount} {'SOL' if denominated_in_sol else 'tokens'} of token {token_mint}")
+            self.logger.info(
+                "\n"
+                "================= BUY ORDER =================\n"
+                f"  Action:            BUY\n"
+                f"  Token Mint:        {token_mint}\n"
+                f"  Amount:            {amount} {'SOL' if denominated_in_sol else 'tokens'}\n"
+                f"  Slippage:          {int(slippage_percent)}%\n"
+                f"  Priority Fee:      {priority_fee} SOL\n"
+                f"  Pool:              {pool}\n"
+                f"  Buyer Public Key:  {public_key}\n"
+                "============================================="
+            )
             
             # Prepare trade data exactly as PumpPortal expects
+            # According to PumpPortal docs (https://pumpportal.fun/local-trading-api/trading-api): amount should be in SOL or tokens.
             trade_data = {
                 "publicKey": public_key,
                 "action": "buy",
                 "mint": token_mint,
-                "amount": int(amount * 1_000_000_000) if denominated_in_sol else int(amount),  # Convert SOL to lamports if needed
+                "amount": amount,
                 "denominatedInSol": "true" if denominated_in_sol else "false",
                 "slippage": int(slippage_percent),
                 "priorityFee": priority_fee,
@@ -579,7 +591,7 @@ class AxiomTradeClient:
             response = requests.post(
                 url=rpc_url,
                 headers={"Content-Type": "application/json"},
-                data=SendVersionedTransaction(tx, config).to_json()
+                data=txPayload.to_json()
             )
             
             if response.status_code == 200:
@@ -611,7 +623,7 @@ class AxiomTradeClient:
             self.logger.error(error_msg)
             return {"success": False, "error": error_msg}
     
-    def sell_token(self, private_key: str, token_mint: str, amount: float, 
+    def sell_token(self, private_key: str, token_mint: str, amount: Union[float, str], 
                    slippage_percent: float = 10, priority_fee: float = 0.005, 
                    pool: str = "auto", denominated_in_sol: bool = False,
                    rpc_url: str = "https://api.mainnet-beta.solana.com/") -> Dict[str, Union[str, bool]]:
@@ -621,7 +633,9 @@ class AxiomTradeClient:
         Args:
             private_key (str): Private key as base58 string
             token_mint (str): Token mint address to sell
-            amount (float): Amount of tokens or SOL to trade
+            amount (Union[float, str]): Amount of tokens or SOL to trade. Can be:
+                                      - float: Exact number of tokens/SOL
+                                      - str: Percentage like "100%" to sell all owned tokens
             slippage_percent (float): Slippage tolerance percentage (default: 10%)
             priority_fee (float): Priority fee in SOL (default: 0.005)
             pool (str): Exchange to trade on - "pump", "raydium", "pump-amm", 
@@ -649,14 +663,29 @@ class AxiomTradeClient:
             keypair = Keypair.from_base58_string(private_key)
             public_key = str(keypair.pubkey())
             
-            self.logger.info(f"Initiating sell order for {amount} {'SOL' if denominated_in_sol else 'tokens'} of token {token_mint}")
+            # Handle amount parameter - can be float or percentage string like "100%"
+            amount_str_or_float = str(amount) if isinstance(amount, str) else amount
+            
+            self.logger.info(
+                "\n"
+                "================= SELL ORDER =================\n"
+                f"  Action:            SELL\n"
+                f"  Token Mint:        {token_mint}\n"
+                f"  Amount:            {amount_str_or_float} {'SOL' if denominated_in_sol else 'tokens'}\n"
+                f"  Slippage:          {int(slippage_percent)}%\n"
+                f"  Priority Fee:      {priority_fee} SOL\n"
+                f"  Pool:              {pool}\n"
+                f"  Seller Public Key: {public_key}\n"
+                "============================================="
+            )
             
             # Prepare trade data exactly as PumpPortal expects
+            # According to PumpPortal docs: amount can be number or percentage string like "100%"
             trade_data = {
                 "publicKey": public_key,
                 "action": "sell",
                 "mint": token_mint,
-                "amount": int(amount * 1_000_000_000) if denominated_in_sol else int(amount),  # Convert SOL to lamports if needed
+                "amount": amount_str_or_float,  # Send amount as-is - can be number or percentage string
                 "denominatedInSol": "true" if denominated_in_sol else "false",
                 "slippage": int(slippage_percent),
                 "priorityFee": priority_fee,
@@ -685,7 +714,7 @@ class AxiomTradeClient:
             response = requests.post(
                 url=rpc_url,
                 headers={"Content-Type": "application/json"},
-                data=SendVersionedTransaction(tx, config).to_json()
+                data=txPayload.to_json()
             )
             
             if response.status_code == 200:

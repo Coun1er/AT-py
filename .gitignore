@@ -169,3 +169,17 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+# ===========================================
+# PROJECT-SPECIFIC IGNORES
+# ===========================================
+
+# Virtual environments
+myenv/
+venv/
+env/
+.venv/
+.venv*/
+**/venv/
+**/myenv/
+
+# VS Code / Cursor IDE files
