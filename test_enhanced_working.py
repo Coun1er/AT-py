@@ -20,6 +20,7 @@ def test_with_working_tokens():
     private_key = os.getenv('PRIVATE_KEY')
     
     # Test tokens that should work
+    # amount is in SOL
     test_tokens = [
         {
             "name": "Raydium (RAY)",
