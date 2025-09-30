@@ -1,81 +1,98 @@
 import json
 import logging
-import websockets
-import asyncio
-from typing import Optional, Callable, Dict, Any
+from typing import Any, Callable, Dict, Optional
 
-class AxiomTradeWebSocketClient:    
+import websockets
+
+
+class AxiomTradeWebSocketClient:
     def __init__(self, auth_manager, log_level=logging.INFO) -> None:
-        self.ws_url = "wss://cluster-usc2.axiom.trade/"
+        self.ws_url = "wss://cluster-euc2.axiom.trade/"
         self.ws_url_token_price = "wss://socket8.axiom.trade/"
+        self.ws_url_sol_price = "wss://cluster8.axiom.trade/"
         self.ws: Optional[websockets.WebSocketClientProtocol] = None
-        
+
         if not auth_manager:
-            raise ValueError("auth_manager is required and must be an authenticated AuthManager instance")
-        
+            raise ValueError(
+                "auth_manager is required and must be an authenticated AuthManager instance"
+            )
+
         self.auth_manager = auth_manager
-        
+
         # Setup logging
         self.logger = logging.getLogger("AxiomTradeWebSocket")
         self.logger.setLevel(log_level)
-        
+
         # Create console handler if none exists
         if not self.logger.handlers:
             handler = logging.StreamHandler()
             handler.setLevel(log_level)
-            formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+            formatter = logging.Formatter(
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+            )
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
-        
+
         self._callbacks: Dict[str, Callable] = {}
 
-    async def connect(self, is_token_price: bool = False) -> bool:
+    async def connect(
+        self,
+        is_token_price: bool = False,
+        is_sol_price: bool = False,
+    ) -> bool:
         """Connect to the WebSocket server."""
         # Ensure we have valid authentication
         if not self.auth_manager.ensure_valid_authentication():
-            self.logger.error("WebSocket authentication failed - unable to obtain valid tokens")
+            self.logger.error(
+                "WebSocket authentication failed - unable to obtain valid tokens"
+            )
             self.logger.error("Please login with valid email and password")
             return False
-        
+
         # Get tokens from auth manager
         tokens = self.auth_manager.get_tokens()
         if not tokens:
             self.logger.error("No authentication tokens available")
             return False
-        
+
         headers = {
-            'Origin': 'https://axiom.trade',
-            'Cache-Control': 'no-cache',
-            'Accept-Language': 'en-US,en;q=0.9,es;q=0.8',
-            'Pragma': 'no-cache',
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0',
+            "Origin": "https://axiom.trade",
+            "Cache-Control": "no-cache",
+            "Accept-Language": "en-US,en;q=0.9,es;q=0.8",
+            "Pragma": "no-cache",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0",
         }
-        
+
         # Add authentication cookies from auth manager
         cookie_header = f"auth-access-token={tokens.access_token}; auth-refresh-token={tokens.refresh_token}"
         headers["Cookie"] = cookie_header
-        
+
         self.logger.debug(f"Connecting to WebSocket with headers: {headers}")
-        self.logger.debug(f"Using tokens: access_token length={len(tokens.access_token)}, refresh_token length={len(tokens.refresh_token)}")
-        
+        self.logger.debug(
+            f"Using tokens: access_token length={len(tokens.access_token)}, refresh_token length={len(tokens.refresh_token)}"
+        )
+
         try:
             if is_token_price:
                 current_url = self.ws_url_token_price
+            elif is_sol_price:
+                current_url = self.ws_url_sol_price
             else:
                 current_url = self.ws_url
-            
+
             # Try the primary URL first
             self.logger.info(f"Attempting to connect to WebSocket: {current_url}")
-            self.ws = await websockets.connect(
-                current_url,
-                extra_headers=headers
-            )
+            self.ws = await websockets.connect(current_url, extra_headers=headers)
             self.logger.info("Connected to WebSocket server")
             return True
         except Exception as e:
             if "HTTP 401" in str(e) or "401" in str(e):
-                self.logger.error("WebSocket authentication failed - invalid or missing tokens")
-                self.logger.error("Please check that your tokens are valid and not expired")
+                self.logger.error(
+                    "WebSocket authentication failed - invalid or missing tokens"
+                )
+                self.logger.error(
+                    "Please check that your tokens are valid and not expired"
+                )
                 self.logger.error(f"Error details: {e}")
                 self.logger.error(f"Current tokens: {tokens}")
             else:
@@ -84,15 +101,18 @@ class AxiomTradeWebSocketClient:
                 if not is_token_price and "cluster-usc2" in self.ws_url:
                     try:
                         alternative_url = "wss://cluster3.axiom.trade/"
-                        self.logger.info(f"Trying alternative WebSocket URL: {alternative_url}")
+                        self.logger.info(
+                            f"Trying alternative WebSocket URL: {alternative_url}"
+                        )
                         self.ws = await websockets.connect(
-                            alternative_url,
-                            extra_headers=headers
+                            alternative_url, extra_headers=headers
                         )
                         self.logger.info("Connected to alternative WebSocket server")
                         return True
                     except Exception as e2:
-                        self.logger.error(f"Alternative WebSocket connection also failed: {e2}")
+                        self.logger.error(
+                            f"Alternative WebSocket connection also failed: {e2}"
+                        )
             return False
 
     async def subscribe_new_tokens(self, callback: Callable[[Dict[str, Any]], None]):
@@ -102,38 +122,58 @@ class AxiomTradeWebSocketClient:
                 return False
 
         self._callbacks["new_pairs"] = callback
-        
+        self._callbacks["update_pulse_v2"] = callback
+
         try:
-            await self.ws.send(json.dumps({
-                "action": "join",
-                "room": "new_pairs"
-            }))
+            await self.ws.send(json.dumps({"action": "join", "room": "new_pairs"}))
             self.logger.info("Subscribed to new token updates")
+
+            await self.ws.send(
+                json.dumps({"action": "join", "room": "update_pulse_v2"})
+            )
+            self.logger.info("Subscribed to new token updates_v2")
             return True
         except Exception as e:
             self.logger.error(f"Failed to subscribe to new tokens: {e}")
             return False
 
-    async def subscribe_token_price(self, token: str, callback: Callable[[Dict[str, Any]], None]):
+    async def subscribe_sol_price(self, callback: Callable[[Dict[str, Any]], None]):
+        """Subscribe to sol price updates."""
+        if not self.ws:
+            if not await self.connect(is_sol_price=True):
+                return False
+
+        self._callbacks["sol_price"] = callback
+
+        try:
+            await self.ws.send(json.dumps({"action": "join", "room": "sol_price"}))
+            self.logger.info("Subscribed to sol price updates")
+            return True
+        except Exception as e:
+            self.logger.error(f"Failed to subscribe to sol price: {e}")
+            return False
+
+    async def subscribe_token_price(
+        self, token: str, callback: Callable[[Dict[str, Any]], None]
+    ):
         """Subscribe to token price updates."""
         if not self.ws:
             if not await self.connect(is_token_price=True):
                 return False
 
         self._callbacks[f"token_price_{token}"] = callback
-        
+
         try:
-            await self.ws.send(json.dumps({
-                "action": "join",
-                "room": token
-            }))
+            await self.ws.send(json.dumps({"action": "join", "room": token}))
             self.logger.info(f"Subscribed to token price updates for {token}")
             return True
         except Exception as e:
             self.logger.error(f"Failed to subscribe to token price: {e}")
             return False
-        
-    async def subscribe_wallet_transactions(self, wallet_address: str, callback: Callable[[Dict[str, Any]], None]):
+
+    async def subscribe_wallet_transactions(
+        self, wallet_address: str, callback: Callable[[Dict[str, Any]], None]
+    ):
         """Subscribe to wallet transaction updates."""
         """
         Response format:
@@ -178,12 +218,11 @@ class AxiomTradeWebSocketClient:
                 return False
 
         self._callbacks[f"wallet_transactions_{wallet_address}"] = callback
-        
+
         try:
-            await self.ws.send(json.dumps({
-                "action": "join",
-                "room": f"v:{wallet_address}"
-            }))
+            await self.ws.send(
+                json.dumps({"action": "join", "room": f"v:{wallet_address}"})
+            )
             self.logger.info(f"Subscribed to wallet transactions for {wallet_address}")
             return True
         except Exception as e:
@@ -194,27 +233,47 @@ class AxiomTradeWebSocketClient:
         """Handle incoming WebSocket messages."""
         try:
             async for message in self.ws:
+                room = None  # Инициализируем переменную ДО блока try
                 try:
                     data = json.loads(message)
-                    
+                    self.logger.debug(f"Received message: {data}")
+
+                    room = data.get("room", "")
+
                     # Handle new token updates
-                    if "new_pairs" in self._callbacks and data.get("room") == "new_pairs":
+                    if room == "new_pairs" and "new_pairs" in self._callbacks:
                         await self._callbacks["new_pairs"](data)
-                    
+
+                    elif (
+                        room == "update_pulse_v2"
+                        and "update_pulse_v2" in self._callbacks
+                    ):
+                        await self._callbacks["update_pulse_v2"](data)
+
+                    # Handle SOL price updates
+                    elif room == "sol_price" and "sol_price" in self._callbacks:
+                        await self._callbacks["sol_price"](data)
+
                     # Handle token price updates
-                    for key, callback in self._callbacks.items():
-                        if key.startswith("token_price_") and data.get("content"):
-                            await callback(data.get("content"))
-                            
+                    elif f"token_price_{room}" in self._callbacks:
+                        callback_key = f"token_price_{room}"
+                        await self._callbacks[callback_key](data.get("content", data))
+
                     # Handle wallet transactions
-                    for key, callback in self._callbacks.items():
-                        if key.startswith("wallet_transactions_") and data.get("content"):
-                            await callback(data.get("content"))
-                    
+                    elif room.startswith("v:"):
+                        wallet_address = room[2:]  # Remove "v:" prefix
+                        callback_key = f"wallet_transactions_{wallet_address}"
+                        if callback_key in self._callbacks:
+                            await self._callbacks[callback_key](
+                                data.get("content", data)
+                            )
+
                 except json.JSONDecodeError:
                     self.logger.error(f"Failed to parse WebSocket message: {message}")
                 except Exception as e:
                     self.logger.error(f"Error handling WebSocket message: {e}")
+                    self.logger.debug(f"Problematic message: {message}")
+
         except websockets.exceptions.ConnectionClosed:
             self.logger.warning("WebSocket connection closed")
         except Exception as e:
@@ -225,7 +284,7 @@ class AxiomTradeWebSocketClient:
         if not self.ws:
             if not await self.connect():
                 return
-        
+
         await self._message_handler()
 
     async def close(self):
