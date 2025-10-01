@@ -429,6 +429,50 @@ class AxiomTradeClient:
         except Exception as e:
             raise Exception(f"Failed to get twitter community info: {e}")
 
+    def get_pair_chart(
+        self,
+        pair_address: str,
+        from_ts: int,
+        to_ts: int,
+        interval: str = "24h",
+        currency: str = "USD",
+        count_bars: int = 329,
+        show_outliers: bool = False,
+        is_new: bool = False,
+        open_trading: Optional[int] = None,
+        last_transaction_time: Optional[int] = None,
+    ) -> Dict:
+        """
+        Get pair chart (OHLC bars) for a given pair address
+        """
+
+        if not self.ensure_authenticated():
+            raise ValueError("Authentication failed. Please login first.")
+
+        url = (
+            f"https://api6.axiom.trade/pair-chart?"
+            f"pairAddress={pair_address}"
+            f"&from={from_ts}"
+            f"&to={to_ts}"
+            f"&currency={currency}"
+            f"&interval={interval}"
+            f"&countBars={count_bars}"
+            f"&showOutliers={str(show_outliers).lower()}"
+            f"&isNew={str(is_new).lower()}"
+        )
+
+        if open_trading:
+            url += f"&openTrading={open_trading}"
+        if last_transaction_time:
+            url += f"&lastTransactionTime={last_transaction_time}"
+
+        try:
+            response = self.auth_manager.make_authenticated_request("GET", url)
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            raise Exception(f"Failed to get pair chart: {e}")
+
     def get_twitter_user_info(self, twitter_handle: str) -> Dict:
         """
         Get Twitter user info by handle
