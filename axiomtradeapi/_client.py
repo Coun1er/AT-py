@@ -574,7 +574,8 @@ class AxiomTradeClient:
 
         return credentials
 
-    def refresh_access_token_direct(self, refresh_token: str) -> str:
+    @staticmethod
+    def refresh_access_token_direct(refresh_token: str) -> str:
         """
         Refresh the access token using a refresh token
         Returns the new access token
@@ -593,7 +594,7 @@ class AxiomTradeClient:
             "TE": "trailers",
         }
 
-        self.logger.debug("Refreshing access token")
+        logging.debug("Refreshing access token")
         response = requests.post(url, headers=headers)
         response.raise_for_status()
 
@@ -609,9 +610,9 @@ class AxiomTradeClient:
             new_token = response.cookies.get("auth-access-token")
 
         if new_token:
-            self.logger.debug("Access token refreshed successfully")
+            logging.debug("Access token refreshed successfully")
         else:
-            self.logger.warning("Could not extract new access token from response")
+            logging.warning("Could not extract new access token from response")
 
         return new_token
 
