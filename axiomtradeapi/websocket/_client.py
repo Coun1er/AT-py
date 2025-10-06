@@ -95,6 +95,7 @@ class AxiomTradeWebSocketClient:
                 )
                 self.logger.error(f"Error details: {e}")
                 self.logger.error(f"Current tokens: {tokens}")
+                raise Exception("WebSocket authentication failed")
             else:
                 self.logger.error(f"Failed to connect to WebSocket: {e}")
                 # Try alternative URL if the primary one fails
@@ -276,6 +277,7 @@ class AxiomTradeWebSocketClient:
 
         except websockets.exceptions.ConnectionClosed:
             self.logger.warning("WebSocket connection closed")
+            raise Exception("WebSocket connection closed")
         except Exception as e:
             self.logger.error(f"WebSocket message handler error: {e}")
 
